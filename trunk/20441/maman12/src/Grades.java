@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 /**
  * Calculate student final grade based on relative portion of submitted tasks.
- *  
+ * 
  * @author Maxim Veksler 303856983
  */
 public class Grades {
