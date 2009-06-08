@@ -8,5 +8,5 @@ Each Directory from the /trunk root represents a Workspace target.
 = Opening instructions =
 
   # Let eclipse create new Workspace at <<project number>>
-  * Import projects from <<project number>> directory
-  * Rest (NOT!!) - Onward coding lazy bum
+  # Import projects from <<project number>> directory
+  # Rest (NOT!!) - Onward coding lazy bum
