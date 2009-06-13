@@ -1,0 +1,127 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1255">
+<meta name=Generator content="Microsoft Word 10 (filtered)">
+<title>נחשב את מספר הקריאות הרקורסיביות כאשר n=17:</title>
+
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:David;
+	panose-1:0 0 0 0 0 0 0 0 0 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:right;
+	line-height:150%;
+	direction:rtl;
+	unicode-bidi:embed;
+	font-size:12.0pt;
+	font-family:"Times New Roman";}
+h1
+	{margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	text-align:right;
+	page-break-after:avoid;
+	punctuation-wrap:simple;
+	text-autospace:none;
+	direction:rtl;
+	unicode-bidi:embed;
+	font-size:16.0pt;
+	font-family:Arial;}
+h2
+	{margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	text-align:right;
+	page-break-after:avoid;
+	punctuation-wrap:simple;
+	text-autospace:none;
+	direction:rtl;
+	unicode-bidi:embed;
+	font-size:14.0pt;
+	font-family:Arial;
+	font-style:italic;}
+h3
+	{margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	text-align:right;
+	page-break-after:avoid;
+	punctuation-wrap:simple;
+	text-autospace:none;
+	direction:rtl;
+	unicode-bidi:embed;
+	font-size:13.0pt;
+	font-family:Arial;}
+@page Section1
+	{size:595.3pt 841.9pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
+div.Section1
+	{page:Section1;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US>
+
+<div class=Section1 dir=RTL>
+
+<p class=MsoNormal dir=RTL style='text-align:justify'><span lang=HE
+style='font-size:11.0pt;line-height:150%;font-family:Arial'>נחשב את מספר
+הקריאות הרקורסיביות כאשר </span><span dir=LTR style='font-size:11.0pt;
+line-height:150%;font-family:Arial'>n=17</span><span dir=RTL></span><span
+lang=HE style='font-size:11.0pt;line-height:150%;font-family:Arial'><span
+dir=RTL></span>:</span></p>
+
+<p class=MsoNormal dir=LTR style='text-align:justify;direction:ltr;unicode-bidi:
+embed'><span style='font-size:11.0pt;line-height:150%;font-family:Arial'>power
+(k, 17)   = k * t * t                                              // t = power
+(k, 8)         call no. 1</span></p>
+
+<p class=MsoNormal dir=LTR style='text-align:justify;direction:ltr;unicode-bidi:
+embed'><span style='font-size:11.0pt;line-height:150%;font-family:Arial'>power
+(k, 8)     = k * t * t                                              // t =
+power (k, 4)         call no. 2</span></p>
+
+<p class=MsoNormal dir=LTR style='text-align:justify;direction:ltr;unicode-bidi:
+embed'><span style='font-size:11.0pt;line-height:150%;font-family:Arial'>power
+(k, 4)     = k * t * t                                              // t =
+power (k, 2)         call no. 3</span></p>
+
+<p class=MsoNormal dir=LTR style='text-align:justify;direction:ltr;unicode-bidi:
+embed'><span style='font-size:11.0pt;line-height:150%;font-family:Arial'>power
+(k, 2)     = k * t * t                                              // t =
+power (k, 1)         call no. 4</span></p>
+
+<p class=MsoNormal dir=LTR style='text-align:justify;direction:ltr;unicode-bidi:
+embed'><span style='font-size:11.0pt;line-height:150%;font-family:Arial'>power (k,
+1)     = k * t * t                                              // t = power
+(k, 0)         call no. 5</span></p>
+
+<p class=MsoNormal dir=LTR style='text-align:justify;direction:ltr;unicode-bidi:
+embed'><span style='font-size:11.0pt;line-height:150%;font-family:Arial'>power
+(k, 0)     = 1</span></p>
+
+<p class=MsoNormal dir=LTR style='text-align:justify;direction:ltr;unicode-bidi:
+embed'><span style='font-size:11.0pt;line-height:150%;font-family:Arial'>                         </span></p>
+
+<p class=MsoNormal dir=RTL style='text-align:justify'><span lang=HE
+style='font-size:11.0pt;line-height:150%;font-family:Arial'>היו 5 קריאות
+רקורסיביות שהם </span><span dir=LTR style='font-size:11.0pt;line-height:150%;
+font-family:Arial'>log <sub>2</sub> 17 </span><span dir=RTL></span><span
+style='font-size:11.0pt;line-height:150%;font-family:Arial'><span dir=RTL></span> </span></p>
+
+</div>
+
+</body>
+
+</html>
