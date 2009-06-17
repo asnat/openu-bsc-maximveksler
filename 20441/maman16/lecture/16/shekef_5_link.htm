@@ -1,0 +1,345 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1255">
+<meta name=Generator content="Microsoft Word 10 (filtered)">
+<title>דוגמא 1</title>
+
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Courier;
+	panose-1:2 7 4 9 2 2 5 2 4 4;}
+@font-face
+	{font-family:David;
+	panose-1:0 0 0 0 0 0 0 0 0 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:right;
+	line-height:150%;
+	direction:rtl;
+	unicode-bidi:embed;
+	font-size:12.0pt;
+	font-family:"Times New Roman";}
+h1
+	{margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	text-align:right;
+	page-break-after:avoid;
+	punctuation-wrap:simple;
+	text-autospace:none;
+	direction:rtl;
+	unicode-bidi:embed;
+	font-size:16.0pt;
+	font-family:Arial;}
+h2
+	{margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	text-align:right;
+	page-break-after:avoid;
+	punctuation-wrap:simple;
+	text-autospace:none;
+	direction:rtl;
+	unicode-bidi:embed;
+	font-size:14.0pt;
+	font-family:Arial;
+	font-style:italic;}
+h3
+	{margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	text-align:right;
+	page-break-after:avoid;
+	punctuation-wrap:simple;
+	text-autospace:none;
+	direction:rtl;
+	unicode-bidi:embed;
+	font-size:13.0pt;
+	font-family:Arial;}
+p.AnswerCode, li.AnswerCode, div.AnswerCode
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	punctuation-wrap:simple;
+	text-autospace:none;
+	border:none;
+	padding:0cm;
+	font-size:10.0pt;
+	font-family:Courier;
+	color:black;
+	font-weight:bold;}
+@page Section1
+	{size:595.3pt 841.9pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
+div.Section1
+	{page:Section1;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US>
+
+<div class=Section1 dir=RTL>
+
+<p class=MsoNormal dir=RTL style='text-align:justify'><b><span lang=HE
+style='font-size:11.0pt;line-height:150%;font-family:Arial'>דוגמא 1</span></b></p>
+
+<p class=MsoNormal dir=RTL style='text-align:justify'><span lang=HE
+style='font-size:11.0pt;line-height:150%;font-family:Arial'>הנה השיטה לסיכום
+איברי המערך בצורה איטרטיבית (לולאתית) ובצורה  רקורסיבית (קצת שונה מהמוצג
+בהרצאה)</span></p>
+
+<div style='border:solid windowtext 1.0pt;padding:1.0pt 4.0pt 1.0pt 4.0pt'>
+
+<p class=AnswerCode dir=LTR><span style='color:windowtext'>public static int
+sumArray (int[] values)</span></p>
+
+<p class=AnswerCode dir=LTR><span style='color:windowtext'>{</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>    int sum = 0;</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>    for (int count = 0; count &lt; values.length; count++)</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>         sum += values[count];</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>    return sum;</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>}</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>       </span></p>
+
+<p class=AnswerCode dir=LTR><span style='color:windowtext'>public static int
+recSum (int [] a, int i)</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>{</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span lang=AR-SA
+style='color:windowtext'><span dir=LTR></span> </span><span style='color:windowtext'>  
+if (i==a.length) </span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>          return 0;</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>    return (a[i] + recSum (a, i+1));</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>}</span></p>
+
+</div>
+
+<p class=MsoNormal dir=RTL style='text-align:justify'><span dir=LTR></span><span
+dir=LTR><span dir=LTR></span>             </span></p>
+
+<p class=MsoNormal dir=RTL style='text-align:justify'><b><span lang=HE
+style='font-size:11.0pt;line-height:150%;font-family:Arial'>דוגמא 2</span></b></p>
+
+<p class=MsoNormal dir=RTL style='text-align:justify'><span lang=HE
+style='font-size:11.0pt;line-height:150%;font-family:Arial'>להלן שיטה לחיפוש
+איבר </span><span dir=LTR style='font-size:11.0pt;line-height:150%;font-family:
+Arial'>x</span><span dir=RTL></span><span lang=HE style='font-size:11.0pt;
+line-height:150%;font-family:Arial'><span dir=RTL></span> במערך של מספרים
+שלמים. שוב, באופן איטרטיבי ובאופן רקורסיבי:</span></p>
+
+<div style='border:solid windowtext 1.0pt;padding:1.0pt 4.0pt 1.0pt 4.0pt'>
+
+<p class=AnswerCode dir=LTR><span lang=AR-SA dir=RTL style='font-family:"Times New Roman";
+color:windowtext'>&nbsp;</span></p>
+
+<p class=AnswerCode dir=LTR><span style='color:windowtext'>public static
+boolean find (int[] arr, int x)</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>{</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>    for (int i=0; i&lt;arr.length; i++)</span></p>
+
+<p class=AnswerCode dir=LTR><span style='color:windowtext'>      if (arr[i] ==
+x)</span></p>
+
+<p class=AnswerCode dir=LTR><span style='color:windowtext'>            return
+true;</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>    return false;</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>} </span></p>
+
+<p class=AnswerCode dir=LTR><span lang=AR-SA dir=RTL style='font-family:"Times New Roman";
+color:windowtext'>&nbsp;</span></p>
+
+<p class=AnswerCode dir=LTR><span style='color:windowtext'>public static
+boolean recFind (int []a, int i, int x)</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>{</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>    if (i== a.length)</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>           return false;</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>    if (a[i] == x)</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>           return true;</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>    return recFind (a, i+1, x);</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>}</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>     </span></p>
+
+</div>
+
+<p class=MsoNormal dir=RTL style='text-align:justify'><b><span lang=HE
+style='font-family:David'>&nbsp;</span></b></p>
+
+<b><span lang=HE dir=RTL style='font-size:12.0pt;line-height:150%;font-family:
+David'><br clear=all style='page-break-before:always'>
+</span></b>
+
+<p class=MsoNormal dir=RTL style='text-align:justify'><b><span lang=HE
+style='font-size:11.0pt;line-height:150%;font-family:Arial'>דוגמא 3</span></b></p>
+
+<p class=MsoNormal dir=RTL style='text-align:justify'><span lang=HE
+style='font-size:11.0pt;line-height:150%;font-family:Arial'>הנה שיטה למציאת
+מקסימום במערך של מספרים שלמים (הפעם רק השיטה הרקורסיבית):</span></p>
+
+<div style='border:solid windowtext 1.0pt;padding:1.0pt 4.0pt 1.0pt 4.0pt'>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>     </span></p>
+
+<p class=AnswerCode dir=LTR><span style='color:windowtext'>public static int
+recMax (int []a, int i)</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>{</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>    if (i==a.length-1)</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>           return a[a.length-1];</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>    int currentMax = recMax (a, i+1);</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>           if (a[i] &lt; currentMax)</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>              return currentMax;</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>           else</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>              return a[i];</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>}</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>  </span></p>
+
+<p class=AnswerCode dir=LTR><span style='color:windowtext'>&nbsp;</span></p>
+
+</div>
+
+<p class=MsoNormal dir=RTL style='text-align:justify'><b><span lang=HE
+style='font-family:David'>&nbsp;</span></b></p>
+
+<p class=MsoNormal dir=RTL style='text-align:justify'><b><span lang=HE
+style='font-size:11.0pt;line-height:150%;font-family:Arial'>דוגמא 4</span></b></p>
+
+<p class=MsoNormal dir=RTL style='text-align:justify'><span lang=HE
+style='font-size:11.0pt;line-height:150%;font-family:Arial'>השיטה הבאה מקבלת
+מערך מלא במספרים שלמים ובודקת אם כל אחד מהאיברים במערך גדול או שווה לסכום כל
+האיברים שלפניו במערך. </span></p>
+
+<p class=MsoNormal dir=RTL style='text-align:justify'><span lang=HE
+style='font-size:11.0pt;line-height:150%;font-family:Arial'>הפעם אנו משתמשים
+בשיטה שהוצגה בהרצאה לסיכום רקורסיבי של איברי המערך.</span></p>
+
+<div style='border:solid windowtext 1.0pt;padding:1.0pt 4.0pt 1.0pt 4.0pt'>
+
+<p class=AnswerCode dir=LTR><span style='color:windowtext'>public static int
+recSumArray (int [] a, int lo, int hi)</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>{ </span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>     if (hi &lt; lo)</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>         return 0;</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>     return a[lo] + recSumArray (a, lo+1, hi);</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>}</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>  </span></p>
+
+<p class=AnswerCode dir=LTR><span style='color:windowtext'>public static
+boolean check (int [] a, int i)</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>{</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>     if (i== a.length)</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>          return true;</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>     if (a[i] &lt; recSumArray (a, 0, i-1))</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>          return false;</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>     return check (a, i+1);</span></p>
+
+<p class=AnswerCode dir=LTR><span dir=LTR></span><span style='color:windowtext'><span
+dir=LTR></span>}</span></p>
+
+<p class=AnswerCode dir=LTR><span style='color:windowtext'>&nbsp;</span></p>
+
+</div>
+
+<p class=MsoNormal dir=RTL><span dir=LTR>&nbsp;</span></p>
+
+</div>
+
+</body>
+
+</html>
