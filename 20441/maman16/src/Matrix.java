@@ -8,30 +8,42 @@ public class Matrix {
 
     public boolean find(int x) {
     	int n = getNumberOfRows();
-    	return find(x, n, n/2, 0, 0, n);
+    	return find(x, n, n/2, 0, 0, n, 1);
     }
 
-    public boolean find(int x, 
+    private boolean find(int x, 
     		int checkpointRow, int checkpointCol, 
     		int rowOffset, int colOffset, 
-    		int n) {
+    		int n, int depth) {
     	
-    	int checkedValue = _elements[rowOffset+ checkpointRow-1][colOffset + checkpointRow-1];
+    	int checkedValue = _elements[rowOffset + checkpointRow-1][colOffset + checkpointCol-1];
+    	
+    	System.out.println("(rowOffset=" + (rowOffset + " + checkpointRow=" + checkpointRow) + ",    (colOffset=" + colOffset + " + checkpointCol="+ checkpointCol + ")");
     	
     	if(checkedValue == x)
     		return true;
-    	else if(checkedValue > x){
+    	else if(n < 2) {
+    		System.out.println("REACHED FINAL CHECK");
+    	} else if(checkedValue > x) {
     		// Choose upper half
+    		if(depth % 2 != 0) {
+    			// In case depth is odd and we jump low we don't add any offset.
+	    		colOffset = colOffset + n/2;
+    		} else {
+    			rowOffset = rowOffset + n;
+    		}
+    		
     		find(x, 
-    				rowOffset + checkpointCol, colOffset + checkpointRow/2,
-    				rowOffset + n/2, colOffset,
-    				n/2);
+    				checkpointCol, checkpointRow/2,
+    				rowOffset, colOffset,
+    				n/2, ++depth);
     	} else {
     		// Choose lower half
+    		
     		find(x, 
-    				rowOffset + checkpointCol, colOffset + checkpointRow/2,
+    				checkpointCol, checkpointRow/2,
     				rowOffset, colOffset,
-    				n/2);
+    				n/2, ++depth);
     	}
     	
     	return false;
