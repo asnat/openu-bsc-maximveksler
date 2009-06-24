@@ -6,45 +6,102 @@ public class Matrix {
     // The elements of the matrix
     private int[][] _elements;
 
+    /**
+     * Efficiently find if value is contain within a sorted matrix.
+     * 
+     * @param x int the tested value
+     * 
+     * @return true if value was found, false if not.
+     */
     public boolean find(int x) {
+    	//System.out.println("Seeked value: " + x);
     	int n = getNumberOfRows();
+    	
+    	// Call boolean recursive search. 
     	return find(x, n, n/2, n);
     }
 
+    /**
+     * Boolean search within a sorted (by specifications described order) matrix.
+     * 
+     * The search algorithm is given as following:
+     * 		0. We look at a large square as a collection of 4 smaller square.
+     * 		1. A recursive search is possible one if 1 of four smaller squares is selected.
+     * 		2. We selected what square interests us by checking against the middle of the 
+     * 			current 4 squares (end of 2nd square) to decide what 2 squares are relevant
+     * 			for us, then by checking the middle of the 2 squares to zero on our target.
+     * 		3. The search is boolean, based on the fact the that whole matrix has been sorted.
+     * 
+     * The complexity of the method is log2(n), this is because we reduce the problem by half on each iteration.
+     * 
+     * @param x The value we are searching
+     * @param checkpointRow int current cell row to check during boolean search
+     * @param checkpointCol int current cell col to check during boolean search
+     * @param n The size of reduced problem space
+     * 
+     * @return true if value was found, false if not.
+     */
     private boolean find(int x, 
     		int checkpointRow, int checkpointCol, 
     		int n) {
     	
+    	/*
+    	 * Compare current position against x target value.
+    	 * NOTE: This comparison is between 2 blocked of 2 squares to selected what block interests us.
+    	 */
     	int compareResult = compareX(x, checkpointRow-1, checkpointCol-1);
     	
-    	System.out.println("checkpointRow=" + checkpointRow + ", checkpointCol="+ checkpointCol + ")");
+    	//System.out.println("checkpointRow=" + checkpointRow + ", checkpointCol="+ checkpointCol + ")");
+    	
+    	int recRow = 0;
+    	int recCol = 0;
     	
     	if(compareResult == 0)
+    		// current position equal x, value was found!
     		return true;
     	else if(n < 2) {
-    		System.out.println("REACHED FINAL CHECK");
-    	} else if(compareResult > 0) {
-    		// Choose upper half
-    		int recRow = checkpointRow - n/2;
-    		int recCol = checkpointCol + n/2;
+    		// If n is smaller then 2 that means we have consumed all possible checks.
+    		// If we didn't return on the previous equality condition we didn't found our value
+    		// so we fail by returning false.
+    		return false;
+    	}    	
     		
-        	System.out.println("recRow=" + recRow + ", recCol="+ recCol + ")");
-
-    		if(x < _elements[recRow-1][recCol-1]) {
-        		find(x, recRow, recCol - n/4, n/2);
-    		} else {
-        		find(x, recRow + n/2, recCol - n/4, n/2);
-    		}
+		/*
+		 * We need to jump to the middle of the selected 2 squares, 
+		 * 	this is done by going to the last cell of the first square.
+		 */
+		recRow = checkpointRow - n/2;
+    	
+		/*
+		 * Now to decide what 2 squares we are interested in (left or right).
+		 */
+    	if(compareResult > 0) {
+    		// Choose upper half
+    		recCol = checkpointCol + n/2;
     	} else { //(compareResult < 0)
     		// Choose lower half
-    		
-//    		find(x, 
-//    				checkpointCol, checkpointRow/2,
-//    				rowOffset, colOffset,
-//    				n/2, ++depth);
+    		recCol = checkpointCol;
     	}
-    	
-    	return false;
+
+		
+    	//System.out.println("recRow=" + recRow + ", recCol="+ recCol + ")");
+
+    	/*
+    	 * Compare current position against x target value.
+    	 * NOTE: This comparison is between 2 squares to selected what square we will be making our recursive call into.
+    	 */
+    	compareResult = compareX(x, recRow-1, recCol-1);
+
+    	if(compareResult < 0) {
+    		// Choose lower square
+    		return find(x, recRow, recCol - n/4, n/2);
+    	} else if(compareResult > 0) {
+    		// Choose upper square
+    		return find(x, recRow + n/2, recCol - n/4, n/2);
+		} else {
+    		// current position equal x, value was found!
+			return true;
+		}
     }
     
     /**
@@ -52,7 +109,7 @@ public class Matrix {
      * 
      * @param x int value being checked
      * @param rowPos int specifying matrix row
-     * @param colPos int specifying column
+     * @param colPos int specifying matrix column
      * 
      * @return negative if x is smaller then value, positive if x is larger. If values are equal 0 is returned.
      */
@@ -60,10 +117,23 @@ public class Matrix {
     	return x - _elements[rowPos][colPos];
     }
     
+    public int isSink() {
+    	boolean[] invalidRows = new boolean[getNumberOfColumns()-2];
+    	
+    	for(int i = 1; i < getNumberOfColumns()-1; i++) {
+    		if(_elements[i][i] == 0) {
+    			// Possible sink found
+    			
+    		}
+    	}
+    	
+    	return -1;
+    }
+    
     
     /**
      * Constructs a new matrix from a table of values.
-     * @param elements a two dimentional array of integers
+     * @param elements a two dimensional array of integers
      */
     public Matrix(int[][] elements) {
        

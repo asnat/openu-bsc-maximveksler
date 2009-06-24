@@ -2,7 +2,7 @@
 public class shekef_5_examples {
 
 	public static boolean checkBiggerRec(int[] a, int i) {
-		int current = a[i];
+//		int current = a[i];
 		
 		
 		
