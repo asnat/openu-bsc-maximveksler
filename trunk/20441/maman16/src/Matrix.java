@@ -8,46 +8,59 @@ public class Matrix {
 
     public boolean find(int x) {
     	int n = getNumberOfRows();
-    	return find(x, n, n/2, 0, 0, n, 1);
+    	return find(x, n, n/2, n);
     }
 
     private boolean find(int x, 
     		int checkpointRow, int checkpointCol, 
-    		int rowOffset, int colOffset, 
-    		int n, int depth) {
+    		int n) {
     	
-    	int checkedValue = _elements[rowOffset + checkpointRow-1][colOffset + checkpointCol-1];
+    	int compareResult = compareX(x, checkpointRow-1, checkpointCol-1);
     	
-    	System.out.println("(rowOffset=" + (rowOffset + " + checkpointRow=" + checkpointRow) + ",    (colOffset=" + colOffset + " + checkpointCol="+ checkpointCol + ")");
+    	System.out.println("checkpointRow=" + checkpointRow + ", checkpointCol="+ checkpointCol + ")");
     	
-    	if(checkedValue == x)
+    	if(compareResult == 0)
     		return true;
     	else if(n < 2) {
     		System.out.println("REACHED FINAL CHECK");
-    	} else if(checkedValue > x) {
+    	} else if(compareResult > 0) {
     		// Choose upper half
-    		if(depth % 2 != 0) {
-    			// In case depth is odd and we jump low we don't add any offset.
-	    		colOffset = colOffset + n/2;
-    		} else {
-    			rowOffset = rowOffset + n;
-    		}
+    		int recRow = checkpointRow - n/2;
+    		int recCol = checkpointCol + n/2;
     		
-    		find(x, 
-    				checkpointCol, checkpointRow/2,
-    				rowOffset, colOffset,
-    				n/2, ++depth);
-    	} else {
+        	System.out.println("recRow=" + recRow + ", recCol="+ recCol + ")");
+
+    		if(x < _elements[recRow-1][recCol-1]) {
+        		find(x, recRow, recCol - n/4, n/2);
+    		} else {
+        		find(x, recRow + n/2, recCol - n/4, n/2);
+    		}
+    	} else { //(compareResult < 0)
     		// Choose lower half
     		
-    		find(x, 
-    				checkpointCol, checkpointRow/2,
-    				rowOffset, colOffset,
-    				n/2, ++depth);
+//    		find(x, 
+//    				checkpointCol, checkpointRow/2,
+//    				rowOffset, colOffset,
+//    				n/2, ++depth);
     	}
     	
     	return false;
     }
+    
+    /**
+     * Compares value of given x with a (row,col) position in the matrix.
+     * 
+     * @param x int value being checked
+     * @param rowPos int specifying matrix row
+     * @param colPos int specifying column
+     * 
+     * @return negative if x is smaller then value, positive if x is larger. If values are equal 0 is returned.
+     */
+    private int compareX(int x, int rowPos, int colPos) {
+    	return x - _elements[rowPos][colPos];
+    }
+    
+    
     /**
      * Constructs a new matrix from a table of values.
      * @param elements a two dimentional array of integers

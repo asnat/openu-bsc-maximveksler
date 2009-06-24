@@ -41,6 +41,6 @@ public class MatrixTest {
 
 	@Test
 	public void testFind() {
-		hugeMatrix.find(-1000);
+		hugeMatrix.find(1);
 	}
 }
