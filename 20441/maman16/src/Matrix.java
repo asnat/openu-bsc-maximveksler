@@ -1,5 +1,8 @@
 /**
  * A matrix of integer numbers
+ * 
+ * @author www.openu.ac.il - Course 20441
+ * @author Maxim Veksler 303856983
  */
 public class Matrix {
  
@@ -7,9 +10,9 @@ public class Matrix {
     private int[][] _elements;
 
     /**
-     * Efficiently find if value is contain within a sorted matrix.
+     * Efficiently decide if value is exists within a sorted matrix.
      * 
-     * @param x int the tested value
+     * @param x int the searched value
      * 
      * @return true if value was found, false if not.
      */
@@ -117,19 +120,88 @@ public class Matrix {
     	return x - _elements[rowPos][colPos];
     }
     
+    /**
+     * Search in a matrix of 1's and 0's for a sink position. A sink position is defined as such:
+     * 	All values in row k are 0, all values in column k are 1 (except element [k][k]).
+     *  
+     * @return int representing found k value, -1 if no such position was found.
+     */
     public int isSink() {
-    	boolean[] invalidRows = new boolean[getNumberOfColumns()-2];
+    	// By default boolean arrays are initialized to false
+    	boolean[] rowsWith1 = new boolean[getNumberOfRows()];
+    	boolean[] columnsWith0 = new boolean[getNumberOfColumns()];
+
+    	return isSink(0, rowsWith1, columnsWith0);
     	
-    	for(int i = 1; i < getNumberOfColumns()-1; i++) {
-    		if(_elements[i][i] == 0) {
-    			// Possible sink found
-    			
+    }
+    
+    /**
+     * Search recursively in efficiency of O(n) for a sink position. 
+     * See documentation of isSink() for a definition of a "sink" position.  
+     * 
+     * 
+     * The seeking algorithm is as following:
+     * 	Preparations: Create 2 arrays size n each. These arrays will be used to index what rows & columns remain in valid state
+     * 					to be considered as sink candidate.
+     * 
+     * 		Steps:
+     * 			0. Check if current row || current column hasn't been invalidated as k position based on the 2 arrays described above.
+     * 			1. For each k check all cells in current row ([k][0..n-1]) and all rows in current cell ([0..n-1][k]) marking,
+     * 				we are seeking for both validness of current sink and canceling out future sinks as we continue the run.
+     * 			2. If sink found return it, else recurse progressing k by 1.
+     * 
+     * @param k int the current tested position for a sink. 
+     * @param rowsWith1 boolean[] array notifying what rows a 1 was found at, thus invalidating current k as sink.
+     * @param columnsWith0 boolean[] array notifying what columns a 0 was found at, thus invalidating current k as sink. 
+     * 
+     * @return int k value if k is found as a valid sink, if no sink found -1. 
+     */
+    private int isSink(int k, boolean[] rowsWith1, boolean[] columnsWith0) {
+    	int n = getNumberOfRows();
+    	
+    	boolean rowValid = true;
+    	boolean columnValid = true;
+    	
+    	/*
+    	 * Recursion forced stop condition, we checked all possible sink locations.
+    	 */
+    	if(k >= n)
+    		return -1;
+    	
+    	/* 
+    	 * If from previous check we found that some row contains a value
+    	 * that conflicts we are requirements we skip to next sink location
+    	 * without verifying any logic at all.
+    	 */
+    	if(rowsWith1[k] == true || columnsWith0[k] == true)
+    		return isSink(k+1, rowsWith1, columnsWith0);
+
+    	// Check current row
+    	for(int i = 0; i < n; i++) {
+    		if (_elements[k][i] == 0) {
+    			columnsWith0[i] = true;
+    		} else {
+    			rowValid = false;
+    		}
+    	}
+
+    	// Check current column
+    	for(int i = 0; i < n; i++) {
+    		if (_elements[i][k] == 1) {
+    			rowsWith1[i] = true;
+    		} else {
+    			// sink should contain a value of 0, so if current location is sink it's OK it's not 1.
+    			if(i != k)
+    				columnValid = false;
     		}
     	}
     	
-    	return -1;
+    	if(rowValid && columnValid) {
+    		return k;
+    	} else {
+    		return isSink(k+1, rowsWith1, columnsWith0);
+    	}
     }
-    
     
     /**
      * Constructs a new matrix from a table of values.
