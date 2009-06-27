@@ -38,6 +38,36 @@ public class MatrixTest {
 		}
 	);
 	
+	Matrix pitAt0Matrix = new Matrix(new int[][] {
+			{ 0, 0, 0, 0, 0, 0},
+			{ 1, 0, 1, 1, 0, 0},
+			{ 1, 0, 0, 1, 0, 1},
+			{ 1, 0, 0, 0, 0, 0},
+			{ 1, 0, 1, 1, 0, 0},
+			{ 1, 1, 0, 1, 1, 1},
+		}
+	);
+
+	Matrix pitAt3Matrix = new Matrix(new int[][] {
+			{ 0, 1, 0, 1, 1, 0},
+			{ 1, 0, 1, 1, 0, 0},
+			{ 0, 0, 0, 1, 0, 1},
+			{ 0, 0, 0, 0, 0, 0},
+			{ 1, 0, 1, 1, 0, 0},
+			{ 0, 1, 0, 1, 1, 1},
+		}
+	);
+
+	Matrix pitAt5Matrix = new Matrix(new int[][] {
+			{ 0, 1, 0, 1, 1, 1},
+			{ 1, 0, 1, 1, 0, 1},
+			{ 0, 0, 0, 1, 0, 1},
+			{ 0, 0, 1, 0, 0, 1},
+			{ 1, 0, 1, 1, 0, 1},
+			{ 0, 0, 0, 0, 0, 0},
+		}
+	);
+
 	@Before
 	public void setUp() throws Exception {
 	}
@@ -62,8 +92,11 @@ public class MatrixTest {
 				assertTrue(miniMatrix.find(x));
 			else 
 				assertFalse(miniMatrix.find(x));
-		}
-
+		}	
+	}
 	
+	@Test
+	public void testIsSink() {
+		System.out.println(pitAt5Matrix.isSink());
 	}
 }
