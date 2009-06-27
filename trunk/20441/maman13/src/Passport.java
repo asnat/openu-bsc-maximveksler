@@ -5,6 +5,7 @@
  * @version 140209042009
  */
 public class Passport {
+// hilla - missing documentation of instance variables
 	private Date _expiryDate;
 	private String _name;
 	private int _number;
@@ -19,7 +20,7 @@ public class Passport {
 	public Passport(String name, int number, Date expiryDate) {
 		this._name = name;
 		this._number = number;
-		this._expiryDate = expiryDate;
+		this._expiryDate = expiryDate;// hilla - aliasing!!! it should be: _expiryDate = new Date(expiryDate);  -2
 	}
 	
 	/**
@@ -40,6 +41,7 @@ public class Passport {
 		 * 
 		 * In this case we copy the content of the Date object to the new instance.
 		 */
+		// hilla - no, this is not correct. Date class has copy constructor so you should do: _expiryDate = new Date(other._expiryDate);  -2
 		_expiryDate = new Date(other._expiryDate.getDay(), 
 				other._expiryDate.getMonth(),
 				other._expiryDate.getYear());
@@ -60,7 +62,7 @@ public class Passport {
 	 * @param newExpDate the value to be set
 	 */
 	public void setExpiryDate(Date newExpDate) {
-		this._expiryDate = newExpDate;
+		this._expiryDate = newExpDate;// hilla - aliasing!!! -2
 	}
 	
 	/**
@@ -91,6 +93,7 @@ public class Passport {
 	 * @return true if the passport date is on or before the dateChecked
 	 */
 	public boolean isValid(Date checkedDate) {
+	    // hilla - or: ! ( getExpiryDate().before(dateChecked )
 		return (checkedDate.before(_expiryDate) || isSameDate(checkedDate, _expiryDate));
 	}
 	

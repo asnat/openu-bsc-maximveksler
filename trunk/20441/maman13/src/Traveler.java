@@ -5,6 +5,7 @@
  * @version 140209042009
  */
 public class Traveler {
+// hilla - missing documentation of instance variables -1
 	private boolean _isPayed;
 	private Passport _passport;
 	
@@ -15,7 +16,7 @@ public class Traveler {
 	 * @param isPayed boolean value representing whether the traveler has already paid for his/her flight
 	 */
 	public Traveler(Passport passport, boolean isPayed) {
-		this._passport = passport;
+		this._passport = passport;// hilla - aliasing!!! it should be: _passport = new Passport(passport); -2
 		this._isPayed = isPayed;
 	}
 	

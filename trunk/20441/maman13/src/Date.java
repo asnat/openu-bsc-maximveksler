@@ -7,6 +7,7 @@
  *
  */
 public class Date {
+// hilla - missing documentation of instance variables
 	private int _day;
 	private int _month;
 	private int _year;
@@ -223,3 +224,5 @@ public class Date {
 		System.out.println("ERROR");
 	}
 } // end of class
+
+// hilla - very good solution
