@@ -4,13 +4,23 @@
  *
  */
 public class Cell {
+	/**
+	 * Row of cell object in the matrix
+	 */
 	private int _currRow;
+	
+	/**
+	 * Column of cell in the matrix 
+	 */
 	private int _currCol;
 	
 	/**
 	 * Holds the distance from start of matrix, representing the
-	 * 	number of squares one will need to move (in straight lines) to reach the
-	 * 	current (row, col) location.
+	 * 	number of squares one will need to move (in straight lines on the borders)
+	 *  to reach the current (row, col) location.
+	 * 	
+	 * This is a utility instance variable, it's here to not repeat "_currRow + _currCol" each time this 
+	 * 	information is required.
 	 */
 	private int _distanceFrom0x0 = 0;
 	
