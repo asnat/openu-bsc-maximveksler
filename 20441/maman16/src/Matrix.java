@@ -10,7 +10,7 @@ public class Matrix {
     private int[][] _elements;
 
     /**
-     * Efficiently decide if value is exists within a sorted matrix.
+     * Efficiently decide if value exists within a sorted matrix.
      * 
      * @param x int the searched value
      * 
@@ -71,7 +71,7 @@ public class Matrix {
     		
 		/*
 		 * We need to jump to the middle of the selected 2 squares, 
-		 * 	this is done by going to the last cell of the first square.
+		 * 	this is done by going to the last cell of the upper square.
 		 */
 		recRow = checkpointRow - n/2;
     	
@@ -101,7 +101,7 @@ public class Matrix {
     	} else if(compareResult > 0) {
     		// Choose upper square
     		return find(x, recRow + n/2, recCol - n/4, n/2);
-		} else {
+		} else { //compareResult == 0
     		// current position equal x, value was found!
 			return true;
 		}
@@ -202,6 +202,11 @@ public class Matrix {
     		return isSink(k+1, rowsWith1, columnsWith0);
     	}
     }
+    
+    
+    // ###################################
+    // ##     OPEN University Code 		##
+    // ###################################
     
     /**
      * Constructs a new matrix from a table of values.
