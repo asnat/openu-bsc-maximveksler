@@ -1,10 +1,37 @@
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
+
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 
 public class WordNodeTest {
-
+	List<String> wordList = new ArrayList<String>();
+	
+	@Before
+	public void load() {
+		FileReader fin;
+		try {
+			fin = new FileReader("wordlist.txt");
+			Scanner src = new Scanner(fin);
+			
+			while(src.hasNext()){
+				wordList.add(src.next());
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
 	@Test
 	public void testWordNode() {
 		fail("Not yet implemented");
@@ -37,6 +64,8 @@ public class WordNodeTest {
 
 	@Test
 	public void testCompareTo() {
+		Random random = new Random();
+		
 		// a == a 
 		assertEquals("a".compareTo("a"), comp("a", "a"));
 		// a == ab
@@ -52,19 +81,43 @@ public class WordNodeTest {
 		assertEquals("b".compareTo("ab"), comp("b", "ab"));
 		
 		// b = ba
-		assertEquals("b".compareTo("ba"), comp("b", "ba"));
+		comp("b", "ba");
 		
 		// b = abc
-		assertEquals("b".compareTo("abc"), comp("b", "abc"));
+		comp("b", "abc");
 		
 		// b = bac
-		assertEquals("b".compareTo("bac"), comp("b", "bac"));
+		comp("b", "bac");
 
+		for(int i = 0; i < 10000000; i++) {
+			;
+			String val1 = wordList.get(random.nextInt(wordList.size()));
+			String val2 = wordList.get(random.nextInt(wordList.size()));
+			comp(val1, val2);
+		}
 	}
 
 	
 	
-	private static int comp(String a, String b) {
-		return new WordNode(a, null).compareTo(new WordNode(b, null));
+	private int comp(String a, String b) {
+		int res = new WordNode(a, null).compareTo(new WordNode(b, null));
+		
+		if(a.compareTo(b) < 0) {
+			if(! (res < 0)) {
+				System.out.println("Failed for " + a + "compareTo( " + b + ") =" + res);
+				fail();
+			}
+		} else if(a.compareTo(b) > 0) {
+			if(! (res > 0)) {
+				System.out.println("Failed for " + a + "compareTo( " + b + ") =" + res);
+				fail();
+			}
+		} else if(a.compareTo(b) == 0)
+			if(! (res == 0)) {
+				System.out.println("Failed for " + a + "compareTo( " + b + ") =" + res);
+				fail();
+			}
+		
+		return res;
 	}
 }
