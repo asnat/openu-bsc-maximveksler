@@ -17,7 +17,9 @@ public class TextList {
 	private WordNode _head;
 	
 	/**
-	 * Constructor, creating empty TextList.
+	 * Constructor, creating empty TextList. 
+	 * 
+	 * We have no operations, so we are not dependent on the input size -> O(1)
 	 */
 	public TextList() {
 	}
@@ -25,7 +27,9 @@ public class TextList {
 	/**
 	 * Constructor, creating a preinitialized TextList based on supplied text.
 	 * 
-	 * The complexity of the method is n+nlogn.
+	 * The time complexity of the method is n+nlogn -> O(nlogn)
+	 * The space complexity of the method is n+n -> O(n).
+	 * 
 	 * @param text String representing text to be used for constructing the TextList, the text format should be a-z* words separated by ' '
 	 */
 	public TextList(String text) {
@@ -35,7 +39,7 @@ public class TextList {
 		 *  2. Run merge sort on the list which costs us nlog(n)
 		 *  
 		 *  This is a better solution then sorting the list as we go by adding each node at the correct location because the ordered addition
-		 *  is is done using linear search which has at the words case performance of n. In other words: In the worst case we would have to do
+		 *  is done using linear search which has at the words case performance of n. In other words: In the worst case we would have to do
 		 *  1+2+3+4+5+..n operations before the list would be sorted. O(n^2)
 		 */
 		if(text != null) {
@@ -43,18 +47,30 @@ public class TextList {
 			for(int i = 0; i < words.length; i++) {
 				_head = new WordNode(words[i], _head);
 			}
+			
+			// Sort the list in ascending order O(nlogn)
+			_head = WordNode.mergeSort(_head);
 		}
-		
-		// create the list of nodes, the run merge sort on them.
 	}
 	
 	/**
 	 * Add additional word into the sorted list of words.
 	 * 
+	 * We scan the list seeking the proper insertion order, worst case we insert at the end = n -> O(n)
+	 * The space complexity is fixed because the input is always same size. -> O(1)
+	 * 
 	 * @param word The word that will be added to the list.
 	 */
 	public void addToData(String word) {
-		// complexity of n
+		WordNode newList = null;
+		if(_head == null) {
+			newList = new WordNode(word, null);
+		} else {
+			newList = _head.insertNewNode(word);
+		}
+		
+		// We need to replace the reference to _head because if added item is at the start of the list the whole list head is replaced.
+		_head = newList;
 	}
 	
 	/**
