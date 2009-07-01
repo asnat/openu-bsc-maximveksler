@@ -93,22 +93,122 @@ public class WordNode {
 	}
 	
 	/**
-	 * Sort the linked list using merge sort algorithm
+	 * Add new word (optionally) create new WordNode in the list.
+	 * 
+	 * @param newWord
 	 * @return
 	 */
-	public WordNode mergeSort() {
+	public WordNode insertNewNode(String newWord) {
+		/*
+		 * We add / increase the counter using linear search.
+		 * We seek forward starting from the first node, aiming to find the proper location to insert the new node.
+		 */
+		
+		int compareResult = compareTo(newWord); // Compare newWord with current node _word value.
+		
+		if(compareResult == 0) {
+			// Same word, just increase repeating counter.
+			_occurrences++;
+			return this;
+		} else if (compareResult < 0) {
+			// newWord is bigger then current word, need to add it after current node.
+			if(_next == null) {
+				// We are the biggest word in the known universe.
+				_next = new WordNode(newWord, null);
+				return this;
+			} else {
+				_next = _next.insertNewNode(newWord); 
+				return this;
+			}
+		} else { // newWord is smaller then current word, need to add before current node.
+			return new WordNode(newWord, this);
+		}
+	}
+	
+	/**
+	 * See documentation of compareTo(String nodeWord)
+	 * 
+	 * @return negative if this._word < node._word, 0 if they are equal, positive if this._word > node._word
+	 */
+	public int compareTo(WordNode node) {
+		return compareTo(node.getWord());
+	}
+
+	/**
+	 * Compare between node word and supplied word to decide their proper ordering in the list.
+	 * 
+	 * @return negative if this._word < nodeWord, 0 if they are equal, positive if this._word > nodeWord
+	 */
+	public int compareTo(String nodeWord) {
+		// Store the shorter string among the 2 supplied parameters
+		int shorterStringLength = (_word.length() > nodeWord.length()) ? nodeWord.length() : _word.length();
+
+		// Compare each char
+		// 	Forced Stop condition: Reaching end of shortest string 
+		// 	Goal stop condition: Find a char that is not equal.
+		int i = 0;
+		while(true) {
+			if(!(i < shorterStringLength)) {
+				// We have reached the end of one of the strings, meaning we now need to return a value.
+				if(_word.length() > nodeWord.length())
+					return 1;
+				else if (_word.length() < nodeWord.length())
+					return -1;
+				else
+					return 0;
+			}
+			
+			if( _word.charAt(i) != nodeWord.charAt(i))
+				return _word.charAt(i) - nodeWord.charAt(i);
+
+			// If no failure condition has occurred progress to next character.
+			i++;
+		}
+	}
+
+	// ######################
+	// ##   MERGESORT    ####
+	// ######################
+	/**
+	 * A MergeSort implementation for WordNode based lists.
+	 * 
+	 * Complexity O(nlogn)
+	 * 
+	 * @return WordNode a new sort list of WordNode elements. 
+	 */
+	public static WordNode mergeSort(WordNode wordNode) {
+		if(wordNode == null || wordNode._next == null) {
+			// Node has less then 2 values, return the node itself.
+			return wordNode;
+		} else {
+			// Split the list into 2 parts.
+			WordNode[] listNodePair = wordNode.split();
+			
+			// Now merge the 2 splits, in ascending order.
+			return mergeSort(listNodePair[0]).merge(mergeSort(listNodePair[1]));
+		}
 		
 	}
 	
+	/**
+	 * Part of the MergeSort implementation, used to split and array into 2 equal parts.
+	 * @return WordNode[] array containing exactly 2 elements representing the list split into 2 parts.
+	 */
 	private WordNode[] split() {
 		if(_next == null)
 			return new WordNode[] {this, null};
 		else {
 			WordNode[] nextSplit = _next.split();
-			return new WordNode[] {nextSplit[1], nextSplit[0]};
+			return new WordNode[] {new WordNode(this, nextSplit[1]), nextSplit[0]};
 		}
 	}
 	
+	/**
+	 * Part of the MergeSort implementation, used to merge 2 sorted arrays in ascending order.
+	 * 
+	 * @param node WordNode representing the request list to be merged into current node list.
+	 * @return WordNode representing the newly created merged list from both lists.
+	 */
 	private WordNode merge(WordNode node) {
 		if(node == null) // If we are asked to merge a linked list that is null we are finished.
 			return this; // Returning only this WordNode instance.
@@ -116,7 +216,7 @@ public class WordNode {
 		int compareResult = compareTo(node);
 		
 		if (compareResult == 0) {
-			// Note that if both nodes are equal we "lose" one node (delete it) and increment the counter of the second node.
+			// Note that if both nodes are equal we "lose" second node (delete it) and increment the counter of the first node.
 			_occurrences++;
 			return merge(node.getNext());
 		} else if (compareResult < 0) {
@@ -135,35 +235,4 @@ public class WordNode {
 		}
 	}
 	
-	/**
-	 * Compare between 2 words to decide their proper ordering in the list.
-	 * 
-	 * @return negative if word1 < word2, 0 if they are equal, positive if word1 > word2
-	 */
-	public int compareTo(WordNode node) {
-		// Store the shorter string among the 2 supplied parameters
-		int shorterStringLength = (_word.length() > node.getWord().length()) ? node.getWord().length() : _word.length();
-
-		// Compare each char
-		// 	Forced Stop condition: Reaching end of shortest string 
-		// 	Goal stop condition: Find a char that is not equal.
-		int i = 0;
-		while(true) {
-			if(!(i < shorterStringLength)) {
-				// We have reached the end of one of the strings, meaning we now need to return a value.
-				if(_word.length() > node.getWord().length())
-					return 1;
-				else if (_word.length() < node.getWord().length())
-					return -1;
-				else
-					return 0;
-			}
-			
-			if( _word.charAt(i) != node.getWord().charAt(i))
-				return _word.charAt(i) - node.getWord().charAt(i);
-
-			// If no failure condition has occured progress to next character.
-			i++;
-		}
-			
-	}}
+}

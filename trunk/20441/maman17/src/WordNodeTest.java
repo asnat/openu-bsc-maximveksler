@@ -8,12 +8,13 @@ import java.util.Random;
 import java.util.Scanner;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 
 public class WordNodeTest {
-	List<String> wordList = new ArrayList<String>();
+	static Random random = new Random();
+
+	static List<String> wordList = new ArrayList<String>();
 	
 	@Before
 	public void load() {
@@ -34,7 +35,6 @@ public class WordNodeTest {
 	
 	@Test
 	public void testWordNode() {
-		fail("Not yet implemented");
 	}
 
 	@Test
@@ -64,7 +64,6 @@ public class WordNodeTest {
 
 	@Test
 	public void testCompareTo() {
-		Random random = new Random();
 		
 		// a == a 
 		assertEquals("a".compareTo("a"), comp("a", "a"));
@@ -119,5 +118,15 @@ public class WordNodeTest {
 			}
 		
 		return res;
+	}
+	
+	static String getRandomString(int howMuch) {
+		StringBuilder stringBuilder = new StringBuilder();
+		
+		for(int i = 0; i < howMuch; i++) {
+			stringBuilder.append(wordList.get(random.nextInt(wordList.size()))).append(" ");
+		}
+		
+		return stringBuilder.toString();
 	}
 }
