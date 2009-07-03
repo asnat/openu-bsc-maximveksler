@@ -16,6 +16,17 @@ public class Directory extends MyFile {
 	// Helper counter that counts the number of regular files inside this directory.
 	private int _nofRegularFiles = 0;
 	
+	/**
+	 * The content of this file, which is a text String
+	 */
+	private MyFile[] _fileObject;
+
+	/**
+	 * _mode represents the editing permission of the file
+	 * true - has permission, false - does not have permission
+	 */
+	private boolean _mode;
+
 	// ####################
 	// ### CONSTRUCTOR ####
 	// ####################
@@ -26,32 +37,15 @@ public class Directory extends MyFile {
 	 * @param name The name of the directory as it is represented in the file system
 	 */
 	public Directory(String name) {
-		super(name, new MyFile[_MAX_DIR_ENTRIES], _MODE_OPEN);
+		super(name);
+		this._fileObject = new MyFile[_MAX_DIR_ENTRIES];
+		this._mode = _MODE_OPEN;
 	}
 
-	/**
-	 * Construct Directory object from the supplied name, content and editing mode
-	 * 
-	 * @param name The name of the directory as it is represented in the file system
-	 * @param directoryFiles The content of this directory, a list of files
-	 * @param mode The editing mode of the directory
-	 */
-	protected Directory(String name, MyFile[] directoryFiles, boolean mode) {
-		super(name, directoryFiles, mode);
-	}
-
+	
 	// ###############
 	// ### PUBLIC ####
 	// ###############
-
-	/**
-	 * Count the number of "real" files inside the current directory
-	 * 
-	 * @return int number of actual files in this directory (not including sub directories)
-	 */
-	public int getSize() {
-		return _nofRegularFiles;
-	}
 
 	/**
 	 * Get the content of the directory, which is the list of files contained not including sub directories
@@ -62,6 +56,16 @@ public class Directory extends MyFile {
 	public Object open() {
 		return getDirectoryFiles();
 	}
+
+	/**
+	 * Count the number of "real" files inside the current directory
+	 * 
+	 * @return int number of actual files in this directory (not including sub directories)
+	 */
+	public int getSize() {
+		return _nofRegularFiles;
+	}
+
 
 	/**
 	 * Add new file to the directory listing
@@ -78,17 +82,16 @@ public class Directory extends MyFile {
 		if((_nextInsertPointer+1) > _MAX_DIR_ENTRIES)
 			return false;
 
-		MyFile[] directoryEntries = openAsDirectory();
-
 		// We fail to add file if it's already listed in the directory.
-		if(isFileInList(directoryEntries, file))
+		if(isFileInList(file))
 			return false;
 				
 		if(isRegularFile(file)) {
 			_nofRegularFiles++;
 		}
-			
-		directoryEntries[_nextInsertPointer++] = createCopy(file);
+		
+		// ALIASING because directory contains references to files.
+		_fileObject[_nextInsertPointer++] = file;
 		
 		return true;
 	}
@@ -102,10 +105,8 @@ public class Directory extends MyFile {
 	public String toString() {
 		String ret = "";
 		
-		MyFile[] directoryEntries = openAsDirectory();
-		
 		for(int i = 0; i < _nextInsertPointer; i++) {
-			MyFile file = directoryEntries[i];
+			MyFile file = _fileObject[i];
 			if(isRegularFile(file))
 				ret += file.getName() + "\n"; 
 		}
@@ -126,17 +127,21 @@ public class Directory extends MyFile {
 		if(_mode != _MODE_OPEN)
 			return null;
 		
-		MyFile file = popFileJustify(openAsDirectory(), name);
+		// Get the searched file, if such exists.
+		MyFile file = popFileJustify(name);
 		
-		if(file != null) {
+		if(file != null) { // If we have found a file by such name.
 			if(isRegularFile(file)) {
+				// If it's a regular file decrement the regular files counter.
 				_nofRegularFiles--;
 			}
 			
+			// Always decrement the insert pointer because a file has left our listing (May he rest in peace).
 			_nextInsertPointer--;
 		}
 		
-		// We do not copy the file before returning it because we lose reference to the object, so no double aliasing occurs.
+		// We do not copy the file before returning it because we lose reference 
+		// 	to the object, so no double aliasing occurs.
 		return file;
 	}
 	
@@ -155,16 +160,6 @@ public class Directory extends MyFile {
 	// ################
 	
 	/**
-	 * Utility method, cast the generic object returned from MyFile.open() to MyFile[]
-	 * 
-	 * @return MyFile[] which is the content of the directory
-	 */
-	protected MyFile[] openAsDirectory() {
-		MyFile[] ret = (MyFile[]) super.open();
-		return ret;
-	}
-
-	/**
 	 * Utility method, Copy instanced of files objects listed by this directory.
 	 * "File Objects" are all files not of type Directory.
 	 * Copying is done to prevent aliasing.
@@ -172,14 +167,14 @@ public class Directory extends MyFile {
 	 * @return MyFile[] array containing copies of file objects this directory contains. 
 	 */
 	private MyFile[] getDirectoryFiles() {
-		MyFile[] files = openAsDirectory();
-
 		MyFile[] ret = new MyFile[_MAX_DIR_ENTRIES];
 		int retPointer = 0;
 		
 		for(int i = 0; i < _nextInsertPointer; i++) {
-			if(isRegularFile(files[i])) {
-				ret[retPointer++] = createCopy(files[i]);
+			if(isRegularFile(_fileObject[i])) {
+				// Aliasing because we return files to client that asks to work with 
+				// these files.
+				ret[retPointer++] = _fileObject[i];
 			}
 		}
 		
@@ -194,14 +189,14 @@ public class Directory extends MyFile {
 	 * 
 	 * @return true if file is found in given list of files, fale if not.
 	 */
-	private boolean isFileInList(MyFile[] directoryEntries, MyFile file) {
+	private boolean isFileInList(MyFile file) {
 		/*
 		 * The search is executed by calling a method that returns a MyFile 
 		 * object, which is searched by name. If no object is returned (null)
 		 * that means that file was not found, in our context that means file
 		 * does not exist in given array.
 		 */
-		MyFile foundFile = findFileInList(directoryEntries, file.getName());
+		MyFile foundFile = findFileInList(file.getName());
 		
 		if(foundFile != null)
 			// File found, return true.
@@ -219,9 +214,9 @@ public class Directory extends MyFile {
 	 * 
 	 * @return MyFile object if file was found, null if not.
 	 */
-	private MyFile findFileInList(MyFile[] directoryEntries, String fileName) {
+	private MyFile findFileInList(String fileName) {
 		for(int i = 0; i < _nextInsertPointer; i++) {
-			MyFile checkedFile = directoryEntries[i];
+			MyFile checkedFile = _fileObject[i];
 			if(checkedFile.getName().equals(fileName))
 				// If file is found (Name matched) quit the loop by returned 
 				// the found object.
@@ -251,7 +246,7 @@ public class Directory extends MyFile {
 	 * @param fileName String the name of the looked up object
 	 * @return MyFile object is the object was found and was popped successfully, null if object was not found.
 	 */
-	private MyFile popFileJustify(MyFile[] directoryEntries, String fileName) {
+	private MyFile popFileJustify(String fileName) {
 		if(fileName == null)
 			return null;
 		
@@ -260,7 +255,7 @@ public class Directory extends MyFile {
 		
 		// First we search for the object, and if found store it in scannedFile variable.
 		do {
-			MyFile currentFile = directoryEntries[scanIndex];
+			MyFile currentFile = _fileObject[scanIndex];
 			
 			if (currentFile != null && fileName.equals(currentFile.getName())) {
 				scannedFile = currentFile;
@@ -273,65 +268,13 @@ public class Directory extends MyFile {
 		if(scannedFile != null) {
 			// If match was found we shift all objects left 1 cell from the spot where the object was found at
 			while((scanIndex+1) < _nextInsertPointer) { 
-				directoryEntries[scanIndex] = directoryEntries[scanIndex+1];
+				_fileObject[scanIndex] = _fileObject[scanIndex+1];
 				scanIndex++;
 			}
 			
-			directoryEntries[scanIndex] = null;
+			_fileObject[scanIndex] = null;
 		}
 		
 		return scannedFile;
-	}
-	
-	/**
-	 * Utility method, return a copied object (recursively) of the supplied source.
-	 * 
-	 * This utility method will handle copying of Text, Image and Directory Files.
-	 * For Image and Text it will simply created new instances of the matching objects
-	 * 	then return them, for Directory it will recurse into the directory (and sub 
-	 * 	directories if exist) and return the whole copied tree.
-	 * 
-	 * @param source a ImageFile, TextFile or Directory from which we will be copying
-	 * @return a copied ImageFile, TextFile or Directory file which is a perfect replica of the supplied source.
-	 */
-	private static MyFile createCopy(MyFile source) {
-		/*
-		 * Note, it's possible that if we were to define "complete" copy of the MyFile object we would 
-		 * need each object to implement clone(), this is because access properties of other "types"
-		 * of files from the directory file is incorrect. It's possible (for ex.) that someone would  
-		 * further extend ImageFile to ColorImageFile where he would save the color of each char. Our  
-		 * Directory Class knows how to copy TextFile, ImageFile and Directory - So it would fail to 
-		 * correctly copy ColorImageFile leading to information loss. Not mentioning the Directory 
-		 * should be loosely connected to other types of MyFile class hierarchy Classes.
-		 * 
-		 * Thereof, we copy the file objects here knowing that a better solution is possible.
-		 */
-
-		MyFile target = null;
-		
-		if(source instanceof TextFile) {
-			target = new TextFile(source.getName(), (String)source.open(), source._mode);
-		} else if(source instanceof ImageFile) {
-			target = new ImageFile(source.getName(), (char[][])source.open(), source._mode);
-		} else {
-			// File is a directory
-			Directory sourceDirectory = (Directory)source;
-			MyFile[] sourceDirectoryFiles = sourceDirectory.openAsDirectory();
-			
-			MyFile[] targetDirectoryFiles = new MyFile[_MAX_DIR_ENTRIES];
-			
-			for(int i = 0; i < sourceDirectory._nextInsertPointer; i++) {
-				targetDirectoryFiles[i] = createCopy(sourceDirectoryFiles[i]); // Note, call to createCopy is recursive.
-			}
-			
-			target = new Directory(source.getName(), targetDirectoryFiles, source._mode);
-			
-			Directory targetDirectory = (Directory)target;
-			targetDirectory._nextInsertPointer = sourceDirectory._nextInsertPointer;
-			targetDirectory._nofRegularFiles = sourceDirectory._nofRegularFiles;
-			
-		}
-		
-		return target;
 	}
 }

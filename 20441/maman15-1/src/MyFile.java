@@ -14,54 +14,25 @@ public abstract class MyFile {
 	 */
 	protected static final boolean _MODE_CLOSED = false;
 	
+	/**
+	 * The name of the file object.
+	 */
 	private String _name;
 	
-	/**
-	 * _fileObject Stores the content of the file, the actual object is 
-	 * supplied by the extending class
-	 */
-	protected Object _fileObject; 
-	
-	/**
-	 * _mode represents the editing permission of the file
-	 * true - has permission, false - does not have permission
-	 */
-	protected boolean _mode;
-	
+
 	// ##########################
 	// ##### Constructors #######
 	// ##########################
 
 	/**
-	 * Construct a new MyFile object with null content with editing permission granted
-	 * 
-	 * @param name The name of the file
-	 */
-	public MyFile(String name) {
-		this(name, null, true);
-	}
-
-	/**
-	 * Construct a new MyFile object with editing permission granted
-	 * 
-	 * @param name The name of the file
-	 * @param fileObject The class which represents the content of the file
-	 */
-	public MyFile(String name, Object fileObject) {
-		this(name, fileObject, true);
-	}
-	
-	/**
-	 * Construct a new MyFile object with editing permission granted
+	 * Construct a new MyFile object.
 	 * 
 	 * @param name The name of the file
 	 * @param fileObject The class which represents the content of the file
 	 * @param mode The editing mode of the file: true means can edit, false means can not edit 
 	 */
-	public MyFile(String name, Object fileObject, boolean mode) {
+	public MyFile(String name) {
 		this._name = name;
-		this._fileObject = fileObject;
-		this._mode = mode;
 	}
 
 	// #####################
@@ -82,9 +53,7 @@ public abstract class MyFile {
 	 * 
 	 * @return Object that represents the content of the file
 	 */
-	public Object open() {
-		return _fileObject;
-	}
+	public abstract Object open(); 
 	
 	/**
 	 * Return the size (in bytes) of the content of the file.

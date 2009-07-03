@@ -5,13 +5,23 @@
  *
  */
 public class TextFile extends MyFile {
+	/**
+	 * The content of this file, which is a text String
+	 */
+	private String _fileObject;
+	
+	/**
+	 * _mode represents the editing permission of the file
+	 * true - has permission, false - does not have permission
+	 */
+	private boolean _mode;
 
 	// ####################
 	// ### CONSTRUCTOR ####
 	// ####################
 	
 	/**
-	 * Construct a Text file with name and text content
+	 * Construct a Text file with name and text content, file is created allowed for editing.
 	 * 
 	 * @param name The name of the file as it is represented in the file system
 	 * @param text String representing the content of the file
@@ -21,14 +31,16 @@ public class TextFile extends MyFile {
 	}
 
 	/**
-	 * Construct a Text file with name, text content and a editing mode
+	 * Construct a Text file with name, text content and an editing mode
 	 * 
 	 * @param name The name of the file as it is represented in the file system
 	 * @param text String representing the content of the file
 	 * @param mode boolean editing mode. true means file content can be modified, false means it can not
 	 */
 	public TextFile(String name, String text, boolean mode) {
-		super(name, text, mode);
+		super(name);
+		this._fileObject = text;
+		this._mode = mode;
 	}
 
 	// ###############
@@ -41,7 +53,16 @@ public class TextFile extends MyFile {
 	 * @return int representing the number of characters in the text of the file
 	 */
 	public int getSize() {
-		return openAsString().length();
+		return _fileObject.length();
+	}
+
+	/**
+	 * Returns the content of the file as a String
+	 * 
+	 * @return Object that represents the content of the file
+	 */
+	public Object open() {
+		return _fileObject;
 	}
 
 	/**
@@ -65,7 +86,7 @@ public class TextFile extends MyFile {
 			return false;
 		}
 
-		_fileObject = openAsString() + text;
+		_fileObject = _fileObject + text;
 		
 		return true;
 	}
@@ -76,20 +97,9 @@ public class TextFile extends MyFile {
 	 * @return The content of the file, the actual string
 	 */
 	public String toString() {
-		return openAsString();
+		// Aliasing is OK because String is not mutable.
+		return _fileObject;
 	}
 	
-	// ################
-	// ### PRIVATE ####
-	// ################
-	
-	/**
-	 * Utility method, cast the generic object returned from MyFile.open() to String
-	 * 
-	 * @return String which is the content of the file
-	 */
-	protected String openAsString() {
-		String ret = (String) super.open();
-		return ret;
-	}
+
 }
