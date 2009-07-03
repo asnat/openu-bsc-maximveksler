@@ -49,12 +49,16 @@ public class TextListTest {
 		TextList list = new TextList(getRandomString(1000));
 
 		node = useReflectionToRetriveList(list);
+		
+		assertTrue(getNumberOfTotalNodes(node) == 1000);
+			
 		String current = node.getWord();
 		while (node.getNext() != null) {
+			// All current node must be smaller then next node.
 			assertTrue(current.compareTo(node.getNext().getWord()) < 0);
 			node = node.getNext();
 		}
-		 
+
 		list = new TextList("A B A C A D");
 
 //		System.out.println(list);
@@ -128,11 +132,13 @@ public class TextListTest {
 
 		// Test Random Adding
 		list = new TextList();
-		for(int i = 0; i < 1000; i++) {
+		for(int i = 0; i < 1001; i++) {
 			list.addToData(wordList.get(random.nextInt(wordList.size())));
 		}
 
 		node = useReflectionToRetriveList(list);
+		assertTrue(getNumberOfTotalNodes(node) == 1001);
+
 		String current = node.getWord();
 		while (node.getNext() != null) {
 			assertTrue(current.compareTo(node.getNext().getWord()) < 0);
@@ -158,7 +164,56 @@ public class TextListTest {
 
 	@Test
 	public void testMostFrequentStartingLetter() {
-		fail("Not yet implemented");
+		TextList list = null;
+		
+		list = new TextList();
+		assertTrue(list.mostFrequentStartingLetter() == 0);
+		
+		list = new TextList("acc addd aaaa bmmm beee cooo ciii clll ckkk dad");
+		assertTrue(list.mostFrequentStartingLetter() == 'c');
+
+		list = new TextList("aaaa aaaa aaaa aaaa aaaa cooo ciii clll ckkk dad");
+		assertTrue(list.mostFrequentStartingLetter() == 'a');
+
+		for(int iii = 0; iii < 1000; iii++) {
+			// Test Random Adding
+			int thisCounter = random.nextInt(997);
+			
+			list = new TextList();
+			for(int i = 0; i < thisCounter; i++) {
+				list.addToData(wordList.get(random.nextInt(wordList.size())));
+			}
+			
+			node = useReflectionToRetriveList(list);
+			
+//			System.out.println("=============================================\n" + node.toString());
+			
+			assertTrue(getNumberOfTotalNodes(node) == thisCounter);
+			
+			char freq = 0;
+			int freqOccur = 0;
+			
+			char curr = 0;
+			int currOccur = 0;
+	
+			while (node != null) {
+				if(node.getWord().charAt(0) == curr) {
+					currOccur += node.getOccurrences();
+				} else {
+					curr = node.getWord().charAt(0);
+					currOccur = node.getOccurrences();
+				}
+				
+				if(currOccur > freqOccur) {
+					freqOccur = currOccur;
+					freq = curr;
+				}
+				
+				node = node.getNext();
+			}
+			
+			assertTrue(list.mostFrequentStartingLetter() == freq);
+		}
 	}
 
 	@Test
@@ -168,7 +223,28 @@ public class TextListTest {
 
 	@Test
 	public void testToString() {
-		fail("Not yet implemented");
+		TextList list = null;
+		
+		for(int iii = 0; iii < 10; iii++) {
+			// Test Random Adding
+			int thisCounter = 5;//random.nextInt(1500);
+			
+			list = new TextList(getRandomString(thisCounter));
+			
+			node = useReflectionToRetriveList(list);
+			
+//			System.out.println("=============================================\n" + node.toString());
+			
+			String toStringExpected = "";
+			
+			while (node != null) {
+				toStringExpected += node.getWord() + "\t" + node.getOccurrences() + "\n";
+				node = node.getNext();
+			}
+			
+			assertEquals(toStringExpected, list.toString());
+		}
+
 	}
 	
 	static String getRandomString(int howMuch) {
@@ -204,5 +280,16 @@ public class TextListTest {
 		}
 
 		return null;
+	}
+	
+	static int getNumberOfTotalNodes(WordNode node) {
+		int counter = 0;
+		
+		while(node != null) {
+			counter += node.getOccurrences();
+			node = node.getNext();
+		}
+		
+		return counter;
 	}
 }
