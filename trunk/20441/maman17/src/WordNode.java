@@ -2,6 +2,7 @@
  * Node class for building lists of words.
  * 
  * @author Maxim Veksler 303856983
+ * @author Open University (MegeSort)
  *
  */
 public class WordNode {
@@ -57,6 +58,15 @@ public class WordNode {
 	// ## PUBLIC      ####
 	// ###################
 	
+	public String toString() {
+		String thisToString = _word + "\t" + _occurrences + "\n";
+		
+		if(_next == null)
+			return thisToString;
+		else 
+			return thisToString + _next.toString();
+	}
+	
 	/**
 	 * Returns the word represented by this node object
 	 * 
@@ -64,15 +74,6 @@ public class WordNode {
 	 */
 	public String getWord() {
 		return _word;
-	}
-	
-	/**
-	 * Retrieve the first character of the stored word.
-	 * 
-	 * @return char representing the first character of the word.
-	 */
-	public char getWordFirstChar() {
-		return _word.charAt(0);
 	}
 	
 	/**
@@ -125,12 +126,57 @@ public class WordNode {
 		}
 	}
 	
+	public char findMostContinuessFirstCharOccourencess() {
+		if(_next != null) {
+			return _next.findMostContinuessFirstCharOccourencess(getOccurrences(), getWordFirstChar(), getOccurrences(), getWordFirstChar());
+		} else
+			return getWordFirstChar();
+	}
+	
+	/**
+	 * Retrieve the first character of the stored word.
+	 * 
+	 * @return char representing the first character of the word.
+	 */
+	private char getWordFirstChar() {
+		return _word.charAt(0);
+	}
+	
+	private char findMostContinuessFirstCharOccourencess(int mostOccur, char mostOccurChar, int currentOccur, char currentOccurChar) {
+		/*
+		 * Recursive Search algorithm:  Search assumption: When we reach the final node we know the most frequent char and the number of it's 
+		 * 	occurrences. We achieve this by assuming in each node that it is the last in the list, then being totally shocks we find out
+		 *  we are not the last node in the universe, thus passing what we know to the next node.
+		 *  
+		 * The search is correct because the list is sorted, thus ensuring that the next word will either start with the same letter as this
+		 * 	word or that this current letter will never appear again.
+		 * 	
+		 * General Note: As method variables are primitives on the stack it OK the we modify them.
+		 */
+		if(currentOccurChar == getWordFirstChar()) {
+			currentOccur += getOccurrences();
+		} else {
+			currentOccurChar = getWordFirstChar();
+			currentOccur = getOccurrences();
+		}
+		
+		if(currentOccur > mostOccur) {
+			mostOccur = currentOccur;
+			mostOccurChar = currentOccurChar;
+		}
+		
+		if(_next != null) 
+			return _next.findMostContinuessFirstCharOccourencess(mostOccur, mostOccurChar, currentOccur, currentOccurChar);
+		else
+			return mostOccurChar;
+	}
+	
 	/**
 	 * See documentation of compareTo(String nodeWord)
 	 * 
 	 * @return negative if this._word < node._word, 0 if they are equal, positive if this._word > node._word
 	 */
-	public int compareTo(WordNode node) {
+	private int compareTo(WordNode node) {
 		return compareTo(node.getWord());
 	}
 
@@ -139,10 +185,15 @@ public class WordNode {
 	 * 
 	 * @return negative if this._word < nodeWord, 0 if they are equal, positive if this._word > nodeWord
 	 */
-	public int compareTo(String nodeWord) {
-		// Store the shorter string among the 2 supplied parameters
-		int shorterStringLength = (_word.length() > nodeWord.length()) ? nodeWord.length() : _word.length();
+	private int compareTo(String nodeWord) {
+		// Store the shorter string length among the 2 supplied parameters
+		int shorterStringLength;
+		if(_word.length() > nodeWord.length()) 
+			shorterStringLength = nodeWord.length(); 
+		else
+			shorterStringLength = _word.length();
 
+		
 		// Compare each char
 		// 	Forced Stop condition: Reaching end of shortest string 
 		// 	Goal stop condition: Find a char that is not equal.
@@ -216,8 +267,11 @@ public class WordNode {
 		int compareResult = compareTo(node);
 		
 		if (compareResult == 0) {
-			// Note that if both nodes are equal we "lose" second node (delete it) and increment the counter of the first node.
-			_occurrences++;
+			// Note that if both nodes are equal we "lose" second node (delete it) and increment the counter of the first node instead.
+			// 	We don't just increment by one because in 2nd level merges (not just 2 nodes) there is a possibility that
+			//	node has already been repeated more then once, thereof we add to current node occurrences the count
+			//	of the twin node occurrences.
+			_occurrences += node.getOccurrences();
 			return merge(node.getNext());
 		} else if (compareResult < 0) {
 			if (_next == null) {

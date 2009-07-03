@@ -38,6 +38,11 @@ public class WordNodeTest {
 	}
 
 	@Test
+	public void testFindMostContinuessFirstCharOccourencess() {
+
+	}
+
+	@Test
 	public void testGetWord() {
 		fail("Not yet implemented");
 	}
