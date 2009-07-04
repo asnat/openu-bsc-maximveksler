@@ -126,6 +126,11 @@ public class WordNode {
 		}
 	}
 	
+	/**
+	 * Find the char that the biggest number of words in the list starts with.
+	 *  
+	 * @return char The character that is the most popular as first word among all words in the list.
+	 */
 	public char findMostContinuessFirstCharOccourencess() {
 		if(_next != null) {
 			return _next.findMostContinuessFirstCharOccourencess(getOccurrences(), getWordFirstChar(), getOccurrences(), getWordFirstChar());
@@ -133,6 +138,37 @@ public class WordNode {
 			return getWordFirstChar();
 	}
 	
+	/**
+	 * Search the list and sum the number of words that start with a specified character
+	 * 
+	 * @param c The character for which we court the number of occurrences.
+	 * @param node Node representing the current relative root search node in the list.
+	 * @return int the number words found starting at given char, if no words we're found a 0 value is returned.
+	 */
+	public int countContinuessCharOccourencess(char c) {
+		if(getWordFirstChar() > c)
+			// Recursion stop condition, we either reached the end of the list (_next = null) or we've came across
+			// 	a node that has first character bigger then our searched - So we stop.
+			return 0;
+		
+		if(getWordFirstChar() < c)
+			// If we're at a character that is smaller then our search target we simply continue with next node.
+			if(_next != null)
+				return _next.countContinuessCharOccourencess(c);
+			else 
+				return 0;
+		else 
+			if(_next != null)
+				return getOccurrences() + _next.countContinuessCharOccourencess(c);
+			else
+				return getOccurrences();
+	}
+	
+	
+	// ###################
+	// ## PRIVATE     ####
+	// ###################
+
 	/**
 	 * Retrieve the first character of the stored word.
 	 * 
