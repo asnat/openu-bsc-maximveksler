@@ -43,7 +43,7 @@ public class TextList {
 		 *  is done using linear search which has at the words case performance of n. In other words: In the worst case we would have to do
 		 *  1+2+3+4+5+..n operations before the list would be sorted. O(n^2)
 		 */
-		if(text != null) {
+		if(text != null && text.length() > 0) {
 			String[] words = text.split(" ");
 			for(int i = 0; i < words.length; i++) {
 				_head = new WordNode(words[i], _head);
@@ -121,7 +121,7 @@ public class TextList {
 	 */
 	public String mostFrequentWord() {
 		/*
-		 * To find the most frequent word we run on the whole list, searching the word that has most occurncess.
+		 * To find the most frequent word we run on the whole list, searching the word that has most occurrences.
 		 */
 		if(_head != null) {
 			// We start assuming the first word is the most frequent.
@@ -132,7 +132,9 @@ public class TextList {
 			
 			while(node != null) {
 				if(frequentNode.getOccurrences() < node.getOccurrences())
-					frequentNode = node; 
+					frequentNode = node;
+				
+				node = node.getNext();
 			}
 			
 			return frequentNode.getWord();
@@ -163,19 +165,23 @@ public class TextList {
 	 * 				If no words have been found a value of 0 will be returned.
 	 */
 	public int howManyStarting(char letter) {
-		
+		if(_head != null)
+			return _head.countContinuessCharOccourencess(letter);
+		else 
+			return 0;
 	}
 	
 	/**
 	 * Converts the list of words into a single string given in the format:
-	 * <<WORD>>\t<<NumberOfOccurencessOfThisWord>>\n
+	 * ##WORD##\t##NumberOfOccurencessOfThisWord##\n
 	 * 
-	 * @return String representing the list of words in one string by the format described above.
+	 * @return String representing the list of words in one string by the format described above. If list has no words and empty string will
+	 * 	be returned.
 	 */
 	public String toString() {
 		if(_head != null)
 			return _head.toString();
 		else 
-			return null;
+			return "";
 	}
 }

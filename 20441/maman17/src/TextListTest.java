@@ -4,9 +4,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +17,8 @@ import org.junit.Test;
 
 public class TextListTest {
 	static Random random = new Random();
-	static List<String> wordList = new ArrayList<String>();
+	static List<String> complexWordList = new ArrayList<String>();
+	static List<String> simpleWordList = new ArrayList<String>();
 	WordNode node = null;
 
 	@Before
@@ -25,17 +29,47 @@ public class TextListTest {
 			Scanner src = new Scanner(fin);
 			
 			while(src.hasNext()){
-				wordList.add(src.next());
+				complexWordList.add(src.next());
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
+		try {
+			fin = new FileReader("simpleWordlist.txt");
+			Scanner src = new Scanner(fin);
+			
+			while(src.hasNext()){
+				simpleWordList.add(src.next());
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Test
 	public void testTextList() {
-		fail("Not yet implemented");
+		TextList list = new TextList();
+		
+		// Empty list.
+		assertEquals(0, list.howManyDifferentWords());
+		assertEquals(0, list.howManyStarting('a'));
+		assertEquals(0, list.howManyWords());
+		assertEquals(0, list.mostFrequentStartingLetter());
+		assertEquals(null, list.mostFrequentWord());
+		assertEquals("", list.toString());
+		
+		// List with 1 word.
+		list.addToData("nature");
+		assertEquals(1, list.howManyDifferentWords());
+		assertEquals(1, list.howManyStarting('n'));
+		assertEquals(0, list.howManyStarting('a'));
+		assertEquals(1, list.howManyWords());
+		assertEquals('n', list.mostFrequentStartingLetter());
+		assertEquals("nature", list.mostFrequentWord());
+		assertEquals("nature\t1\n", list.toString());
+
 	}
 
 	@Test
@@ -130,6 +164,8 @@ public class TextListTest {
 		
 		assertTrue(node.getNext().getNext().getNext().getNext() == null);
 
+		List<String> wordList = (random.nextBoolean()) ? complexWordList : simpleWordList;
+
 		// Test Random Adding
 		list = new TextList();
 		for(int i = 0; i < 1001; i++) {
@@ -149,17 +185,97 @@ public class TextListTest {
 
 	@Test
 	public void testHowManyWords() {
-		fail("Not yet implemented");
+		for(int i = 0; i < 1000; i++) {
+			TextList list;
+			
+			int thisCounter = random.nextInt(997);
+			String tester = getRandomString(thisCounter);
+			list = new TextList(tester);
+
+			int howManyWords = list.howManyWords();
+			if(thisCounter != howManyWords) {
+				fail(" The original string was: " + tester + " and the counter is " + thisCounter
+						+ " list claims to have " + howManyWords + " words.");
+			}
+		}
 	}
 
 	@Test
 	public void testHowManyDifferentWords() {
-		fail("Not yet implemented");
+		for(int i = 0; i < 1000; i++) {
+			TextList list;
+			
+			int thisCounter = random.nextInt(997);
+			String tester = getRandomString(thisCounter);
+
+			String[] stringSplit = tester.split(" ");
+			
+			Set<String> uniqueWords = new HashSet<String>();
+			
+			if(tester.length() > 0) {
+				for(String s : stringSplit) {
+					uniqueWords.add(s);
+				}
+			}
+			
+			list = new TextList(tester);
+
+			int howManyUniqueWords = list.howManyDifferentWords();
+			
+			if(uniqueWords.size() != howManyUniqueWords) {
+				fail(" The original string was: " + tester + " set says " + uniqueWords.size() + " unique words " 
+						+ " list claims to have " + howManyUniqueWords + " unique words.");
+			}
+		}
 	}
 
 	@Test
 	public void testMostFrequentWord() {
-		fail("Not yet implemented");
+		for(int i = 0; i < 1000; i++) {
+			TextList list;
+			
+			int thisCounter = random.nextInt(997);
+			String tester = getRandomString(thisCounter);
+
+			String[] stringSplit = tester.split(" ");
+			Arrays.sort(stringSplit);
+
+
+			int wordOccur = 0;
+			String word = "";
+
+			if(tester.length() > 0) {
+				String currentWord = "";
+				int currentWordOccur = 0;
+				
+				for(String s : stringSplit) {
+					if(! s.equals(currentWord)) {
+						currentWord = s;
+						currentWordOccur = 1;
+					} else {
+						currentWordOccur++;
+					}
+					
+					if(currentWordOccur > wordOccur) {
+						wordOccur = currentWordOccur;
+						word = currentWord;
+					}
+				}
+			}
+			
+			list = new TextList(tester);
+
+			String listFrequentWord = list.mostFrequentWord();
+			
+			if(tester.length() == 0) {
+				assertTrue(listFrequentWord == null);
+			} else {
+				if(! listFrequentWord.equals(word)) {
+					fail(" The original string was: " + tester + " array frequent word= " + word + " list word " 
+							+ listFrequentWord);
+				}
+			}
+		}
 	}
 
 	@Test
@@ -175,20 +291,23 @@ public class TextListTest {
 		list = new TextList("aaaa aaaa aaaa aaaa aaaa cooo ciii clll ckkk dad");
 		assertTrue(list.mostFrequentStartingLetter() == 'a');
 
-		for(int iii = 0; iii < 1000; iii++) {
+		for(int iii=0; iii<1000; iii++) {
 			// Test Random Adding
 			int thisCounter = random.nextInt(997);
+			String tester = getRandomString(thisCounter);
 			
-			list = new TextList();
-			for(int i = 0; i < thisCounter; i++) {
-				list.addToData(wordList.get(random.nextInt(wordList.size())));
-			}
+			list = new TextList(tester);
+//			for(int i = 0; i < thisCounter; i++) {
+//				list.addToData(wordList.get(random.nextInt(wordList.size())));
+//			}
 			
 			node = useReflectionToRetriveList(list);
 			
 //			System.out.println("=============================================\n" + node.toString());
 			
-			assertTrue(getNumberOfTotalNodes(node) == thisCounter);
+			if(!(getNumberOfTotalNodes(node) == thisCounter)) {
+				fail("thisCounter=" + thisCounter + "tester=" + tester);
+			}
 			
 			char freq = 0;
 			int freqOccur = 0;
@@ -218,7 +337,45 @@ public class TextListTest {
 
 	@Test
 	public void testHowManyStarting() {
-		fail("Not yet implemented");
+		TextList list = null;
+
+		list = new TextList("acc addd aaaa bmmm beee cooo ciii clll ckkk dad");
+		assertTrue(list.mostFrequentStartingLetter() == 'c');
+		
+		assertTrue(list.howManyStarting('a') == 3);
+		assertTrue(list.howManyStarting('b') == 2);
+		assertTrue(list.howManyStarting('c') == 4);
+		assertTrue(list.howManyStarting('d') == 1);
+		
+		for(int i = 0; i < 1000; i++) {
+			int[] charCount = new int[26];
+			Arrays.fill(charCount, 0);
+			
+			int thisCounter = random.nextInt(997);
+			String tester = getRandomString(thisCounter);
+			
+			String[] stringSplit = tester.split(" ");
+			
+			if(tester.length() > 0) {
+				for(String s : stringSplit) {
+					charCount[s.charAt(0)-97]++;
+				}
+			}
+			
+			list = new TextList(tester);
+
+			for(int charId = 0; charId < 26; charId++) {
+				char c = (char)(charId+97);
+				
+				int charCountAt = charCount[charId];
+				int listCountAt = list.howManyStarting(c);
+				if(charCountAt != listCountAt) {
+					fail(c + " is counted to have " + charCountAt + " but list returns " + listCountAt 
+							+ " The original string was: " + tester + " and the counter is " + thisCounter);
+				}
+			}
+		}
+
 	}
 
 	@Test
@@ -227,7 +384,7 @@ public class TextListTest {
 		
 		for(int iii = 0; iii < 10; iii++) {
 			// Test Random Adding
-			int thisCounter = 5;//random.nextInt(1500);
+			int thisCounter = random.nextInt(1500);
 			
 			list = new TextList(getRandomString(thisCounter));
 			
@@ -250,7 +407,11 @@ public class TextListTest {
 	static String getRandomString(int howMuch) {
 		StringBuilder stringBuilder = new StringBuilder();
 		
-		stringBuilder.append(wordList.get(random.nextInt(wordList.size())));
+		// Decide what random list to work with.
+		List<String> wordList = (random.nextBoolean()) ? complexWordList : simpleWordList;
+		
+		if(howMuch > 0)
+			stringBuilder.append(wordList.get(random.nextInt(wordList.size())));
 		for(int i = 1; i < howMuch; i++) {
 			stringBuilder.append(" ").append(wordList.get(random.nextInt(wordList.size())));
 		}
@@ -292,4 +453,22 @@ public class TextListTest {
 		
 		return counter;
 	}
+	
+	
+//	public static class wordList {
+//		static Random random = new Random();
+//		public static String get(int location) {
+//			if(random.nextBoolean()) {
+//				// Working with simple list.
+//				return simpleWordList.get(simpleWordList.size());
+//			} else {
+//				// Working with complex list
+//				return complexWordList.get(complexWordList.size());
+//			}
+//		}
+//		
+//		public static int size() {
+//			return Integer.MAX_VALUE;
+//		}
+//	}
 }
