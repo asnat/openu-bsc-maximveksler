@@ -158,6 +158,7 @@ public class WordNode {
 			else 
 				return 0;
 		else 
+			// Current node character is the same as our searched character.
 			if(_next != null)
 				return getOccurrences() + _next.countContinuessCharOccourencess(c);
 			else

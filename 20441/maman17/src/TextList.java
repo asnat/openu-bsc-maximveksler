@@ -1,9 +1,3 @@
-//////
-///// GENERAL NOTICE, pay attention to situation where more then one possible has been found, 
-////// both in code and in documentation.
-//////
-////// ALSO NOTE THE YOU NEED TO WRITE TIME AND SPACE Complexity of each method !
-/////
 /**
  * List class acting as a wrapper to linked node composing a ordered word list.
  * 
@@ -76,7 +70,10 @@ public class TextList {
 	
 	/**
 	 * Calculate the total number of words in the list.
-	 *  
+	 * 
+	 * The time complexity is O(n)
+	 * The space complexity is O(1)
+	 * 
 	 * @return int representing the number of words contained in the list. If list has no words 0 is returned.
 	 */
 	public int howManyWords() {
@@ -97,6 +94,9 @@ public class TextList {
 	/**
 	 * Calculate the number of different words in the list.
 	 * 
+	 * The time complexity is O(n)
+	 * The space complexity is O(1)
+	 * 
 	 * @return int representing the count of unique words in the list. If list has no words 0 is returned. 
 	 */
 	public int howManyDifferentWords() {
@@ -116,6 +116,9 @@ public class TextList {
 	
 	/**
 	 * Find and return the most frequent word in the list 
+	 * 
+	 * The time complexity is O(n)
+	 * The space complexity is O(1)
 	 * 
 	 * @return String representing the most frequent word contained in this list. If list has not words a null value will be returned.
 	 */
@@ -147,6 +150,9 @@ public class TextList {
 	/**
 	 * Find and return the character that most words start with.
 	 * 
+	 * The time complexity is O(n)
+	 * The space complexity is O(n) because of the recursive nature of the search.
+	 * 
 	 * @return char representing the most popular starting character among list words. If list has no words, char=0 will be returned.
 	 */
 	public char mostFrequentStartingLetter() {
@@ -158,9 +164,11 @@ public class TextList {
 	
 	/**
 	 * Calculate how many words start with given char and return it.
+	 *
+	 * The time complexity is O(n)
+	 * The space complexity is O(n) (becuase of the recursive calls).
 	 * 
 	 * @param letter char representing the requested first char of the words.
-	 * 
 	 * @return int representing how many words have been found that start with the given char.
 	 * 				If no words have been found a value of 0 will be returned.
 	 */
@@ -174,6 +182,9 @@ public class TextList {
 	/**
 	 * Converts the list of words into a single string given in the format:
 	 * ##WORD##\t##NumberOfOccurencessOfThisWord##\n
+	 * 
+	 * The time complexity is O(n)
+	 * The space complexity is O(n) as well.
 	 * 
 	 * @return String representing the list of words in one string by the format described above. If list has no words and empty string will
 	 * 	be returned.
