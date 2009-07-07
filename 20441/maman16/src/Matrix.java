@@ -18,6 +18,8 @@ public class Matrix {
      */
     public boolean find(int x) {
     	//System.out.println("Seeked value: " + x);
+    	
+    	// n is the number of elements in the matrix.
     	int n = getNumberOfRows();
     	
     	// Call boolean recursive search. 
@@ -56,6 +58,7 @@ public class Matrix {
     	
     	//System.out.println("checkpointRow=" + checkpointRow + ", checkpointCol="+ checkpointCol + ")");
     	
+    	// recRow, recCol are used for calculating the next cell to check.
     	int recRow = 0;
     	int recCol = 0;
     	
@@ -127,7 +130,12 @@ public class Matrix {
      * @return int representing found k value, -1 if no such position was found.
      */
     public int isSink() {
-    	// By default boolean arrays are initialized to false
+    	/*
+    	 * We initialize 2 arrays that will hold the state of the rows and the columns.
+    	 * The array are initialized to false, which is defined as an "accepted" state.
+    	 * 
+    	 * The size of each array is at number of rows and the number of columns in the matrix.
+    	 */
     	boolean[] rowsWith1 = new boolean[getNumberOfRows()];
     	boolean[] columnsWith0 = new boolean[getNumberOfColumns()];
 
@@ -166,7 +174,7 @@ public class Matrix {
     	boolean columnValid = true;
     	
     	/*
-    	 * Recursion forced stop condition, we checked all possible sink locations.
+    	 * Recursion forced stop condition: We checked all possible sink locations.
     	 */
     	if(k >= n)
     		return -1;
@@ -204,6 +212,7 @@ public class Matrix {
     	if(rowValid && columnValid) {
     		return k;
     	} else {
+    		// If current k was found to be invalid, we check the next k location. Recursively.
     		return isSink(k+1, rowsWith1, columnsWith0);
     	}
     }
