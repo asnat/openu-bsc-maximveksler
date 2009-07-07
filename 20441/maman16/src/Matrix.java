@@ -157,8 +157,11 @@ public class Matrix {
      * @return int k value if k is found as a valid sink, if no sink found -1. 
      */
     private int isSink(int k, boolean[] rowsWith1, boolean[] columnsWith0) {
+    	// The number of elements in matrix.
     	int n = getNumberOfRows();
     	
+    	// State indicator variables, both should remain true at end of scan
+    	// for current k to be recognized as sink.
     	boolean rowValid = true;
     	boolean columnValid = true;
     	
@@ -170,8 +173,10 @@ public class Matrix {
     	
     	/* 
     	 * If from previous check we found that some row contains a value
-    	 * that conflicts we are requirements we skip to next sink location
-    	 * without verifying any logic at all.
+    	 * that invalidates our sink search requirements we skip to the 
+    	 * next sink location without checking any logic for this row, at all.
+    	 * 
+    	 * This is what provides the performance boost of ~O(n).
     	 */
     	if(rowsWith1[k] == true || columnsWith0[k] == true)
     		return isSink(k+1, rowsWith1, columnsWith0);
