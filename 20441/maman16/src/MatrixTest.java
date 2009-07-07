@@ -68,6 +68,16 @@ public class MatrixTest {
 		}
 	);
 
+	Matrix matrix1Pit = new Matrix(new int[][] {
+			{ 0 }
+		}
+	);
+
+	Matrix matrix1NoPit = new Matrix(new int[][] {
+			{ 1 }
+		}
+	);
+
 	Matrix noPitMatrix = new Matrix(new int[][] {
 			{ 0, 1, 0, 1, 1, 0},
 			{ 1, 0, 1, 1, 0, 0},
@@ -111,5 +121,8 @@ public class MatrixTest {
 		assertTrue(pitAt3Matrix.isSink() == 3);
 		assertTrue(pitAt5Matrix.isSink() == 5);
 		assertTrue(noPitMatrix.isSink() == -1);
+		
+		assertTrue(matrix1Pit.isSink() == 0);
+		assertTrue(matrix1NoPit.isSink() == -1);
 	}
 }
