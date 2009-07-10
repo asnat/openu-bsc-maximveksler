@@ -12,11 +12,6 @@ public class MatrixTest {
 			{2, 4}
 			});
 
-	private Matrix mini1_Matrix = new Matrix(new int[][] {
-			{1, 1},
-			{1, 1}
-			});
-
 	private Matrix mini12_Matrix = new Matrix(new int[][] {
 			{1, 2},
 			{1, 2}
