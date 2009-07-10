@@ -7,18 +7,40 @@ import static org.junit.Assert.*;
 
 
 public class MatrixTest {
-	Matrix miniMatrix = new Matrix(new int[][] {
+	private Matrix miniMatrix = new Matrix(new int[][] {
 			{1, 3},
 			{2, 4}
 			});
 
-	Matrix smallMatrix = new Matrix(new int[][] {
+	private Matrix mini1_Matrix = new Matrix(new int[][] {
+			{1, 1},
+			{1, 1}
+			});
+
+	private Matrix mini12_Matrix = new Matrix(new int[][] {
+			{1, 2},
+			{1, 2}
+			});
+
+	private Matrix mini123_Matrix = new Matrix(new int[][] {
+			{1, 2},
+			{1, 3}
+			});
+
+	private Matrix mini_Matrix = new Matrix(new int[][] {
+			{1, 1, 1, 1},
+			{1, 1, 1 ,1},
+			{1, 1, 1 ,1},
+			{1, 1, 1 ,2},
+			});
+
+	private Matrix smallMatrix = new Matrix(new int[][] {
 			{-4, 2, 13, 22},
 			{-2, 5, 20, 24},
 			{5, 12, 25, 49},
 			{9, 13, 25, 57}});
 	
-	Matrix hugeMatrix = new Matrix(new int[][] {
+	private Matrix hugeMatrix = new Matrix(new int[][] {
 			{ 1, 3, 9, 11, 33, 35, 41, 43, 129, 131, 137, 139, 161, 163, 169, 171 },
 			{ 2, 4, 10, 12, 34, 36, 42, 44, 130, 132, 138, 140, 162, 164, 170, 172 },
 			{ 5, 7, 13, 15, 37, 39, 45, 47, 133, 135, 141, 143, 165, 167, 173, 175 },
@@ -38,7 +60,7 @@ public class MatrixTest {
 		}
 	);
 	
-	Matrix pitAt0Matrix = new Matrix(new int[][] {
+	private Matrix pitAt0Matrix = new Matrix(new int[][] {
 			{ 0, 0, 0, 0, 0, 0},
 			{ 1, 0, 1, 1, 0, 0},
 			{ 1, 0, 0, 1, 0, 1},
@@ -48,7 +70,7 @@ public class MatrixTest {
 		}
 	);
 
-	Matrix pitAt3Matrix = new Matrix(new int[][] {
+	private Matrix pitAt3Matrix = new Matrix(new int[][] {
 			{ 0, 1, 0, 1, 1, 0},
 			{ 1, 0, 1, 1, 0, 0},
 			{ 0, 0, 0, 1, 0, 1},
@@ -58,7 +80,7 @@ public class MatrixTest {
 		}
 	);
 
-	Matrix pitAt5Matrix = new Matrix(new int[][] {
+	private Matrix pitAt5Matrix = new Matrix(new int[][] {
 			{ 0, 1, 0, 1, 1, 1},
 			{ 1, 0, 1, 1, 0, 1},
 			{ 0, 0, 0, 1, 0, 1},
@@ -68,17 +90,17 @@ public class MatrixTest {
 		}
 	);
 
-	Matrix matrix1Pit = new Matrix(new int[][] {
+	private Matrix matrix1Pit = new Matrix(new int[][] {
 			{ 0 }
 		}
 	);
 
-	Matrix matrix1NoPit = new Matrix(new int[][] {
+	private Matrix matrix1NoPit = new Matrix(new int[][] {
 			{ 1 }
 		}
 	);
 
-	Matrix noPitMatrix = new Matrix(new int[][] {
+	private Matrix noPitMatrix = new Matrix(new int[][] {
 			{ 0, 1, 0, 1, 1, 0},
 			{ 1, 0, 1, 1, 0, 0},
 			{ 0, 0, 0, 1, 0, 1},
@@ -113,6 +135,31 @@ public class MatrixTest {
 			else 
 				assertFalse(miniMatrix.find(x));
 		}	
+		
+		assertTrue(mini_Matrix.find(1));
+		assertTrue(mini_Matrix.find(2));
+		assertTrue(mini12_Matrix.find(1));
+		assertTrue(mini12_Matrix.find(2));
+		assertTrue(mini123_Matrix.find(1));
+		assertTrue(mini123_Matrix.find(2));
+		assertTrue(mini123_Matrix.find(3));
+		
+		assertTrue(smallMatrix.find(-4));
+		assertTrue(smallMatrix.find(-2));
+		assertTrue(smallMatrix.find(2));
+		assertTrue(smallMatrix.find(5));
+		assertTrue(smallMatrix.find(12));
+		assertTrue(smallMatrix.find(9));
+		assertTrue(smallMatrix.find(13));
+		assertTrue(smallMatrix.find(22));
+		assertTrue(smallMatrix.find(24));
+		assertTrue(smallMatrix.find(20));
+		assertTrue(smallMatrix.find(25));
+		assertTrue(smallMatrix.find(49));
+		assertTrue(smallMatrix.find(57));
+		assertFalse(smallMatrix.find(58));
+		assertFalse(smallMatrix.find(-3));
+
 	}
 	
 	@Test
