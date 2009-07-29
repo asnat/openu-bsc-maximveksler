@@ -1,0 +1,268 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1255">
+<meta name=Generator content="Microsoft Word 10 (filtered)">
+<title>נראה כמה שיטות שאפשר להגדיר על עצים בינריים:</title>
+
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:David;
+	panose-1:0 0 0 0 0 0 0 0 0 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:right;
+	line-height:150%;
+	direction:rtl;
+	unicode-bidi:embed;
+	font-size:12.0pt;
+	font-family:"Times New Roman";}
+h1
+	{margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	text-align:right;
+	page-break-after:avoid;
+	punctuation-wrap:simple;
+	text-autospace:none;
+	direction:rtl;
+	unicode-bidi:embed;
+	font-size:16.0pt;
+	font-family:Arial;}
+h2
+	{margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	text-align:right;
+	page-break-after:avoid;
+	punctuation-wrap:simple;
+	text-autospace:none;
+	direction:rtl;
+	unicode-bidi:embed;
+	font-size:14.0pt;
+	font-family:Arial;
+	font-style:italic;}
+h3
+	{margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	text-align:right;
+	page-break-after:avoid;
+	punctuation-wrap:simple;
+	text-autospace:none;
+	direction:rtl;
+	unicode-bidi:embed;
+	font-size:13.0pt;
+	font-family:Arial;}
+p.MsoSubtitle, li.MsoSubtitle, div.MsoSubtitle
+	{margin-top:18.0pt;
+	margin-right:0cm;
+	margin-bottom:6.0pt;
+	margin-left:0cm;
+	text-align:justify;
+	line-height:150%;
+	direction:rtl;
+	unicode-bidi:embed;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	font-weight:bold;}
+p.a, li.a, div.a
+	{margin-top:6.0pt;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:0cm;
+	margin-bottom:.0001pt;
+	border:none;
+	padding:0cm;
+	font-size:11.0pt;
+	font-family:"Courier New";}
+@page Section1
+	{size:595.3pt 841.9pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US>
+
+<div class=Section1 dir=RTL>
+
+<p class=MsoNormal dir=RTL style='text-align:justify'><span lang=HE
+style='font-size:11.0pt;line-height:150%;font-family:Arial'>נראה כמה שיטות
+שאפשר להגדיר על עצים בינריים:</span></p>
+
+<p class=MsoNormal dir=RTL style='margin-top:6.0pt;margin-right:1.0cm;
+margin-bottom:6.0pt;margin-left:0cm;text-align:justify;text-indent:-1.0cm'><span
+style='line-height:150%;font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span dir=RTL><span lang=HE style='font-size:11.0pt;line-height:
+150%;font-family:Arial'>השיטה הבאה מקבלת שורש של עץ בינרי וסופרת כמה <b>צמתים</b>
+(קדקודים) יש בעץ. </span></span></p>
+
+<div style='border:solid windowtext 1.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt'>
+
+<p class=a dir=LTR><span style='color:blue'>public static int numOfNodes (BinaryNode
+root)</span></p>
+
+<p class=a dir=LTR><i><span style='color:blue'>// </span></i><i><span lang=HE
+dir=RTL style='font-size:12.0pt;font-family:David;color:blue'>מונה את מספר
+הצמתים בעץ.</span></i></p>
+
+<p class=a dir=LTR><span style='color:blue'>{</span></p>
+
+<p class=a dir=LTR><span style='color:blue'>  if (root == null)</span></p>
+
+<p class=a dir=LTR><span style='color:blue'>    return 0;</span></p>
+
+<p class=a dir=LTR><span style='color:blue'>  return (1 + numOfNodes(root._left)
++ </span></p>
+
+<p class=a dir=LTR><span style='color:blue'>              numOfNodes(root._right));</span></p>
+
+<p class=a dir=LTR><span style='color:blue'>}</span></p>
+
+</div>
+
+<p class=MsoNormal dir=RTL style='margin-top:6.0pt;margin-right:0cm;margin-bottom:
+6.0pt;margin-left:0cm;text-align:justify'><span dir=LTR style='color:blue'>&nbsp;</span></p>
+
+<p class=MsoNormal dir=RTL style='margin-top:6.0pt;margin-right:1.0cm;
+margin-bottom:6.0pt;margin-left:0cm;text-align:justify;text-indent:-1.0cm'><span
+style='line-height:150%;font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span dir=RTL><span lang=HE style='font-size:11.0pt;line-height:
+150%;font-family:Arial'>השיטה הבאה מקבלת שורש של עץ בינרי וסופרת כמה עלים יש
+בעץ. </span></span></p>
+
+<div style='border:solid windowtext 1.0pt;padding:4.0pt 4.0pt 4.0pt 5.0pt'>
+
+<p class=a dir=LTR style='border:none;padding:0cm'><span style='color:blue'>public
+static int numOfLeaves (BinaryNode root)</span></p>
+
+<p class=a dir=LTR style='border:none;padding:0cm'><i><span style='color:blue'>//
+</span></i><i><span lang=HE dir=RTL style='font-size:12.0pt;font-family:David;
+color:blue'>מונה את מספר העלים בעץ</span></i></p>
+
+<p class=a dir=LTR style='border:none;padding:0cm'><span style='color:blue'>{</span></p>
+
+<p class=a dir=LTR style='border:none;padding:0cm'><span style='color:blue'>  if
+(root == NULL)</span></p>
+
+<p class=a dir=LTR style='border:none;padding:0cm'><span style='color:blue'>   
+return 0;</span></p>
+
+<p class=a dir=LTR style='border:none;padding:0cm'><span style='color:blue'>  if
+((root._left == NULL) &amp;&amp; (root._right == NULL))</span></p>
+
+<p class=a dir=LTR style='border:none;padding:0cm'><span style='color:blue'>   
+return 1;</span></p>
+
+<p class=a dir=LTR style='border:none;padding:0cm'><span style='color:blue'>  return
+(numOfLeaves(root._left) + </span></p>
+
+<p class=a dir=LTR style='border:none;padding:0cm'><span style='color:blue'>         
+numOfLleaves (root._right));</span></p>
+
+<p class=a dir=LTR style='border:none;padding:0cm'><span style='color:blue'>}</span></p>
+
+</div>
+
+<p class=MsoNormal dir=RTL style='margin-top:6.0pt;margin-right:0cm;margin-bottom:
+6.0pt;margin-left:0cm;text-align:justify'><span lang=HE style='font-size:11.0pt;
+line-height:150%;font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal dir=RTL style='margin-top:6.0pt;margin-right:1.0cm;
+margin-bottom:6.0pt;margin-left:0cm;text-align:justify;text-indent:-1.0cm'><span
+style='line-height:150%;font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span dir=RTL><span lang=HE style='font-size:11.0pt;line-height:
+150%;font-family:Arial'>השיטה הבאה מקבלת צומת (קדקוד) ובודקת אם הוא עלה.</span></span></p>
+
+<div style='border:solid windowtext 1.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt'>
+
+<p class=a dir=LTR><span style='color:blue'>public static int isLeaf (BinaryNode
+current)</span></p>
+
+<p class=a dir=LTR><i><span style='color:blue'>// </span></i><i><span lang=HE
+dir=RTL style='font-size:12.0pt;font-family:David;color:blue'>מקבל צומת ומחזיר
+תשובה אם הוא עלה</span></i></p>
+
+<p class=a dir=LTR><span style='color:blue'>{</span></p>
+
+<p class=a dir=LTR><span style='color:blue'>  return ((current._left == null)
+&amp;&amp; (current.right == null));</span></p>
+
+<p class=a dir=LTR><span style='color:blue'>}</span></p>
+
+</div>
+
+<p class=MsoNormal dir=RTL style='margin-top:6.0pt;margin-right:0cm;margin-bottom:
+6.0pt;margin-left:0cm;text-align:justify'><b><span dir=LTR style='color:blue'>&nbsp;</span></b></p>
+
+<p class=MsoNormal dir=RTL style='margin-top:6.0pt;margin-right:1.0cm;
+margin-bottom:6.0pt;margin-left:0cm;text-align:justify;text-indent:-1.0cm'><span
+style='line-height:150%;font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span dir=RTL><span lang=HE style='font-size:11.0pt;line-height:
+150%;font-family:Arial'>בהנחה שטיפוס הנתונים שמאוחסן בעץ הבינרי הוא מספרים
+שלמים, השיטה הבאה מקבלת שורש של עץ בינרי ומספר שלם, ובודקת האם המספר נמצא בעץ. כלומר,
+</span></span><span dir=LTR style='font-size:11.0pt;line-height:150%;
+font-family:Arial'>ProblemData</span><span dir=RTL></span><span lang=HE
+style='font-size:11.0pt;line-height:150%;font-family:Arial'><span dir=RTL></span>
+הוא </span><span dir=LTR style='font-size:11.0pt;line-height:150%;font-family:
+Arial'>int</span></p>
+
+<div style='border:solid windowtext 1.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt'>
+
+<p class=a dir=LTR><span style='color:blue'>public static int isInTree (BinaryNode
+current, int num)</span></p>
+
+<p class=a dir=LTR><i><span style='color:blue'>// </span></i><i><span lang=HE
+dir=RTL style='font-size:12.0pt;font-family:David;color:blue'>מקבל מספר ועץ (לא
+ממוין) ומחזיר תשובה אם המספר נמצא בעץ</span></i></p>
+
+<p class=a dir=LTR><span style='color:blue'>{</span></p>
+
+<p class=a dir=LTR><span style='color:blue'>  if (current == null)</span></p>
+
+<p class=a dir=LTR><span style='color:blue'>     return 0;</span></p>
+
+<p class=a dir=LTR><span style='color:blue'>&nbsp;</span></p>
+
+<p class=a dir=LTR><span style='color:blue'>  if (current._data == num)</span></p>
+
+<p class=a dir=LTR><span style='color:blue'>     return 1;</span></p>
+
+<p class=a dir=LTR><span style='color:blue'>&nbsp;</span></p>
+
+<p class=a dir=LTR><span style='color:blue'>  return (isInTree (current._left, num))
+|| </span></p>
+
+<p class=a dir=LTR><span style='color:blue'>         (isInTree (current._right,
+num));</span></p>
+
+<p class=a dir=LTR><span style='color:blue'>}</span></p>
+
+</div>
+
+<p class=MsoNormal dir=RTL><span dir=LTR>&nbsp;</span></p>
+
+</div>
+
+</body>
+
+</html>
