@@ -30,17 +30,10 @@ public class Stack {
 	 * 			is undefined.
 	 */
 	public int pop() {
-		if(!empty()) {
-			int retValue = _head.getValue();
-			// Update the reference to the next element in the list because this one is being poped.
-			_head = _head.getNext();
-			return retValue;
-		} else {
-			// Undefined operation, by specifications...
-			
-			// throw new RuntimeException()...
-			return Integer.MIN_VALUE;
-		}
+		int retValue = _head.getValue();
+		// Update the reference to the next element in the list because this one is being poped.
+		_head = _head.getNext();
+		return retValue;
 	}
 	
 	/**
@@ -50,14 +43,7 @@ public class Stack {
 	 * 			is undefined.
 	 */
 	public int top() {
-		if(!empty()) {
-			return _head.getValue();
-		} else {
-			// Undefined operation, by specifications...
-	
-			// throw new RuntimeException()...
-			return Integer.MIN_VALUE;
-		}
+		return _head.getValue();
 	}
 	
 	/**
@@ -67,5 +53,4 @@ public class Stack {
 	public boolean empty() {
 		return _head == null;
 	}
-
 }

@@ -21,12 +21,18 @@ public class BinaryTree {
 		if(node == null)
 			return 0;
 		
+		// At first we assume that the benefit from this node is 0.
 		int addedSumFromThisNode = 0;
 		if(node.getNumber() > n)
+			// Then if we find it to be a profitable node, we simply assign 
+			// addedSumFromThisNode his cost, addedSumFromThisNode is used in the final 
+			// calculation to return the cost of this node.
 			addedSumFromThisNode = node.getNumber();
 		
-		// Recursive call with back tracking of the values.
-		return sumOfBiggerThan(node.getRightSon(), n) + sumOfBiggerThan(node.getLeftSon(), n) + addedSumFromThisNode;
+		// Recursive calculation call.
+		return sumOfBiggerThan(node.getRightSon(), n) 
+				+ sumOfBiggerThan(node.getLeftSon(), n) 
+				+ addedSumFromThisNode;
 	}
 
 	
