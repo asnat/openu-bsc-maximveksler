@@ -10,19 +10,19 @@ public class TestMatrix extends TestCase {
 	}
 
 	public void testNumberOfRows() {
-		fail("Not yet implemented"); // TODO
+		fail("Not yet implemented"); 
 	}
 
 	public void testNumberOfColumns() {
-		fail("Not yet implemented"); // TODO
+		fail("Not yet implemented");
 	}
 
 	public void testGetElement() {
-		fail("Not yet implemented"); // TODO
+		fail("Not yet implemented");
 	}
 
 	public void testPrintMatrix() {
-		fail("Not yet implemented"); // TODO
+		fail("Not yet implemented"); 
 	}
 
 	public void testMatrixMultiply() {
