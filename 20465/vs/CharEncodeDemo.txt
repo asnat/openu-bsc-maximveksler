@@ -1,0 +1,1554 @@
+EXAMPLE: Doing plus(+) / minus(-) operations on 8 bit signed & unsigned variables
+This examples shows are 2's complement, how signed variables are treated via the compiler vs the binary format.
+
+unsigned char uChar = 0;
+signed char sChar = 0;
+
+================================================================================
+======= PLUS(+) on uChar, sChar  ===============================================
+================================================================================
+
+======= +1 ====
+	uChar = hex:        1, dec =    1, bin =        1
+	sChar = hex:        1, dec =    1, bin =        1
+======= +2 ====
+	uChar = hex:        2, dec =    2, bin =       10
+	sChar = hex:        2, dec =    2, bin =       10
+======= +3 ====
+	uChar = hex:        3, dec =    3, bin =       11
+	sChar = hex:        3, dec =    3, bin =       11
+======= +4 ====
+	uChar = hex:        4, dec =    4, bin =      100
+	sChar = hex:        4, dec =    4, bin =      100
+======= +5 ====
+	uChar = hex:        5, dec =    5, bin =      101
+	sChar = hex:        5, dec =    5, bin =      101
+======= +6 ====
+	uChar = hex:        6, dec =    6, bin =      110
+	sChar = hex:        6, dec =    6, bin =      110
+======= +7 ====
+	uChar = hex:        7, dec =    7, bin =      111
+	sChar = hex:        7, dec =    7, bin =      111
+======= +8 ====
+	uChar = hex:        8, dec =    8, bin =     1000
+	sChar = hex:        8, dec =    8, bin =     1000
+======= +9 ====
+	uChar = hex:        9, dec =    9, bin =     1001
+	sChar = hex:        9, dec =    9, bin =     1001
+======= +10 ====
+	uChar = hex:        a, dec =   10, bin =     1010
+	sChar = hex:        a, dec =   10, bin =     1010
+======= +11 ====
+	uChar = hex:        b, dec =   11, bin =     1011
+	sChar = hex:        b, dec =   11, bin =     1011
+======= +12 ====
+	uChar = hex:        c, dec =   12, bin =     1100
+	sChar = hex:        c, dec =   12, bin =     1100
+======= +13 ====
+	uChar = hex:        d, dec =   13, bin =     1101
+	sChar = hex:        d, dec =   13, bin =     1101
+======= +14 ====
+	uChar = hex:        e, dec =   14, bin =     1110
+	sChar = hex:        e, dec =   14, bin =     1110
+======= +15 ====
+	uChar = hex:        f, dec =   15, bin =     1111
+	sChar = hex:        f, dec =   15, bin =     1111
+======= +16 ====
+	uChar = hex:       10, dec =   16, bin =    10000
+	sChar = hex:       10, dec =   16, bin =    10000
+======= +17 ====
+	uChar = hex:       11, dec =   17, bin =    10001
+	sChar = hex:       11, dec =   17, bin =    10001
+======= +18 ====
+	uChar = hex:       12, dec =   18, bin =    10010
+	sChar = hex:       12, dec =   18, bin =    10010
+======= +19 ====
+	uChar = hex:       13, dec =   19, bin =    10011
+	sChar = hex:       13, dec =   19, bin =    10011
+======= +20 ====
+	uChar = hex:       14, dec =   20, bin =    10100
+	sChar = hex:       14, dec =   20, bin =    10100
+======= +21 ====
+	uChar = hex:       15, dec =   21, bin =    10101
+	sChar = hex:       15, dec =   21, bin =    10101
+======= +22 ====
+	uChar = hex:       16, dec =   22, bin =    10110
+	sChar = hex:       16, dec =   22, bin =    10110
+======= +23 ====
+	uChar = hex:       17, dec =   23, bin =    10111
+	sChar = hex:       17, dec =   23, bin =    10111
+======= +24 ====
+	uChar = hex:       18, dec =   24, bin =    11000
+	sChar = hex:       18, dec =   24, bin =    11000
+======= +25 ====
+	uChar = hex:       19, dec =   25, bin =    11001
+	sChar = hex:       19, dec =   25, bin =    11001
+======= +26 ====
+	uChar = hex:       1a, dec =   26, bin =    11010
+	sChar = hex:       1a, dec =   26, bin =    11010
+======= +27 ====
+	uChar = hex:       1b, dec =   27, bin =    11011
+	sChar = hex:       1b, dec =   27, bin =    11011
+======= +28 ====
+	uChar = hex:       1c, dec =   28, bin =    11100
+	sChar = hex:       1c, dec =   28, bin =    11100
+======= +29 ====
+	uChar = hex:       1d, dec =   29, bin =    11101
+	sChar = hex:       1d, dec =   29, bin =    11101
+======= +30 ====
+	uChar = hex:       1e, dec =   30, bin =    11110
+	sChar = hex:       1e, dec =   30, bin =    11110
+======= +31 ====
+	uChar = hex:       1f, dec =   31, bin =    11111
+	sChar = hex:       1f, dec =   31, bin =    11111
+======= +32 ====
+	uChar = hex:       20, dec =   32, bin =   100000
+	sChar = hex:       20, dec =   32, bin =   100000
+======= +33 ====
+	uChar = hex:       21, dec =   33, bin =   100001
+	sChar = hex:       21, dec =   33, bin =   100001
+======= +34 ====
+	uChar = hex:       22, dec =   34, bin =   100010
+	sChar = hex:       22, dec =   34, bin =   100010
+======= +35 ====
+	uChar = hex:       23, dec =   35, bin =   100011
+	sChar = hex:       23, dec =   35, bin =   100011
+======= +36 ====
+	uChar = hex:       24, dec =   36, bin =   100100
+	sChar = hex:       24, dec =   36, bin =   100100
+======= +37 ====
+	uChar = hex:       25, dec =   37, bin =   100101
+	sChar = hex:       25, dec =   37, bin =   100101
+======= +38 ====
+	uChar = hex:       26, dec =   38, bin =   100110
+	sChar = hex:       26, dec =   38, bin =   100110
+======= +39 ====
+	uChar = hex:       27, dec =   39, bin =   100111
+	sChar = hex:       27, dec =   39, bin =   100111
+======= +40 ====
+	uChar = hex:       28, dec =   40, bin =   101000
+	sChar = hex:       28, dec =   40, bin =   101000
+======= +41 ====
+	uChar = hex:       29, dec =   41, bin =   101001
+	sChar = hex:       29, dec =   41, bin =   101001
+======= +42 ====
+	uChar = hex:       2a, dec =   42, bin =   101010
+	sChar = hex:       2a, dec =   42, bin =   101010
+======= +43 ====
+	uChar = hex:       2b, dec =   43, bin =   101011
+	sChar = hex:       2b, dec =   43, bin =   101011
+======= +44 ====
+	uChar = hex:       2c, dec =   44, bin =   101100
+	sChar = hex:       2c, dec =   44, bin =   101100
+======= +45 ====
+	uChar = hex:       2d, dec =   45, bin =   101101
+	sChar = hex:       2d, dec =   45, bin =   101101
+======= +46 ====
+	uChar = hex:       2e, dec =   46, bin =   101110
+	sChar = hex:       2e, dec =   46, bin =   101110
+======= +47 ====
+	uChar = hex:       2f, dec =   47, bin =   101111
+	sChar = hex:       2f, dec =   47, bin =   101111
+======= +48 ====
+	uChar = hex:       30, dec =   48, bin =   110000
+	sChar = hex:       30, dec =   48, bin =   110000
+======= +49 ====
+	uChar = hex:       31, dec =   49, bin =   110001
+	sChar = hex:       31, dec =   49, bin =   110001
+======= +50 ====
+	uChar = hex:       32, dec =   50, bin =   110010
+	sChar = hex:       32, dec =   50, bin =   110010
+======= +51 ====
+	uChar = hex:       33, dec =   51, bin =   110011
+	sChar = hex:       33, dec =   51, bin =   110011
+======= +52 ====
+	uChar = hex:       34, dec =   52, bin =   110100
+	sChar = hex:       34, dec =   52, bin =   110100
+======= +53 ====
+	uChar = hex:       35, dec =   53, bin =   110101
+	sChar = hex:       35, dec =   53, bin =   110101
+======= +54 ====
+	uChar = hex:       36, dec =   54, bin =   110110
+	sChar = hex:       36, dec =   54, bin =   110110
+======= +55 ====
+	uChar = hex:       37, dec =   55, bin =   110111
+	sChar = hex:       37, dec =   55, bin =   110111
+======= +56 ====
+	uChar = hex:       38, dec =   56, bin =   111000
+	sChar = hex:       38, dec =   56, bin =   111000
+======= +57 ====
+	uChar = hex:       39, dec =   57, bin =   111001
+	sChar = hex:       39, dec =   57, bin =   111001
+======= +58 ====
+	uChar = hex:       3a, dec =   58, bin =   111010
+	sChar = hex:       3a, dec =   58, bin =   111010
+======= +59 ====
+	uChar = hex:       3b, dec =   59, bin =   111011
+	sChar = hex:       3b, dec =   59, bin =   111011
+======= +60 ====
+	uChar = hex:       3c, dec =   60, bin =   111100
+	sChar = hex:       3c, dec =   60, bin =   111100
+======= +61 ====
+	uChar = hex:       3d, dec =   61, bin =   111101
+	sChar = hex:       3d, dec =   61, bin =   111101
+======= +62 ====
+	uChar = hex:       3e, dec =   62, bin =   111110
+	sChar = hex:       3e, dec =   62, bin =   111110
+======= +63 ====
+	uChar = hex:       3f, dec =   63, bin =   111111
+	sChar = hex:       3f, dec =   63, bin =   111111
+======= +64 ====
+	uChar = hex:       40, dec =   64, bin =  1000000
+	sChar = hex:       40, dec =   64, bin =  1000000
+======= +65 ====
+	uChar = hex:       41, dec =   65, bin =  1000001
+	sChar = hex:       41, dec =   65, bin =  1000001
+======= +66 ====
+	uChar = hex:       42, dec =   66, bin =  1000010
+	sChar = hex:       42, dec =   66, bin =  1000010
+======= +67 ====
+	uChar = hex:       43, dec =   67, bin =  1000011
+	sChar = hex:       43, dec =   67, bin =  1000011
+======= +68 ====
+	uChar = hex:       44, dec =   68, bin =  1000100
+	sChar = hex:       44, dec =   68, bin =  1000100
+======= +69 ====
+	uChar = hex:       45, dec =   69, bin =  1000101
+	sChar = hex:       45, dec =   69, bin =  1000101
+======= +70 ====
+	uChar = hex:       46, dec =   70, bin =  1000110
+	sChar = hex:       46, dec =   70, bin =  1000110
+======= +71 ====
+	uChar = hex:       47, dec =   71, bin =  1000111
+	sChar = hex:       47, dec =   71, bin =  1000111
+======= +72 ====
+	uChar = hex:       48, dec =   72, bin =  1001000
+	sChar = hex:       48, dec =   72, bin =  1001000
+======= +73 ====
+	uChar = hex:       49, dec =   73, bin =  1001001
+	sChar = hex:       49, dec =   73, bin =  1001001
+======= +74 ====
+	uChar = hex:       4a, dec =   74, bin =  1001010
+	sChar = hex:       4a, dec =   74, bin =  1001010
+======= +75 ====
+	uChar = hex:       4b, dec =   75, bin =  1001011
+	sChar = hex:       4b, dec =   75, bin =  1001011
+======= +76 ====
+	uChar = hex:       4c, dec =   76, bin =  1001100
+	sChar = hex:       4c, dec =   76, bin =  1001100
+======= +77 ====
+	uChar = hex:       4d, dec =   77, bin =  1001101
+	sChar = hex:       4d, dec =   77, bin =  1001101
+======= +78 ====
+	uChar = hex:       4e, dec =   78, bin =  1001110
+	sChar = hex:       4e, dec =   78, bin =  1001110
+======= +79 ====
+	uChar = hex:       4f, dec =   79, bin =  1001111
+	sChar = hex:       4f, dec =   79, bin =  1001111
+======= +80 ====
+	uChar = hex:       50, dec =   80, bin =  1010000
+	sChar = hex:       50, dec =   80, bin =  1010000
+======= +81 ====
+	uChar = hex:       51, dec =   81, bin =  1010001
+	sChar = hex:       51, dec =   81, bin =  1010001
+======= +82 ====
+	uChar = hex:       52, dec =   82, bin =  1010010
+	sChar = hex:       52, dec =   82, bin =  1010010
+======= +83 ====
+	uChar = hex:       53, dec =   83, bin =  1010011
+	sChar = hex:       53, dec =   83, bin =  1010011
+======= +84 ====
+	uChar = hex:       54, dec =   84, bin =  1010100
+	sChar = hex:       54, dec =   84, bin =  1010100
+======= +85 ====
+	uChar = hex:       55, dec =   85, bin =  1010101
+	sChar = hex:       55, dec =   85, bin =  1010101
+======= +86 ====
+	uChar = hex:       56, dec =   86, bin =  1010110
+	sChar = hex:       56, dec =   86, bin =  1010110
+======= +87 ====
+	uChar = hex:       57, dec =   87, bin =  1010111
+	sChar = hex:       57, dec =   87, bin =  1010111
+======= +88 ====
+	uChar = hex:       58, dec =   88, bin =  1011000
+	sChar = hex:       58, dec =   88, bin =  1011000
+======= +89 ====
+	uChar = hex:       59, dec =   89, bin =  1011001
+	sChar = hex:       59, dec =   89, bin =  1011001
+======= +90 ====
+	uChar = hex:       5a, dec =   90, bin =  1011010
+	sChar = hex:       5a, dec =   90, bin =  1011010
+======= +91 ====
+	uChar = hex:       5b, dec =   91, bin =  1011011
+	sChar = hex:       5b, dec =   91, bin =  1011011
+======= +92 ====
+	uChar = hex:       5c, dec =   92, bin =  1011100
+	sChar = hex:       5c, dec =   92, bin =  1011100
+======= +93 ====
+	uChar = hex:       5d, dec =   93, bin =  1011101
+	sChar = hex:       5d, dec =   93, bin =  1011101
+======= +94 ====
+	uChar = hex:       5e, dec =   94, bin =  1011110
+	sChar = hex:       5e, dec =   94, bin =  1011110
+======= +95 ====
+	uChar = hex:       5f, dec =   95, bin =  1011111
+	sChar = hex:       5f, dec =   95, bin =  1011111
+======= +96 ====
+	uChar = hex:       60, dec =   96, bin =  1100000
+	sChar = hex:       60, dec =   96, bin =  1100000
+======= +97 ====
+	uChar = hex:       61, dec =   97, bin =  1100001
+	sChar = hex:       61, dec =   97, bin =  1100001
+======= +98 ====
+	uChar = hex:       62, dec =   98, bin =  1100010
+	sChar = hex:       62, dec =   98, bin =  1100010
+======= +99 ====
+	uChar = hex:       63, dec =   99, bin =  1100011
+	sChar = hex:       63, dec =   99, bin =  1100011
+======= +100 ====
+	uChar = hex:       64, dec =  100, bin =  1100100
+	sChar = hex:       64, dec =  100, bin =  1100100
+======= +101 ====
+	uChar = hex:       65, dec =  101, bin =  1100101
+	sChar = hex:       65, dec =  101, bin =  1100101
+======= +102 ====
+	uChar = hex:       66, dec =  102, bin =  1100110
+	sChar = hex:       66, dec =  102, bin =  1100110
+======= +103 ====
+	uChar = hex:       67, dec =  103, bin =  1100111
+	sChar = hex:       67, dec =  103, bin =  1100111
+======= +104 ====
+	uChar = hex:       68, dec =  104, bin =  1101000
+	sChar = hex:       68, dec =  104, bin =  1101000
+======= +105 ====
+	uChar = hex:       69, dec =  105, bin =  1101001
+	sChar = hex:       69, dec =  105, bin =  1101001
+======= +106 ====
+	uChar = hex:       6a, dec =  106, bin =  1101010
+	sChar = hex:       6a, dec =  106, bin =  1101010
+======= +107 ====
+	uChar = hex:       6b, dec =  107, bin =  1101011
+	sChar = hex:       6b, dec =  107, bin =  1101011
+======= +108 ====
+	uChar = hex:       6c, dec =  108, bin =  1101100
+	sChar = hex:       6c, dec =  108, bin =  1101100
+======= +109 ====
+	uChar = hex:       6d, dec =  109, bin =  1101101
+	sChar = hex:       6d, dec =  109, bin =  1101101
+======= +110 ====
+	uChar = hex:       6e, dec =  110, bin =  1101110
+	sChar = hex:       6e, dec =  110, bin =  1101110
+======= +111 ====
+	uChar = hex:       6f, dec =  111, bin =  1101111
+	sChar = hex:       6f, dec =  111, bin =  1101111
+======= +112 ====
+	uChar = hex:       70, dec =  112, bin =  1110000
+	sChar = hex:       70, dec =  112, bin =  1110000
+======= +113 ====
+	uChar = hex:       71, dec =  113, bin =  1110001
+	sChar = hex:       71, dec =  113, bin =  1110001
+======= +114 ====
+	uChar = hex:       72, dec =  114, bin =  1110010
+	sChar = hex:       72, dec =  114, bin =  1110010
+======= +115 ====
+	uChar = hex:       73, dec =  115, bin =  1110011
+	sChar = hex:       73, dec =  115, bin =  1110011
+======= +116 ====
+	uChar = hex:       74, dec =  116, bin =  1110100
+	sChar = hex:       74, dec =  116, bin =  1110100
+======= +117 ====
+	uChar = hex:       75, dec =  117, bin =  1110101
+	sChar = hex:       75, dec =  117, bin =  1110101
+======= +118 ====
+	uChar = hex:       76, dec =  118, bin =  1110110
+	sChar = hex:       76, dec =  118, bin =  1110110
+======= +119 ====
+	uChar = hex:       77, dec =  119, bin =  1110111
+	sChar = hex:       77, dec =  119, bin =  1110111
+======= +120 ====
+	uChar = hex:       78, dec =  120, bin =  1111000
+	sChar = hex:       78, dec =  120, bin =  1111000
+======= +121 ====
+	uChar = hex:       79, dec =  121, bin =  1111001
+	sChar = hex:       79, dec =  121, bin =  1111001
+======= +122 ====
+	uChar = hex:       7a, dec =  122, bin =  1111010
+	sChar = hex:       7a, dec =  122, bin =  1111010
+======= +123 ====
+	uChar = hex:       7b, dec =  123, bin =  1111011
+	sChar = hex:       7b, dec =  123, bin =  1111011
+======= +124 ====
+	uChar = hex:       7c, dec =  124, bin =  1111100
+	sChar = hex:       7c, dec =  124, bin =  1111100
+======= +125 ====
+	uChar = hex:       7d, dec =  125, bin =  1111101
+	sChar = hex:       7d, dec =  125, bin =  1111101
+======= +126 ====
+	uChar = hex:       7e, dec =  126, bin =  1111110
+	sChar = hex:       7e, dec =  126, bin =  1111110
+======= +127 ====
+	uChar = hex:       7f, dec =  127, bin =  1111111
+	sChar = hex:       7f, dec =  127, bin =  1111111
+======= +128 ====
+	uChar = hex:       80, dec =  128, bin = 10000000
+	sChar = hex: ffffff80, dec = -128, bin = 10000000
+======= +129 ====
+	uChar = hex:       81, dec =  129, bin = 10000001
+	sChar = hex: ffffff81, dec = -127, bin = 10000001
+======= +130 ====
+	uChar = hex:       82, dec =  130, bin = 10000010
+	sChar = hex: ffffff82, dec = -126, bin = 10000010
+======= +131 ====
+	uChar = hex:       83, dec =  131, bin = 10000011
+	sChar = hex: ffffff83, dec = -125, bin = 10000011
+======= +132 ====
+	uChar = hex:       84, dec =  132, bin = 10000100
+	sChar = hex: ffffff84, dec = -124, bin = 10000100
+======= +133 ====
+	uChar = hex:       85, dec =  133, bin = 10000101
+	sChar = hex: ffffff85, dec = -123, bin = 10000101
+======= +134 ====
+	uChar = hex:       86, dec =  134, bin = 10000110
+	sChar = hex: ffffff86, dec = -122, bin = 10000110
+======= +135 ====
+	uChar = hex:       87, dec =  135, bin = 10000111
+	sChar = hex: ffffff87, dec = -121, bin = 10000111
+======= +136 ====
+	uChar = hex:       88, dec =  136, bin = 10001000
+	sChar = hex: ffffff88, dec = -120, bin = 10001000
+======= +137 ====
+	uChar = hex:       89, dec =  137, bin = 10001001
+	sChar = hex: ffffff89, dec = -119, bin = 10001001
+======= +138 ====
+	uChar = hex:       8a, dec =  138, bin = 10001010
+	sChar = hex: ffffff8a, dec = -118, bin = 10001010
+======= +139 ====
+	uChar = hex:       8b, dec =  139, bin = 10001011
+	sChar = hex: ffffff8b, dec = -117, bin = 10001011
+======= +140 ====
+	uChar = hex:       8c, dec =  140, bin = 10001100
+	sChar = hex: ffffff8c, dec = -116, bin = 10001100
+======= +141 ====
+	uChar = hex:       8d, dec =  141, bin = 10001101
+	sChar = hex: ffffff8d, dec = -115, bin = 10001101
+======= +142 ====
+	uChar = hex:       8e, dec =  142, bin = 10001110
+	sChar = hex: ffffff8e, dec = -114, bin = 10001110
+======= +143 ====
+	uChar = hex:       8f, dec =  143, bin = 10001111
+	sChar = hex: ffffff8f, dec = -113, bin = 10001111
+======= +144 ====
+	uChar = hex:       90, dec =  144, bin = 10010000
+	sChar = hex: ffffff90, dec = -112, bin = 10010000
+======= +145 ====
+	uChar = hex:       91, dec =  145, bin = 10010001
+	sChar = hex: ffffff91, dec = -111, bin = 10010001
+======= +146 ====
+	uChar = hex:       92, dec =  146, bin = 10010010
+	sChar = hex: ffffff92, dec = -110, bin = 10010010
+======= +147 ====
+	uChar = hex:       93, dec =  147, bin = 10010011
+	sChar = hex: ffffff93, dec = -109, bin = 10010011
+======= +148 ====
+	uChar = hex:       94, dec =  148, bin = 10010100
+	sChar = hex: ffffff94, dec = -108, bin = 10010100
+======= +149 ====
+	uChar = hex:       95, dec =  149, bin = 10010101
+	sChar = hex: ffffff95, dec = -107, bin = 10010101
+======= +150 ====
+	uChar = hex:       96, dec =  150, bin = 10010110
+	sChar = hex: ffffff96, dec = -106, bin = 10010110
+======= +151 ====
+	uChar = hex:       97, dec =  151, bin = 10010111
+	sChar = hex: ffffff97, dec = -105, bin = 10010111
+======= +152 ====
+	uChar = hex:       98, dec =  152, bin = 10011000
+	sChar = hex: ffffff98, dec = -104, bin = 10011000
+======= +153 ====
+	uChar = hex:       99, dec =  153, bin = 10011001
+	sChar = hex: ffffff99, dec = -103, bin = 10011001
+======= +154 ====
+	uChar = hex:       9a, dec =  154, bin = 10011010
+	sChar = hex: ffffff9a, dec = -102, bin = 10011010
+======= +155 ====
+	uChar = hex:       9b, dec =  155, bin = 10011011
+	sChar = hex: ffffff9b, dec = -101, bin = 10011011
+======= +156 ====
+	uChar = hex:       9c, dec =  156, bin = 10011100
+	sChar = hex: ffffff9c, dec = -100, bin = 10011100
+======= +157 ====
+	uChar = hex:       9d, dec =  157, bin = 10011101
+	sChar = hex: ffffff9d, dec =  -99, bin = 10011101
+======= +158 ====
+	uChar = hex:       9e, dec =  158, bin = 10011110
+	sChar = hex: ffffff9e, dec =  -98, bin = 10011110
+======= +159 ====
+	uChar = hex:       9f, dec =  159, bin = 10011111
+	sChar = hex: ffffff9f, dec =  -97, bin = 10011111
+======= +160 ====
+	uChar = hex:       a0, dec =  160, bin = 10100000
+	sChar = hex: ffffffa0, dec =  -96, bin = 10100000
+======= +161 ====
+	uChar = hex:       a1, dec =  161, bin = 10100001
+	sChar = hex: ffffffa1, dec =  -95, bin = 10100001
+======= +162 ====
+	uChar = hex:       a2, dec =  162, bin = 10100010
+	sChar = hex: ffffffa2, dec =  -94, bin = 10100010
+======= +163 ====
+	uChar = hex:       a3, dec =  163, bin = 10100011
+	sChar = hex: ffffffa3, dec =  -93, bin = 10100011
+======= +164 ====
+	uChar = hex:       a4, dec =  164, bin = 10100100
+	sChar = hex: ffffffa4, dec =  -92, bin = 10100100
+======= +165 ====
+	uChar = hex:       a5, dec =  165, bin = 10100101
+	sChar = hex: ffffffa5, dec =  -91, bin = 10100101
+======= +166 ====
+	uChar = hex:       a6, dec =  166, bin = 10100110
+	sChar = hex: ffffffa6, dec =  -90, bin = 10100110
+======= +167 ====
+	uChar = hex:       a7, dec =  167, bin = 10100111
+	sChar = hex: ffffffa7, dec =  -89, bin = 10100111
+======= +168 ====
+	uChar = hex:       a8, dec =  168, bin = 10101000
+	sChar = hex: ffffffa8, dec =  -88, bin = 10101000
+======= +169 ====
+	uChar = hex:       a9, dec =  169, bin = 10101001
+	sChar = hex: ffffffa9, dec =  -87, bin = 10101001
+======= +170 ====
+	uChar = hex:       aa, dec =  170, bin = 10101010
+	sChar = hex: ffffffaa, dec =  -86, bin = 10101010
+======= +171 ====
+	uChar = hex:       ab, dec =  171, bin = 10101011
+	sChar = hex: ffffffab, dec =  -85, bin = 10101011
+======= +172 ====
+	uChar = hex:       ac, dec =  172, bin = 10101100
+	sChar = hex: ffffffac, dec =  -84, bin = 10101100
+======= +173 ====
+	uChar = hex:       ad, dec =  173, bin = 10101101
+	sChar = hex: ffffffad, dec =  -83, bin = 10101101
+======= +174 ====
+	uChar = hex:       ae, dec =  174, bin = 10101110
+	sChar = hex: ffffffae, dec =  -82, bin = 10101110
+======= +175 ====
+	uChar = hex:       af, dec =  175, bin = 10101111
+	sChar = hex: ffffffaf, dec =  -81, bin = 10101111
+======= +176 ====
+	uChar = hex:       b0, dec =  176, bin = 10110000
+	sChar = hex: ffffffb0, dec =  -80, bin = 10110000
+======= +177 ====
+	uChar = hex:       b1, dec =  177, bin = 10110001
+	sChar = hex: ffffffb1, dec =  -79, bin = 10110001
+======= +178 ====
+	uChar = hex:       b2, dec =  178, bin = 10110010
+	sChar = hex: ffffffb2, dec =  -78, bin = 10110010
+======= +179 ====
+	uChar = hex:       b3, dec =  179, bin = 10110011
+	sChar = hex: ffffffb3, dec =  -77, bin = 10110011
+======= +180 ====
+	uChar = hex:       b4, dec =  180, bin = 10110100
+	sChar = hex: ffffffb4, dec =  -76, bin = 10110100
+======= +181 ====
+	uChar = hex:       b5, dec =  181, bin = 10110101
+	sChar = hex: ffffffb5, dec =  -75, bin = 10110101
+======= +182 ====
+	uChar = hex:       b6, dec =  182, bin = 10110110
+	sChar = hex: ffffffb6, dec =  -74, bin = 10110110
+======= +183 ====
+	uChar = hex:       b7, dec =  183, bin = 10110111
+	sChar = hex: ffffffb7, dec =  -73, bin = 10110111
+======= +184 ====
+	uChar = hex:       b8, dec =  184, bin = 10111000
+	sChar = hex: ffffffb8, dec =  -72, bin = 10111000
+======= +185 ====
+	uChar = hex:       b9, dec =  185, bin = 10111001
+	sChar = hex: ffffffb9, dec =  -71, bin = 10111001
+======= +186 ====
+	uChar = hex:       ba, dec =  186, bin = 10111010
+	sChar = hex: ffffffba, dec =  -70, bin = 10111010
+======= +187 ====
+	uChar = hex:       bb, dec =  187, bin = 10111011
+	sChar = hex: ffffffbb, dec =  -69, bin = 10111011
+======= +188 ====
+	uChar = hex:       bc, dec =  188, bin = 10111100
+	sChar = hex: ffffffbc, dec =  -68, bin = 10111100
+======= +189 ====
+	uChar = hex:       bd, dec =  189, bin = 10111101
+	sChar = hex: ffffffbd, dec =  -67, bin = 10111101
+======= +190 ====
+	uChar = hex:       be, dec =  190, bin = 10111110
+	sChar = hex: ffffffbe, dec =  -66, bin = 10111110
+======= +191 ====
+	uChar = hex:       bf, dec =  191, bin = 10111111
+	sChar = hex: ffffffbf, dec =  -65, bin = 10111111
+======= +192 ====
+	uChar = hex:       c0, dec =  192, bin = 11000000
+	sChar = hex: ffffffc0, dec =  -64, bin = 11000000
+======= +193 ====
+	uChar = hex:       c1, dec =  193, bin = 11000001
+	sChar = hex: ffffffc1, dec =  -63, bin = 11000001
+======= +194 ====
+	uChar = hex:       c2, dec =  194, bin = 11000010
+	sChar = hex: ffffffc2, dec =  -62, bin = 11000010
+======= +195 ====
+	uChar = hex:       c3, dec =  195, bin = 11000011
+	sChar = hex: ffffffc3, dec =  -61, bin = 11000011
+======= +196 ====
+	uChar = hex:       c4, dec =  196, bin = 11000100
+	sChar = hex: ffffffc4, dec =  -60, bin = 11000100
+======= +197 ====
+	uChar = hex:       c5, dec =  197, bin = 11000101
+	sChar = hex: ffffffc5, dec =  -59, bin = 11000101
+======= +198 ====
+	uChar = hex:       c6, dec =  198, bin = 11000110
+	sChar = hex: ffffffc6, dec =  -58, bin = 11000110
+======= +199 ====
+	uChar = hex:       c7, dec =  199, bin = 11000111
+	sChar = hex: ffffffc7, dec =  -57, bin = 11000111
+======= +200 ====
+	uChar = hex:       c8, dec =  200, bin = 11001000
+	sChar = hex: ffffffc8, dec =  -56, bin = 11001000
+======= +201 ====
+	uChar = hex:       c9, dec =  201, bin = 11001001
+	sChar = hex: ffffffc9, dec =  -55, bin = 11001001
+======= +202 ====
+	uChar = hex:       ca, dec =  202, bin = 11001010
+	sChar = hex: ffffffca, dec =  -54, bin = 11001010
+======= +203 ====
+	uChar = hex:       cb, dec =  203, bin = 11001011
+	sChar = hex: ffffffcb, dec =  -53, bin = 11001011
+======= +204 ====
+	uChar = hex:       cc, dec =  204, bin = 11001100
+	sChar = hex: ffffffcc, dec =  -52, bin = 11001100
+======= +205 ====
+	uChar = hex:       cd, dec =  205, bin = 11001101
+	sChar = hex: ffffffcd, dec =  -51, bin = 11001101
+======= +206 ====
+	uChar = hex:       ce, dec =  206, bin = 11001110
+	sChar = hex: ffffffce, dec =  -50, bin = 11001110
+======= +207 ====
+	uChar = hex:       cf, dec =  207, bin = 11001111
+	sChar = hex: ffffffcf, dec =  -49, bin = 11001111
+======= +208 ====
+	uChar = hex:       d0, dec =  208, bin = 11010000
+	sChar = hex: ffffffd0, dec =  -48, bin = 11010000
+======= +209 ====
+	uChar = hex:       d1, dec =  209, bin = 11010001
+	sChar = hex: ffffffd1, dec =  -47, bin = 11010001
+======= +210 ====
+	uChar = hex:       d2, dec =  210, bin = 11010010
+	sChar = hex: ffffffd2, dec =  -46, bin = 11010010
+======= +211 ====
+	uChar = hex:       d3, dec =  211, bin = 11010011
+	sChar = hex: ffffffd3, dec =  -45, bin = 11010011
+======= +212 ====
+	uChar = hex:       d4, dec =  212, bin = 11010100
+	sChar = hex: ffffffd4, dec =  -44, bin = 11010100
+======= +213 ====
+	uChar = hex:       d5, dec =  213, bin = 11010101
+	sChar = hex: ffffffd5, dec =  -43, bin = 11010101
+======= +214 ====
+	uChar = hex:       d6, dec =  214, bin = 11010110
+	sChar = hex: ffffffd6, dec =  -42, bin = 11010110
+======= +215 ====
+	uChar = hex:       d7, dec =  215, bin = 11010111
+	sChar = hex: ffffffd7, dec =  -41, bin = 11010111
+======= +216 ====
+	uChar = hex:       d8, dec =  216, bin = 11011000
+	sChar = hex: ffffffd8, dec =  -40, bin = 11011000
+======= +217 ====
+	uChar = hex:       d9, dec =  217, bin = 11011001
+	sChar = hex: ffffffd9, dec =  -39, bin = 11011001
+======= +218 ====
+	uChar = hex:       da, dec =  218, bin = 11011010
+	sChar = hex: ffffffda, dec =  -38, bin = 11011010
+======= +219 ====
+	uChar = hex:       db, dec =  219, bin = 11011011
+	sChar = hex: ffffffdb, dec =  -37, bin = 11011011
+======= +220 ====
+	uChar = hex:       dc, dec =  220, bin = 11011100
+	sChar = hex: ffffffdc, dec =  -36, bin = 11011100
+======= +221 ====
+	uChar = hex:       dd, dec =  221, bin = 11011101
+	sChar = hex: ffffffdd, dec =  -35, bin = 11011101
+======= +222 ====
+	uChar = hex:       de, dec =  222, bin = 11011110
+	sChar = hex: ffffffde, dec =  -34, bin = 11011110
+======= +223 ====
+	uChar = hex:       df, dec =  223, bin = 11011111
+	sChar = hex: ffffffdf, dec =  -33, bin = 11011111
+======= +224 ====
+	uChar = hex:       e0, dec =  224, bin = 11100000
+	sChar = hex: ffffffe0, dec =  -32, bin = 11100000
+======= +225 ====
+	uChar = hex:       e1, dec =  225, bin = 11100001
+	sChar = hex: ffffffe1, dec =  -31, bin = 11100001
+======= +226 ====
+	uChar = hex:       e2, dec =  226, bin = 11100010
+	sChar = hex: ffffffe2, dec =  -30, bin = 11100010
+======= +227 ====
+	uChar = hex:       e3, dec =  227, bin = 11100011
+	sChar = hex: ffffffe3, dec =  -29, bin = 11100011
+======= +228 ====
+	uChar = hex:       e4, dec =  228, bin = 11100100
+	sChar = hex: ffffffe4, dec =  -28, bin = 11100100
+======= +229 ====
+	uChar = hex:       e5, dec =  229, bin = 11100101
+	sChar = hex: ffffffe5, dec =  -27, bin = 11100101
+======= +230 ====
+	uChar = hex:       e6, dec =  230, bin = 11100110
+	sChar = hex: ffffffe6, dec =  -26, bin = 11100110
+======= +231 ====
+	uChar = hex:       e7, dec =  231, bin = 11100111
+	sChar = hex: ffffffe7, dec =  -25, bin = 11100111
+======= +232 ====
+	uChar = hex:       e8, dec =  232, bin = 11101000
+	sChar = hex: ffffffe8, dec =  -24, bin = 11101000
+======= +233 ====
+	uChar = hex:       e9, dec =  233, bin = 11101001
+	sChar = hex: ffffffe9, dec =  -23, bin = 11101001
+======= +234 ====
+	uChar = hex:       ea, dec =  234, bin = 11101010
+	sChar = hex: ffffffea, dec =  -22, bin = 11101010
+======= +235 ====
+	uChar = hex:       eb, dec =  235, bin = 11101011
+	sChar = hex: ffffffeb, dec =  -21, bin = 11101011
+======= +236 ====
+	uChar = hex:       ec, dec =  236, bin = 11101100
+	sChar = hex: ffffffec, dec =  -20, bin = 11101100
+======= +237 ====
+	uChar = hex:       ed, dec =  237, bin = 11101101
+	sChar = hex: ffffffed, dec =  -19, bin = 11101101
+======= +238 ====
+	uChar = hex:       ee, dec =  238, bin = 11101110
+	sChar = hex: ffffffee, dec =  -18, bin = 11101110
+======= +239 ====
+	uChar = hex:       ef, dec =  239, bin = 11101111
+	sChar = hex: ffffffef, dec =  -17, bin = 11101111
+======= +240 ====
+	uChar = hex:       f0, dec =  240, bin = 11110000
+	sChar = hex: fffffff0, dec =  -16, bin = 11110000
+======= +241 ====
+	uChar = hex:       f1, dec =  241, bin = 11110001
+	sChar = hex: fffffff1, dec =  -15, bin = 11110001
+======= +242 ====
+	uChar = hex:       f2, dec =  242, bin = 11110010
+	sChar = hex: fffffff2, dec =  -14, bin = 11110010
+======= +243 ====
+	uChar = hex:       f3, dec =  243, bin = 11110011
+	sChar = hex: fffffff3, dec =  -13, bin = 11110011
+======= +244 ====
+	uChar = hex:       f4, dec =  244, bin = 11110100
+	sChar = hex: fffffff4, dec =  -12, bin = 11110100
+======= +245 ====
+	uChar = hex:       f5, dec =  245, bin = 11110101
+	sChar = hex: fffffff5, dec =  -11, bin = 11110101
+======= +246 ====
+	uChar = hex:       f6, dec =  246, bin = 11110110
+	sChar = hex: fffffff6, dec =  -10, bin = 11110110
+======= +247 ====
+	uChar = hex:       f7, dec =  247, bin = 11110111
+	sChar = hex: fffffff7, dec =   -9, bin = 11110111
+======= +248 ====
+	uChar = hex:       f8, dec =  248, bin = 11111000
+	sChar = hex: fffffff8, dec =   -8, bin = 11111000
+======= +249 ====
+	uChar = hex:       f9, dec =  249, bin = 11111001
+	sChar = hex: fffffff9, dec =   -7, bin = 11111001
+======= +250 ====
+	uChar = hex:       fa, dec =  250, bin = 11111010
+	sChar = hex: fffffffa, dec =   -6, bin = 11111010
+======= +251 ====
+	uChar = hex:       fb, dec =  251, bin = 11111011
+	sChar = hex: fffffffb, dec =   -5, bin = 11111011
+======= +252 ====
+	uChar = hex:       fc, dec =  252, bin = 11111100
+	sChar = hex: fffffffc, dec =   -4, bin = 11111100
+======= +253 ====
+	uChar = hex:       fd, dec =  253, bin = 11111101
+	sChar = hex: fffffffd, dec =   -3, bin = 11111101
+======= +254 ====
+	uChar = hex:       fe, dec =  254, bin = 11111110
+	sChar = hex: fffffffe, dec =   -2, bin = 11111110
+======= +255 ====
+	uChar = hex:       ff, dec =  255, bin = 11111111
+	sChar = hex: ffffffff, dec =   -1, bin = 11111111
+======= +256 ====
+	uChar = hex:        0, dec =    0, bin =        0
+	sChar = hex:        0, dec =    0, bin =        0
+
+
+
+
+=================================================================================
+======= MINUS(-) on uChar, sChar  ===============================================
+=================================================================================
+
+======= -1 ====
+	uChar = hex:       ff, dec =  255, bin = 11111111
+	sChar = hex: ffffffff, dec =   -1, bin = 11111111
+======= -2 ====
+	uChar = hex:       fe, dec =  254, bin = 11111110
+	sChar = hex: fffffffe, dec =   -2, bin = 11111110
+======= -3 ====
+	uChar = hex:       fd, dec =  253, bin = 11111101
+	sChar = hex: fffffffd, dec =   -3, bin = 11111101
+======= -4 ====
+	uChar = hex:       fc, dec =  252, bin = 11111100
+	sChar = hex: fffffffc, dec =   -4, bin = 11111100
+======= -5 ====
+	uChar = hex:       fb, dec =  251, bin = 11111011
+	sChar = hex: fffffffb, dec =   -5, bin = 11111011
+======= -6 ====
+	uChar = hex:       fa, dec =  250, bin = 11111010
+	sChar = hex: fffffffa, dec =   -6, bin = 11111010
+======= -7 ====
+	uChar = hex:       f9, dec =  249, bin = 11111001
+	sChar = hex: fffffff9, dec =   -7, bin = 11111001
+======= -8 ====
+	uChar = hex:       f8, dec =  248, bin = 11111000
+	sChar = hex: fffffff8, dec =   -8, bin = 11111000
+======= -9 ====
+	uChar = hex:       f7, dec =  247, bin = 11110111
+	sChar = hex: fffffff7, dec =   -9, bin = 11110111
+======= -10 ====
+	uChar = hex:       f6, dec =  246, bin = 11110110
+	sChar = hex: fffffff6, dec =  -10, bin = 11110110
+======= -11 ====
+	uChar = hex:       f5, dec =  245, bin = 11110101
+	sChar = hex: fffffff5, dec =  -11, bin = 11110101
+======= -12 ====
+	uChar = hex:       f4, dec =  244, bin = 11110100
+	sChar = hex: fffffff4, dec =  -12, bin = 11110100
+======= -13 ====
+	uChar = hex:       f3, dec =  243, bin = 11110011
+	sChar = hex: fffffff3, dec =  -13, bin = 11110011
+======= -14 ====
+	uChar = hex:       f2, dec =  242, bin = 11110010
+	sChar = hex: fffffff2, dec =  -14, bin = 11110010
+======= -15 ====
+	uChar = hex:       f1, dec =  241, bin = 11110001
+	sChar = hex: fffffff1, dec =  -15, bin = 11110001
+======= -16 ====
+	uChar = hex:       f0, dec =  240, bin = 11110000
+	sChar = hex: fffffff0, dec =  -16, bin = 11110000
+======= -17 ====
+	uChar = hex:       ef, dec =  239, bin = 11101111
+	sChar = hex: ffffffef, dec =  -17, bin = 11101111
+======= -18 ====
+	uChar = hex:       ee, dec =  238, bin = 11101110
+	sChar = hex: ffffffee, dec =  -18, bin = 11101110
+======= -19 ====
+	uChar = hex:       ed, dec =  237, bin = 11101101
+	sChar = hex: ffffffed, dec =  -19, bin = 11101101
+======= -20 ====
+	uChar = hex:       ec, dec =  236, bin = 11101100
+	sChar = hex: ffffffec, dec =  -20, bin = 11101100
+======= -21 ====
+	uChar = hex:       eb, dec =  235, bin = 11101011
+	sChar = hex: ffffffeb, dec =  -21, bin = 11101011
+======= -22 ====
+	uChar = hex:       ea, dec =  234, bin = 11101010
+	sChar = hex: ffffffea, dec =  -22, bin = 11101010
+======= -23 ====
+	uChar = hex:       e9, dec =  233, bin = 11101001
+	sChar = hex: ffffffe9, dec =  -23, bin = 11101001
+======= -24 ====
+	uChar = hex:       e8, dec =  232, bin = 11101000
+	sChar = hex: ffffffe8, dec =  -24, bin = 11101000
+======= -25 ====
+	uChar = hex:       e7, dec =  231, bin = 11100111
+	sChar = hex: ffffffe7, dec =  -25, bin = 11100111
+======= -26 ====
+	uChar = hex:       e6, dec =  230, bin = 11100110
+	sChar = hex: ffffffe6, dec =  -26, bin = 11100110
+======= -27 ====
+	uChar = hex:       e5, dec =  229, bin = 11100101
+	sChar = hex: ffffffe5, dec =  -27, bin = 11100101
+======= -28 ====
+	uChar = hex:       e4, dec =  228, bin = 11100100
+	sChar = hex: ffffffe4, dec =  -28, bin = 11100100
+======= -29 ====
+	uChar = hex:       e3, dec =  227, bin = 11100011
+	sChar = hex: ffffffe3, dec =  -29, bin = 11100011
+======= -30 ====
+	uChar = hex:       e2, dec =  226, bin = 11100010
+	sChar = hex: ffffffe2, dec =  -30, bin = 11100010
+======= -31 ====
+	uChar = hex:       e1, dec =  225, bin = 11100001
+	sChar = hex: ffffffe1, dec =  -31, bin = 11100001
+======= -32 ====
+	uChar = hex:       e0, dec =  224, bin = 11100000
+	sChar = hex: ffffffe0, dec =  -32, bin = 11100000
+======= -33 ====
+	uChar = hex:       df, dec =  223, bin = 11011111
+	sChar = hex: ffffffdf, dec =  -33, bin = 11011111
+======= -34 ====
+	uChar = hex:       de, dec =  222, bin = 11011110
+	sChar = hex: ffffffde, dec =  -34, bin = 11011110
+======= -35 ====
+	uChar = hex:       dd, dec =  221, bin = 11011101
+	sChar = hex: ffffffdd, dec =  -35, bin = 11011101
+======= -36 ====
+	uChar = hex:       dc, dec =  220, bin = 11011100
+	sChar = hex: ffffffdc, dec =  -36, bin = 11011100
+======= -37 ====
+	uChar = hex:       db, dec =  219, bin = 11011011
+	sChar = hex: ffffffdb, dec =  -37, bin = 11011011
+======= -38 ====
+	uChar = hex:       da, dec =  218, bin = 11011010
+	sChar = hex: ffffffda, dec =  -38, bin = 11011010
+======= -39 ====
+	uChar = hex:       d9, dec =  217, bin = 11011001
+	sChar = hex: ffffffd9, dec =  -39, bin = 11011001
+======= -40 ====
+	uChar = hex:       d8, dec =  216, bin = 11011000
+	sChar = hex: ffffffd8, dec =  -40, bin = 11011000
+======= -41 ====
+	uChar = hex:       d7, dec =  215, bin = 11010111
+	sChar = hex: ffffffd7, dec =  -41, bin = 11010111
+======= -42 ====
+	uChar = hex:       d6, dec =  214, bin = 11010110
+	sChar = hex: ffffffd6, dec =  -42, bin = 11010110
+======= -43 ====
+	uChar = hex:       d5, dec =  213, bin = 11010101
+	sChar = hex: ffffffd5, dec =  -43, bin = 11010101
+======= -44 ====
+	uChar = hex:       d4, dec =  212, bin = 11010100
+	sChar = hex: ffffffd4, dec =  -44, bin = 11010100
+======= -45 ====
+	uChar = hex:       d3, dec =  211, bin = 11010011
+	sChar = hex: ffffffd3, dec =  -45, bin = 11010011
+======= -46 ====
+	uChar = hex:       d2, dec =  210, bin = 11010010
+	sChar = hex: ffffffd2, dec =  -46, bin = 11010010
+======= -47 ====
+	uChar = hex:       d1, dec =  209, bin = 11010001
+	sChar = hex: ffffffd1, dec =  -47, bin = 11010001
+======= -48 ====
+	uChar = hex:       d0, dec =  208, bin = 11010000
+	sChar = hex: ffffffd0, dec =  -48, bin = 11010000
+======= -49 ====
+	uChar = hex:       cf, dec =  207, bin = 11001111
+	sChar = hex: ffffffcf, dec =  -49, bin = 11001111
+======= -50 ====
+	uChar = hex:       ce, dec =  206, bin = 11001110
+	sChar = hex: ffffffce, dec =  -50, bin = 11001110
+======= -51 ====
+	uChar = hex:       cd, dec =  205, bin = 11001101
+	sChar = hex: ffffffcd, dec =  -51, bin = 11001101
+======= -52 ====
+	uChar = hex:       cc, dec =  204, bin = 11001100
+	sChar = hex: ffffffcc, dec =  -52, bin = 11001100
+======= -53 ====
+	uChar = hex:       cb, dec =  203, bin = 11001011
+	sChar = hex: ffffffcb, dec =  -53, bin = 11001011
+======= -54 ====
+	uChar = hex:       ca, dec =  202, bin = 11001010
+	sChar = hex: ffffffca, dec =  -54, bin = 11001010
+======= -55 ====
+	uChar = hex:       c9, dec =  201, bin = 11001001
+	sChar = hex: ffffffc9, dec =  -55, bin = 11001001
+======= -56 ====
+	uChar = hex:       c8, dec =  200, bin = 11001000
+	sChar = hex: ffffffc8, dec =  -56, bin = 11001000
+======= -57 ====
+	uChar = hex:       c7, dec =  199, bin = 11000111
+	sChar = hex: ffffffc7, dec =  -57, bin = 11000111
+======= -58 ====
+	uChar = hex:       c6, dec =  198, bin = 11000110
+	sChar = hex: ffffffc6, dec =  -58, bin = 11000110
+======= -59 ====
+	uChar = hex:       c5, dec =  197, bin = 11000101
+	sChar = hex: ffffffc5, dec =  -59, bin = 11000101
+======= -60 ====
+	uChar = hex:       c4, dec =  196, bin = 11000100
+	sChar = hex: ffffffc4, dec =  -60, bin = 11000100
+======= -61 ====
+	uChar = hex:       c3, dec =  195, bin = 11000011
+	sChar = hex: ffffffc3, dec =  -61, bin = 11000011
+======= -62 ====
+	uChar = hex:       c2, dec =  194, bin = 11000010
+	sChar = hex: ffffffc2, dec =  -62, bin = 11000010
+======= -63 ====
+	uChar = hex:       c1, dec =  193, bin = 11000001
+	sChar = hex: ffffffc1, dec =  -63, bin = 11000001
+======= -64 ====
+	uChar = hex:       c0, dec =  192, bin = 11000000
+	sChar = hex: ffffffc0, dec =  -64, bin = 11000000
+======= -65 ====
+	uChar = hex:       bf, dec =  191, bin = 10111111
+	sChar = hex: ffffffbf, dec =  -65, bin = 10111111
+======= -66 ====
+	uChar = hex:       be, dec =  190, bin = 10111110
+	sChar = hex: ffffffbe, dec =  -66, bin = 10111110
+======= -67 ====
+	uChar = hex:       bd, dec =  189, bin = 10111101
+	sChar = hex: ffffffbd, dec =  -67, bin = 10111101
+======= -68 ====
+	uChar = hex:       bc, dec =  188, bin = 10111100
+	sChar = hex: ffffffbc, dec =  -68, bin = 10111100
+======= -69 ====
+	uChar = hex:       bb, dec =  187, bin = 10111011
+	sChar = hex: ffffffbb, dec =  -69, bin = 10111011
+======= -70 ====
+	uChar = hex:       ba, dec =  186, bin = 10111010
+	sChar = hex: ffffffba, dec =  -70, bin = 10111010
+======= -71 ====
+	uChar = hex:       b9, dec =  185, bin = 10111001
+	sChar = hex: ffffffb9, dec =  -71, bin = 10111001
+======= -72 ====
+	uChar = hex:       b8, dec =  184, bin = 10111000
+	sChar = hex: ffffffb8, dec =  -72, bin = 10111000
+======= -73 ====
+	uChar = hex:       b7, dec =  183, bin = 10110111
+	sChar = hex: ffffffb7, dec =  -73, bin = 10110111
+======= -74 ====
+	uChar = hex:       b6, dec =  182, bin = 10110110
+	sChar = hex: ffffffb6, dec =  -74, bin = 10110110
+======= -75 ====
+	uChar = hex:       b5, dec =  181, bin = 10110101
+	sChar = hex: ffffffb5, dec =  -75, bin = 10110101
+======= -76 ====
+	uChar = hex:       b4, dec =  180, bin = 10110100
+	sChar = hex: ffffffb4, dec =  -76, bin = 10110100
+======= -77 ====
+	uChar = hex:       b3, dec =  179, bin = 10110011
+	sChar = hex: ffffffb3, dec =  -77, bin = 10110011
+======= -78 ====
+	uChar = hex:       b2, dec =  178, bin = 10110010
+	sChar = hex: ffffffb2, dec =  -78, bin = 10110010
+======= -79 ====
+	uChar = hex:       b1, dec =  177, bin = 10110001
+	sChar = hex: ffffffb1, dec =  -79, bin = 10110001
+======= -80 ====
+	uChar = hex:       b0, dec =  176, bin = 10110000
+	sChar = hex: ffffffb0, dec =  -80, bin = 10110000
+======= -81 ====
+	uChar = hex:       af, dec =  175, bin = 10101111
+	sChar = hex: ffffffaf, dec =  -81, bin = 10101111
+======= -82 ====
+	uChar = hex:       ae, dec =  174, bin = 10101110
+	sChar = hex: ffffffae, dec =  -82, bin = 10101110
+======= -83 ====
+	uChar = hex:       ad, dec =  173, bin = 10101101
+	sChar = hex: ffffffad, dec =  -83, bin = 10101101
+======= -84 ====
+	uChar = hex:       ac, dec =  172, bin = 10101100
+	sChar = hex: ffffffac, dec =  -84, bin = 10101100
+======= -85 ====
+	uChar = hex:       ab, dec =  171, bin = 10101011
+	sChar = hex: ffffffab, dec =  -85, bin = 10101011
+======= -86 ====
+	uChar = hex:       aa, dec =  170, bin = 10101010
+	sChar = hex: ffffffaa, dec =  -86, bin = 10101010
+======= -87 ====
+	uChar = hex:       a9, dec =  169, bin = 10101001
+	sChar = hex: ffffffa9, dec =  -87, bin = 10101001
+======= -88 ====
+	uChar = hex:       a8, dec =  168, bin = 10101000
+	sChar = hex: ffffffa8, dec =  -88, bin = 10101000
+======= -89 ====
+	uChar = hex:       a7, dec =  167, bin = 10100111
+	sChar = hex: ffffffa7, dec =  -89, bin = 10100111
+======= -90 ====
+	uChar = hex:       a6, dec =  166, bin = 10100110
+	sChar = hex: ffffffa6, dec =  -90, bin = 10100110
+======= -91 ====
+	uChar = hex:       a5, dec =  165, bin = 10100101
+	sChar = hex: ffffffa5, dec =  -91, bin = 10100101
+======= -92 ====
+	uChar = hex:       a4, dec =  164, bin = 10100100
+	sChar = hex: ffffffa4, dec =  -92, bin = 10100100
+======= -93 ====
+	uChar = hex:       a3, dec =  163, bin = 10100011
+	sChar = hex: ffffffa3, dec =  -93, bin = 10100011
+======= -94 ====
+	uChar = hex:       a2, dec =  162, bin = 10100010
+	sChar = hex: ffffffa2, dec =  -94, bin = 10100010
+======= -95 ====
+	uChar = hex:       a1, dec =  161, bin = 10100001
+	sChar = hex: ffffffa1, dec =  -95, bin = 10100001
+======= -96 ====
+	uChar = hex:       a0, dec =  160, bin = 10100000
+	sChar = hex: ffffffa0, dec =  -96, bin = 10100000
+======= -97 ====
+	uChar = hex:       9f, dec =  159, bin = 10011111
+	sChar = hex: ffffff9f, dec =  -97, bin = 10011111
+======= -98 ====
+	uChar = hex:       9e, dec =  158, bin = 10011110
+	sChar = hex: ffffff9e, dec =  -98, bin = 10011110
+======= -99 ====
+	uChar = hex:       9d, dec =  157, bin = 10011101
+	sChar = hex: ffffff9d, dec =  -99, bin = 10011101
+======= -100 ====
+	uChar = hex:       9c, dec =  156, bin = 10011100
+	sChar = hex: ffffff9c, dec = -100, bin = 10011100
+======= -101 ====
+	uChar = hex:       9b, dec =  155, bin = 10011011
+	sChar = hex: ffffff9b, dec = -101, bin = 10011011
+======= -102 ====
+	uChar = hex:       9a, dec =  154, bin = 10011010
+	sChar = hex: ffffff9a, dec = -102, bin = 10011010
+======= -103 ====
+	uChar = hex:       99, dec =  153, bin = 10011001
+	sChar = hex: ffffff99, dec = -103, bin = 10011001
+======= -104 ====
+	uChar = hex:       98, dec =  152, bin = 10011000
+	sChar = hex: ffffff98, dec = -104, bin = 10011000
+======= -105 ====
+	uChar = hex:       97, dec =  151, bin = 10010111
+	sChar = hex: ffffff97, dec = -105, bin = 10010111
+======= -106 ====
+	uChar = hex:       96, dec =  150, bin = 10010110
+	sChar = hex: ffffff96, dec = -106, bin = 10010110
+======= -107 ====
+	uChar = hex:       95, dec =  149, bin = 10010101
+	sChar = hex: ffffff95, dec = -107, bin = 10010101
+======= -108 ====
+	uChar = hex:       94, dec =  148, bin = 10010100
+	sChar = hex: ffffff94, dec = -108, bin = 10010100
+======= -109 ====
+	uChar = hex:       93, dec =  147, bin = 10010011
+	sChar = hex: ffffff93, dec = -109, bin = 10010011
+======= -110 ====
+	uChar = hex:       92, dec =  146, bin = 10010010
+	sChar = hex: ffffff92, dec = -110, bin = 10010010
+======= -111 ====
+	uChar = hex:       91, dec =  145, bin = 10010001
+	sChar = hex: ffffff91, dec = -111, bin = 10010001
+======= -112 ====
+	uChar = hex:       90, dec =  144, bin = 10010000
+	sChar = hex: ffffff90, dec = -112, bin = 10010000
+======= -113 ====
+	uChar = hex:       8f, dec =  143, bin = 10001111
+	sChar = hex: ffffff8f, dec = -113, bin = 10001111
+======= -114 ====
+	uChar = hex:       8e, dec =  142, bin = 10001110
+	sChar = hex: ffffff8e, dec = -114, bin = 10001110
+======= -115 ====
+	uChar = hex:       8d, dec =  141, bin = 10001101
+	sChar = hex: ffffff8d, dec = -115, bin = 10001101
+======= -116 ====
+	uChar = hex:       8c, dec =  140, bin = 10001100
+	sChar = hex: ffffff8c, dec = -116, bin = 10001100
+======= -117 ====
+	uChar = hex:       8b, dec =  139, bin = 10001011
+	sChar = hex: ffffff8b, dec = -117, bin = 10001011
+======= -118 ====
+	uChar = hex:       8a, dec =  138, bin = 10001010
+	sChar = hex: ffffff8a, dec = -118, bin = 10001010
+======= -119 ====
+	uChar = hex:       89, dec =  137, bin = 10001001
+	sChar = hex: ffffff89, dec = -119, bin = 10001001
+======= -120 ====
+	uChar = hex:       88, dec =  136, bin = 10001000
+	sChar = hex: ffffff88, dec = -120, bin = 10001000
+======= -121 ====
+	uChar = hex:       87, dec =  135, bin = 10000111
+	sChar = hex: ffffff87, dec = -121, bin = 10000111
+======= -122 ====
+	uChar = hex:       86, dec =  134, bin = 10000110
+	sChar = hex: ffffff86, dec = -122, bin = 10000110
+======= -123 ====
+	uChar = hex:       85, dec =  133, bin = 10000101
+	sChar = hex: ffffff85, dec = -123, bin = 10000101
+======= -124 ====
+	uChar = hex:       84, dec =  132, bin = 10000100
+	sChar = hex: ffffff84, dec = -124, bin = 10000100
+======= -125 ====
+	uChar = hex:       83, dec =  131, bin = 10000011
+	sChar = hex: ffffff83, dec = -125, bin = 10000011
+======= -126 ====
+	uChar = hex:       82, dec =  130, bin = 10000010
+	sChar = hex: ffffff82, dec = -126, bin = 10000010
+======= -127 ====
+	uChar = hex:       81, dec =  129, bin = 10000001
+	sChar = hex: ffffff81, dec = -127, bin = 10000001
+======= -128 ====
+	uChar = hex:       80, dec =  128, bin = 10000000
+	sChar = hex: ffffff80, dec = -128, bin = 10000000
+======= -129 ====
+	uChar = hex:       7f, dec =  127, bin =  1111111
+	sChar = hex:       7f, dec =  127, bin =  1111111
+======= -130 ====
+	uChar = hex:       7e, dec =  126, bin =  1111110
+	sChar = hex:       7e, dec =  126, bin =  1111110
+======= -131 ====
+	uChar = hex:       7d, dec =  125, bin =  1111101
+	sChar = hex:       7d, dec =  125, bin =  1111101
+======= -132 ====
+	uChar = hex:       7c, dec =  124, bin =  1111100
+	sChar = hex:       7c, dec =  124, bin =  1111100
+======= -133 ====
+	uChar = hex:       7b, dec =  123, bin =  1111011
+	sChar = hex:       7b, dec =  123, bin =  1111011
+======= -134 ====
+	uChar = hex:       7a, dec =  122, bin =  1111010
+	sChar = hex:       7a, dec =  122, bin =  1111010
+======= -135 ====
+	uChar = hex:       79, dec =  121, bin =  1111001
+	sChar = hex:       79, dec =  121, bin =  1111001
+======= -136 ====
+	uChar = hex:       78, dec =  120, bin =  1111000
+	sChar = hex:       78, dec =  120, bin =  1111000
+======= -137 ====
+	uChar = hex:       77, dec =  119, bin =  1110111
+	sChar = hex:       77, dec =  119, bin =  1110111
+======= -138 ====
+	uChar = hex:       76, dec =  118, bin =  1110110
+	sChar = hex:       76, dec =  118, bin =  1110110
+======= -139 ====
+	uChar = hex:       75, dec =  117, bin =  1110101
+	sChar = hex:       75, dec =  117, bin =  1110101
+======= -140 ====
+	uChar = hex:       74, dec =  116, bin =  1110100
+	sChar = hex:       74, dec =  116, bin =  1110100
+======= -141 ====
+	uChar = hex:       73, dec =  115, bin =  1110011
+	sChar = hex:       73, dec =  115, bin =  1110011
+======= -142 ====
+	uChar = hex:       72, dec =  114, bin =  1110010
+	sChar = hex:       72, dec =  114, bin =  1110010
+======= -143 ====
+	uChar = hex:       71, dec =  113, bin =  1110001
+	sChar = hex:       71, dec =  113, bin =  1110001
+======= -144 ====
+	uChar = hex:       70, dec =  112, bin =  1110000
+	sChar = hex:       70, dec =  112, bin =  1110000
+======= -145 ====
+	uChar = hex:       6f, dec =  111, bin =  1101111
+	sChar = hex:       6f, dec =  111, bin =  1101111
+======= -146 ====
+	uChar = hex:       6e, dec =  110, bin =  1101110
+	sChar = hex:       6e, dec =  110, bin =  1101110
+======= -147 ====
+	uChar = hex:       6d, dec =  109, bin =  1101101
+	sChar = hex:       6d, dec =  109, bin =  1101101
+======= -148 ====
+	uChar = hex:       6c, dec =  108, bin =  1101100
+	sChar = hex:       6c, dec =  108, bin =  1101100
+======= -149 ====
+	uChar = hex:       6b, dec =  107, bin =  1101011
+	sChar = hex:       6b, dec =  107, bin =  1101011
+======= -150 ====
+	uChar = hex:       6a, dec =  106, bin =  1101010
+	sChar = hex:       6a, dec =  106, bin =  1101010
+======= -151 ====
+	uChar = hex:       69, dec =  105, bin =  1101001
+	sChar = hex:       69, dec =  105, bin =  1101001
+======= -152 ====
+	uChar = hex:       68, dec =  104, bin =  1101000
+	sChar = hex:       68, dec =  104, bin =  1101000
+======= -153 ====
+	uChar = hex:       67, dec =  103, bin =  1100111
+	sChar = hex:       67, dec =  103, bin =  1100111
+======= -154 ====
+	uChar = hex:       66, dec =  102, bin =  1100110
+	sChar = hex:       66, dec =  102, bin =  1100110
+======= -155 ====
+	uChar = hex:       65, dec =  101, bin =  1100101
+	sChar = hex:       65, dec =  101, bin =  1100101
+======= -156 ====
+	uChar = hex:       64, dec =  100, bin =  1100100
+	sChar = hex:       64, dec =  100, bin =  1100100
+======= -157 ====
+	uChar = hex:       63, dec =   99, bin =  1100011
+	sChar = hex:       63, dec =   99, bin =  1100011
+======= -158 ====
+	uChar = hex:       62, dec =   98, bin =  1100010
+	sChar = hex:       62, dec =   98, bin =  1100010
+======= -159 ====
+	uChar = hex:       61, dec =   97, bin =  1100001
+	sChar = hex:       61, dec =   97, bin =  1100001
+======= -160 ====
+	uChar = hex:       60, dec =   96, bin =  1100000
+	sChar = hex:       60, dec =   96, bin =  1100000
+======= -161 ====
+	uChar = hex:       5f, dec =   95, bin =  1011111
+	sChar = hex:       5f, dec =   95, bin =  1011111
+======= -162 ====
+	uChar = hex:       5e, dec =   94, bin =  1011110
+	sChar = hex:       5e, dec =   94, bin =  1011110
+======= -163 ====
+	uChar = hex:       5d, dec =   93, bin =  1011101
+	sChar = hex:       5d, dec =   93, bin =  1011101
+======= -164 ====
+	uChar = hex:       5c, dec =   92, bin =  1011100
+	sChar = hex:       5c, dec =   92, bin =  1011100
+======= -165 ====
+	uChar = hex:       5b, dec =   91, bin =  1011011
+	sChar = hex:       5b, dec =   91, bin =  1011011
+======= -166 ====
+	uChar = hex:       5a, dec =   90, bin =  1011010
+	sChar = hex:       5a, dec =   90, bin =  1011010
+======= -167 ====
+	uChar = hex:       59, dec =   89, bin =  1011001
+	sChar = hex:       59, dec =   89, bin =  1011001
+======= -168 ====
+	uChar = hex:       58, dec =   88, bin =  1011000
+	sChar = hex:       58, dec =   88, bin =  1011000
+======= -169 ====
+	uChar = hex:       57, dec =   87, bin =  1010111
+	sChar = hex:       57, dec =   87, bin =  1010111
+======= -170 ====
+	uChar = hex:       56, dec =   86, bin =  1010110
+	sChar = hex:       56, dec =   86, bin =  1010110
+======= -171 ====
+	uChar = hex:       55, dec =   85, bin =  1010101
+	sChar = hex:       55, dec =   85, bin =  1010101
+======= -172 ====
+	uChar = hex:       54, dec =   84, bin =  1010100
+	sChar = hex:       54, dec =   84, bin =  1010100
+======= -173 ====
+	uChar = hex:       53, dec =   83, bin =  1010011
+	sChar = hex:       53, dec =   83, bin =  1010011
+======= -174 ====
+	uChar = hex:       52, dec =   82, bin =  1010010
+	sChar = hex:       52, dec =   82, bin =  1010010
+======= -175 ====
+	uChar = hex:       51, dec =   81, bin =  1010001
+	sChar = hex:       51, dec =   81, bin =  1010001
+======= -176 ====
+	uChar = hex:       50, dec =   80, bin =  1010000
+	sChar = hex:       50, dec =   80, bin =  1010000
+======= -177 ====
+	uChar = hex:       4f, dec =   79, bin =  1001111
+	sChar = hex:       4f, dec =   79, bin =  1001111
+======= -178 ====
+	uChar = hex:       4e, dec =   78, bin =  1001110
+	sChar = hex:       4e, dec =   78, bin =  1001110
+======= -179 ====
+	uChar = hex:       4d, dec =   77, bin =  1001101
+	sChar = hex:       4d, dec =   77, bin =  1001101
+======= -180 ====
+	uChar = hex:       4c, dec =   76, bin =  1001100
+	sChar = hex:       4c, dec =   76, bin =  1001100
+======= -181 ====
+	uChar = hex:       4b, dec =   75, bin =  1001011
+	sChar = hex:       4b, dec =   75, bin =  1001011
+======= -182 ====
+	uChar = hex:       4a, dec =   74, bin =  1001010
+	sChar = hex:       4a, dec =   74, bin =  1001010
+======= -183 ====
+	uChar = hex:       49, dec =   73, bin =  1001001
+	sChar = hex:       49, dec =   73, bin =  1001001
+======= -184 ====
+	uChar = hex:       48, dec =   72, bin =  1001000
+	sChar = hex:       48, dec =   72, bin =  1001000
+======= -185 ====
+	uChar = hex:       47, dec =   71, bin =  1000111
+	sChar = hex:       47, dec =   71, bin =  1000111
+======= -186 ====
+	uChar = hex:       46, dec =   70, bin =  1000110
+	sChar = hex:       46, dec =   70, bin =  1000110
+======= -187 ====
+	uChar = hex:       45, dec =   69, bin =  1000101
+	sChar = hex:       45, dec =   69, bin =  1000101
+======= -188 ====
+	uChar = hex:       44, dec =   68, bin =  1000100
+	sChar = hex:       44, dec =   68, bin =  1000100
+======= -189 ====
+	uChar = hex:       43, dec =   67, bin =  1000011
+	sChar = hex:       43, dec =   67, bin =  1000011
+======= -190 ====
+	uChar = hex:       42, dec =   66, bin =  1000010
+	sChar = hex:       42, dec =   66, bin =  1000010
+======= -191 ====
+	uChar = hex:       41, dec =   65, bin =  1000001
+	sChar = hex:       41, dec =   65, bin =  1000001
+======= -192 ====
+	uChar = hex:       40, dec =   64, bin =  1000000
+	sChar = hex:       40, dec =   64, bin =  1000000
+======= -193 ====
+	uChar = hex:       3f, dec =   63, bin =   111111
+	sChar = hex:       3f, dec =   63, bin =   111111
+======= -194 ====
+	uChar = hex:       3e, dec =   62, bin =   111110
+	sChar = hex:       3e, dec =   62, bin =   111110
+======= -195 ====
+	uChar = hex:       3d, dec =   61, bin =   111101
+	sChar = hex:       3d, dec =   61, bin =   111101
+======= -196 ====
+	uChar = hex:       3c, dec =   60, bin =   111100
+	sChar = hex:       3c, dec =   60, bin =   111100
+======= -197 ====
+	uChar = hex:       3b, dec =   59, bin =   111011
+	sChar = hex:       3b, dec =   59, bin =   111011
+======= -198 ====
+	uChar = hex:       3a, dec =   58, bin =   111010
+	sChar = hex:       3a, dec =   58, bin =   111010
+======= -199 ====
+	uChar = hex:       39, dec =   57, bin =   111001
+	sChar = hex:       39, dec =   57, bin =   111001
+======= -200 ====
+	uChar = hex:       38, dec =   56, bin =   111000
+	sChar = hex:       38, dec =   56, bin =   111000
+======= -201 ====
+	uChar = hex:       37, dec =   55, bin =   110111
+	sChar = hex:       37, dec =   55, bin =   110111
+======= -202 ====
+	uChar = hex:       36, dec =   54, bin =   110110
+	sChar = hex:       36, dec =   54, bin =   110110
+======= -203 ====
+	uChar = hex:       35, dec =   53, bin =   110101
+	sChar = hex:       35, dec =   53, bin =   110101
+======= -204 ====
+	uChar = hex:       34, dec =   52, bin =   110100
+	sChar = hex:       34, dec =   52, bin =   110100
+======= -205 ====
+	uChar = hex:       33, dec =   51, bin =   110011
+	sChar = hex:       33, dec =   51, bin =   110011
+======= -206 ====
+	uChar = hex:       32, dec =   50, bin =   110010
+	sChar = hex:       32, dec =   50, bin =   110010
+======= -207 ====
+	uChar = hex:       31, dec =   49, bin =   110001
+	sChar = hex:       31, dec =   49, bin =   110001
+======= -208 ====
+	uChar = hex:       30, dec =   48, bin =   110000
+	sChar = hex:       30, dec =   48, bin =   110000
+======= -209 ====
+	uChar = hex:       2f, dec =   47, bin =   101111
+	sChar = hex:       2f, dec =   47, bin =   101111
+======= -210 ====
+	uChar = hex:       2e, dec =   46, bin =   101110
+	sChar = hex:       2e, dec =   46, bin =   101110
+======= -211 ====
+	uChar = hex:       2d, dec =   45, bin =   101101
+	sChar = hex:       2d, dec =   45, bin =   101101
+======= -212 ====
+	uChar = hex:       2c, dec =   44, bin =   101100
+	sChar = hex:       2c, dec =   44, bin =   101100
+======= -213 ====
+	uChar = hex:       2b, dec =   43, bin =   101011
+	sChar = hex:       2b, dec =   43, bin =   101011
+======= -214 ====
+	uChar = hex:       2a, dec =   42, bin =   101010
+	sChar = hex:       2a, dec =   42, bin =   101010
+======= -215 ====
+	uChar = hex:       29, dec =   41, bin =   101001
+	sChar = hex:       29, dec =   41, bin =   101001
+======= -216 ====
+	uChar = hex:       28, dec =   40, bin =   101000
+	sChar = hex:       28, dec =   40, bin =   101000
+======= -217 ====
+	uChar = hex:       27, dec =   39, bin =   100111
+	sChar = hex:       27, dec =   39, bin =   100111
+======= -218 ====
+	uChar = hex:       26, dec =   38, bin =   100110
+	sChar = hex:       26, dec =   38, bin =   100110
+======= -219 ====
+	uChar = hex:       25, dec =   37, bin =   100101
+	sChar = hex:       25, dec =   37, bin =   100101
+======= -220 ====
+	uChar = hex:       24, dec =   36, bin =   100100
+	sChar = hex:       24, dec =   36, bin =   100100
+======= -221 ====
+	uChar = hex:       23, dec =   35, bin =   100011
+	sChar = hex:       23, dec =   35, bin =   100011
+======= -222 ====
+	uChar = hex:       22, dec =   34, bin =   100010
+	sChar = hex:       22, dec =   34, bin =   100010
+======= -223 ====
+	uChar = hex:       21, dec =   33, bin =   100001
+	sChar = hex:       21, dec =   33, bin =   100001
+======= -224 ====
+	uChar = hex:       20, dec =   32, bin =   100000
+	sChar = hex:       20, dec =   32, bin =   100000
+======= -225 ====
+	uChar = hex:       1f, dec =   31, bin =    11111
+	sChar = hex:       1f, dec =   31, bin =    11111
+======= -226 ====
+	uChar = hex:       1e, dec =   30, bin =    11110
+	sChar = hex:       1e, dec =   30, bin =    11110
+======= -227 ====
+	uChar = hex:       1d, dec =   29, bin =    11101
+	sChar = hex:       1d, dec =   29, bin =    11101
+======= -228 ====
+	uChar = hex:       1c, dec =   28, bin =    11100
+	sChar = hex:       1c, dec =   28, bin =    11100
+======= -229 ====
+	uChar = hex:       1b, dec =   27, bin =    11011
+	sChar = hex:       1b, dec =   27, bin =    11011
+======= -230 ====
+	uChar = hex:       1a, dec =   26, bin =    11010
+	sChar = hex:       1a, dec =   26, bin =    11010
+======= -231 ====
+	uChar = hex:       19, dec =   25, bin =    11001
+	sChar = hex:       19, dec =   25, bin =    11001
+======= -232 ====
+	uChar = hex:       18, dec =   24, bin =    11000
+	sChar = hex:       18, dec =   24, bin =    11000
+======= -233 ====
+	uChar = hex:       17, dec =   23, bin =    10111
+	sChar = hex:       17, dec =   23, bin =    10111
+======= -234 ====
+	uChar = hex:       16, dec =   22, bin =    10110
+	sChar = hex:       16, dec =   22, bin =    10110
+======= -235 ====
+	uChar = hex:       15, dec =   21, bin =    10101
+	sChar = hex:       15, dec =   21, bin =    10101
+======= -236 ====
+	uChar = hex:       14, dec =   20, bin =    10100
+	sChar = hex:       14, dec =   20, bin =    10100
+======= -237 ====
+	uChar = hex:       13, dec =   19, bin =    10011
+	sChar = hex:       13, dec =   19, bin =    10011
+======= -238 ====
+	uChar = hex:       12, dec =   18, bin =    10010
+	sChar = hex:       12, dec =   18, bin =    10010
+======= -239 ====
+	uChar = hex:       11, dec =   17, bin =    10001
+	sChar = hex:       11, dec =   17, bin =    10001
+======= -240 ====
+	uChar = hex:       10, dec =   16, bin =    10000
+	sChar = hex:       10, dec =   16, bin =    10000
+======= -241 ====
+	uChar = hex:        f, dec =   15, bin =     1111
+	sChar = hex:        f, dec =   15, bin =     1111
+======= -242 ====
+	uChar = hex:        e, dec =   14, bin =     1110
+	sChar = hex:        e, dec =   14, bin =     1110
+======= -243 ====
+	uChar = hex:        d, dec =   13, bin =     1101
+	sChar = hex:        d, dec =   13, bin =     1101
+======= -244 ====
+	uChar = hex:        c, dec =   12, bin =     1100
+	sChar = hex:        c, dec =   12, bin =     1100
+======= -245 ====
+	uChar = hex:        b, dec =   11, bin =     1011
+	sChar = hex:        b, dec =   11, bin =     1011
+======= -246 ====
+	uChar = hex:        a, dec =   10, bin =     1010
+	sChar = hex:        a, dec =   10, bin =     1010
+======= -247 ====
+	uChar = hex:        9, dec =    9, bin =     1001
+	sChar = hex:        9, dec =    9, bin =     1001
+======= -248 ====
+	uChar = hex:        8, dec =    8, bin =     1000
+	sChar = hex:        8, dec =    8, bin =     1000
+======= -249 ====
+	uChar = hex:        7, dec =    7, bin =      111
+	sChar = hex:        7, dec =    7, bin =      111
+======= -250 ====
+	uChar = hex:        6, dec =    6, bin =      110
+	sChar = hex:        6, dec =    6, bin =      110
+======= -251 ====
+	uChar = hex:        5, dec =    5, bin =      101
+	sChar = hex:        5, dec =    5, bin =      101
+======= -252 ====
+	uChar = hex:        4, dec =    4, bin =      100
+	sChar = hex:        4, dec =    4, bin =      100
+======= -253 ====
+	uChar = hex:        3, dec =    3, bin =       11
+	sChar = hex:        3, dec =    3, bin =       11
+======= -254 ====
+	uChar = hex:        2, dec =    2, bin =       10
+	sChar = hex:        2, dec =    2, bin =       10
+======= -255 ====
+	uChar = hex:        1, dec =    1, bin =        1
+	sChar = hex:        1, dec =    1, bin =        1
+======= -256 ====
+	uChar = hex:        0, dec =    0, bin =        0
+	sChar = hex:        0, dec =    0, bin =        0
