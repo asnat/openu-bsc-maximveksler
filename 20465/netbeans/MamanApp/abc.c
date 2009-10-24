@@ -9,18 +9,25 @@
 #include <stdlib.h>
 #include <string.h>
 
+/*
+ * This method gets a string of ASCII characters, the method will seek alphabetic
+ *  sequences in the string and will substitude them with a collapsed fomrat
+ *  for ex. the String "Hi abcde" would become "Hi a-e".
+ *
+ * The method works on the supplied string.
+ */
 void collapse(char source[]) {
-    if(source[0] == '\0')
-        return;
-
+    /* sequenceCounter is used while to check if we are in a sequence */
     int sequenceCounter = 0;
-    int insertIndex = 0;
 
-    int i = 0;
+    /* insertIndex is a pointer to the correct insertion point for the modified 
+     * char array */
+    int insertIndex = 0;
 
     char currentChar;
     char nextChar;
     
+    int i = 0;
     do {
         currentChar = source[i];
         nextChar = source[i+1];
@@ -67,10 +74,7 @@ void test(char tested[], char expectedResult[]) {
     }
 }
 
-
-
-int main(int argc, char** argv) {
-    
+void testRun() {
     test("", "");
     test("a", "a");
     test("abd", "abd");
@@ -81,7 +85,17 @@ int main(int argc, char** argv) {
     test("^_`abc", "^_`a-c");
     test("xyz{", "x-z{");
     test("abcHHHABCDEFiiilmn", "a-cHHHA-Fiiil-n");
-    test("dabcemoqmnopqrrtaduvwxaz", "da-cemoqm-rrtadu-xaz");
+    test("dabcemoqmnopqrrtaduvwxaz", "da-cemoqm-rrtadu-xaz");    
+}
+
+int main(int argc, char** argv) {
+    /* To answer the maman requirments the functino is : */
+    /*
+    collapse_print(...);
+    */
+
+    /* To test the function is  */
+    testRun();
     
     return (EXIT_SUCCESS);
 }
