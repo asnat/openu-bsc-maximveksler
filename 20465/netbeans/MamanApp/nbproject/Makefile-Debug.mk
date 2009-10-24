@@ -31,6 +31,7 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/doll.o \
 	${OBJECTDIR}/abc.o
 
 # C Compiler Flags
@@ -56,6 +57,11 @@ LDLIBSOPTIONS=
 dist/Debug/GNU-Linux-x86/mamanapp: ${OBJECTFILES}
 	${MKDIR} -p dist/Debug/GNU-Linux-x86
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/mamanapp ${OBJECTFILES} ${LDLIBSOPTIONS} 
+
+${OBJECTDIR}/doll.o: nbproject/Makefile-${CND_CONF}.mk doll.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/doll.o doll.c
 
 ${OBJECTDIR}/abc.o: nbproject/Makefile-${CND_CONF}.mk abc.c 
 	${MKDIR} -p ${OBJECTDIR}

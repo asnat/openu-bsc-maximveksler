@@ -88,7 +88,7 @@ void testRun() {
     test("dabcemoqmnopqrrtaduvwxaz", "da-cemoqm-rrtadu-xaz");    
 }
 
-int ___loc_main(int argc, char** argv) {
+int main(int argc, char** argv) {
     /* To answer the maman requirments the functino is : */
     /*
     collapse_print(...);
