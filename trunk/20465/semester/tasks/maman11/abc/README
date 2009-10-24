@@ -1,0 +1,20 @@
+###########################################################################################################
+# PLEASE NOTE: This run is for an application compiled with the testRun() function.                       #
+# 	The maman requirment is implemented by the function collapse_print(char abc[]);                   #
+###########################################################################################################
+
+
+hq4ever@lukcy:~/Home/Users/Maxim Veksler/Documents/openu/20465/semester/tasks/maman11/abc$ ./abc
+
+OK     for []::: []
+OK     for [a]::: [a]
+OK     for [abd]::: [abd]
+OK     for [abc]::: [a-c]
+OK     for [:;<=>?]::: [:;<=>?]
+OK     for [>?@ABC]::: [>?@A-C]
+OK     for [XYZ[]::: [X-Z[]
+OK     for [^_`abc]::: [^_`a-c]
+OK     for [xyz{]::: [x-z{]
+OK     for [abcHHHABCDEFiiilmn]::: [a-cHHHA-Fiiil-n]
+OK     for [dabcemoqmnopqrrtaduvwxaz]::: [da-cemoqm-rrtadu-xaz]
+
