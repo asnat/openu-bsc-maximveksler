@@ -43,9 +43,9 @@ int forexCalc() {
 }
 
 /*
- * 
+ * Main for Maman 11, task 1 : Exchange Rate calculator
  */
-int main(int argc, char** argv) {
+int ___doll_loc_main(int argc, char** argv) {
     int ret = forexCalc();
 
     switch (ret) {
@@ -54,6 +54,8 @@ int main(int argc, char** argv) {
             break;
     }
 
+    /* If forexCalc returned success the application was succesful, in all
+     * other cases we failed. */
     return ((ret == DOLL_SUCCESS) ? EXIT_SUCCESS : EXIT_FAILURE);
 }
 

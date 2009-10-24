@@ -40,7 +40,7 @@ void collapse(char source[]) {
                 && ((currentChar >= 'a' && currentChar < 'z') || (currentChar >= 'A' && currentChar < 'Z'))) {
             sequenceCounter++;
         } else {
-            if(sequenceCounter > 1) {
+            if(sequenceCounter > 1) { /* We found at least 2 characters in the current sequence... */
                 insertIndex -= (sequenceCounter - 1); /* We trim 1 from
                  * sequenceCounter here because the first char is already in
                  * correct position: At the start of the sequence.
@@ -52,6 +52,10 @@ void collapse(char source[]) {
             sequenceCounter = 0;
         }
 
+        /* "Real Developer won't be in a situation that good developer
+         * know how to solve." So... incrementing at the end is less
+         * sexy then inside the usage of the variables, yet it is by far less
+         * error prone and understandble to the petit human mind. */
         insertIndex++;
         i++;
     } while(currentChar != '\0');
@@ -88,7 +92,10 @@ void testRun() {
     test("dabcemoqmnopqrrtaduvwxaz", "da-cemoqm-rrtadu-xaz");    
 }
 
-int ___loc_main(int argc, char** argv) {
+/*
+ * Main for Maman 11, task 2 : String collapsing utility.
+ */
+int ___abc_loc_main(int argc, char** argv) {
     /* To answer the maman requirments the functino is : */
     /*
     collapse_print(...);
