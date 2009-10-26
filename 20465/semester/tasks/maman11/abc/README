@@ -4,17 +4,28 @@
 ###########################################################################################################
 
 
-hq4ever@lukcy:~/Home/Users/Maxim Veksler/Documents/openu/20465/semester/tasks/maman11/abc$ ./abc
+hq4ever@lukcy:~/Home/Users/Maxim Veksler/Documents/openu/20465/semester/tasks/maman11/abc$ make test
 
-OK     for []::: []
-OK     for [a]::: [a]
-OK     for [abd]::: [abd]
-OK     for [abc]::: [a-c]
-OK     for [:;<=>?]::: [:;<=>?]
-OK     for [>?@ABC]::: [>?@A-C]
-OK     for [XYZ[]::: [X-Z[]
-OK     for [^_`abc]::: [^_`a-c]
-OK     for [xyz{]::: [x-z{]
-OK     for [abcHHHABCDEFiiilmn]::: [a-cHHHA-Fiiil-n]
-OK     for [dabcemoqmnopqrrtaduvwxaz]::: [da-cemoqm-rrtadu-xaz]
-
+[maximv@mldev2 abc]$ make test
+gcc -Wall -ansi -pedantic -c abc.c
+gcc -o abc abc.o
+echo 'HelloWorld' | ./abc
+HelloWorld
+echo 'abd' | ./abc
+abd
+echo 'abc' | ./abc
+a-c
+echo ':;<=>?' | ./abc
+:;<=>?
+echo '>?@ABC' | ./abc
+>?@A-C
+echo 'XYZ[' | ./abc
+X-Z[
+echo '^_\`abc' | ./abc
+^_\`a-c
+echo 'xyz{' | ./abc
+x-z{
+echo 'abcHHHABCDEFiiilmn' | ./abc
+a-cHHHA-Fiiil-n
+echo 'dabcemoqmnopqrrtaduvwxaz' | ./abc
+da-cemoqm-rrtadu-xaz
