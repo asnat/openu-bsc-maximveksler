@@ -102,15 +102,17 @@ void testRun() {
  * Main for Maman 11, task 2 : String collapsing utility.
  */
 int main(int argc, char** argv) {
-    /* To answer the maman requirments the functino is : */
-/*
-    collapse_print(...);
-*/
+    /* Input buffer, user should input strings shorther then 200 char */
+    char str[200];
 
     /* To test the function is  */
-/**/
-    testRun();
-/**/    
+/*  testRun();  */
+
+    scanf("%s", str);
+
+    /* To answer the maman requirments the function is : */
+    collapse_print(str);
+    printf("\n");
 
     return (EXIT_SUCCESS);
 }
