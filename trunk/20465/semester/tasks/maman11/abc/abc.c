@@ -10,11 +10,11 @@
 #include <string.h>
 
 /*
- * This method gets a string of ASCII characters, the method will seek alphabetic
+ * This function gets a string of ASCII characters, the function will seek alphabetic
  *  sequences in the string and will substitude them with a collapsed fomrat
  *  for ex. the String "Hi abcde" would become "Hi a-e".
  *
- * The method works on the supplied string.
+ * The function works on the supplied string.
  */
 void collapse(char source[]) {
     /* sequenceCounter is used while to check if we are in a sequence */
