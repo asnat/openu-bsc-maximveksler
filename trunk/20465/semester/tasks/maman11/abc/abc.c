@@ -11,8 +11,8 @@
 
 /*
  * This function gets a string of ASCII characters, the function will seek alphabetic
- *  sequences in the string and will substitude them with a collapsed fomrat
- *  for ex. the String "Hi abcde" would become "Hi a-e".
+ *  sequences of at least 3 characters in the string and will substitude them with a 
+ *  collapsed fomrat for ex. the String "Hiabcde" would become "Hia-e".
  *
  * The function works on the supplied string.
  */
@@ -28,14 +28,18 @@ void collapse(char source[]) {
     char nextChar;
     
     int i = 0;
-    do {
+
+    while(1) {
         currentChar = source[i];
-        nextChar = source[i+1];
 
         /* We always populate first, to avoid going back and doing the correct
          * copying had we discover that no good sequence was found */
         source[insertIndex] = currentChar;
-        
+
+        if('\0' == currentChar)
+            break;
+
+        nextChar = source[i+1];
         if(currentChar + 1 == nextChar
                 && ((currentChar >= 'a' && currentChar < 'z') || (currentChar >= 'A' && currentChar < 'Z'))) {
             sequenceCounter++;
@@ -57,7 +61,7 @@ void collapse(char source[]) {
          * error prone and understandble to the petit human mind. */
         insertIndex++;
         i++;
-    } while('\0' != currentChar);
+    };
 }
 
 /* 
@@ -68,6 +72,8 @@ void collapse_print(char source[]) {
     collapse(source);
     printf("%s", source);
 }
+
+/* TESTING:
 
 void test(char tested[], char expectedResult[]) {
     char str[1000];
@@ -96,6 +102,7 @@ void testRun() {
     printf("\n");
 }
 
+*/
 
 
 /*
@@ -105,8 +112,8 @@ int main(int argc, char** argv) {
     /* Input buffer, user should input strings shorther then 200 char */
     char str[200];
 
-    /* To test the function is  */
-/*  testRun();  */
+    /* For a test run, uncomment */
+    /* testRun(); */
 
     scanf("%s", str);
 
