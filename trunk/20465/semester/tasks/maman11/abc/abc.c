@@ -115,6 +115,7 @@ int main(int argc, char** argv) {
     /* For a test run, uncomment */
     /* testRun(); */
 
+    /* Input is assumed to be valid, as was noted in course forum posts */
     scanf("%s", str);
 
     /* To answer the maman requirments the function is : */
