@@ -9,6 +9,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define INPUT_SIZE 200 /* Amount of chars user can input */
+
+/* Check if supplied character matches our sequence requirments */
+int inSequence(char currentChar) {
+	return ((currentChar >= 'a' && currentChar < 'z') || (currentChar >= 'A' && currentChar < 'Z'));
+}
+
 /*
  * This function gets a string of ASCII characters, the function will seek alphabetic
  *  sequences of at least 3 characters in the string and will substitude them with a 
@@ -40,8 +47,7 @@ void collapse(char source[]) {
             break;
 
         nextChar = source[i+1];
-        if(currentChar + 1 == nextChar
-                && ((currentChar >= 'a' && currentChar < 'z') || (currentChar >= 'A' && currentChar < 'Z'))) {
+        if(currentChar + 1 == nextChar && inSequence(currentChar)) {
             sequenceCounter++;
         } else {
             if(sequenceCounter > 1) { /* We found at least 3 characters in the current sequence... */
@@ -110,7 +116,7 @@ void testRun() {
  */
 int main(int argc, char** argv) {
     /* Input buffer, user should input strings shorther then 200 char */
-    char str[200];
+    char str[INPUT_SIZE];
 
     /* For a test run, uncomment */
     /* testRun(); */
