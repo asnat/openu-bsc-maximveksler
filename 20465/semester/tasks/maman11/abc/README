@@ -1,7 +1,6 @@
-###########################################################################################################
-# PLEASE NOTE: This run is for an application compiled with the testRun() function.                       #
-# 	The maman requirment is implemented by the function collapse_print(char abc[]);                   #
-###########################################################################################################
+########################################################################
+# PLEASE NOTE: Run example for Maman11, assignment 2                   #
+########################################################################
 
 
 hq4ever@lukcy:~/Home/Users/Maxim Veksler/Documents/openu/20465/semester/tasks/maman11/abc$ make test
