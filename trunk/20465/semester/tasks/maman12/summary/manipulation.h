@@ -8,7 +8,7 @@
 #ifndef _MANIPULATION_H
 #define	_MANIPULATION_H
 
-int* parseInput(char* input, int* nOfResults);
+int* parseInput(int* nOfResults);
 int* aggregateArray(int* inputArray, int size);
 
 #endif	/* _MANIPULATION_H */
