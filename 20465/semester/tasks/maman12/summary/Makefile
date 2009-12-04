@@ -21,15 +21,10 @@ clean:
 	rm -f *.o *~
 
 .PHONY: test
-test: abc
-	echo 'HelloWorld' | ./abc
-	echo 'abd' | ./abc
-	echo 'abc' | ./abc
-	echo ':;<=>?' | ./abc
-	echo '>?@ABC' | ./abc
-	echo 'XYZ[' | ./abc
-	echo '^_\`abc' | ./abc
-	echo 'xyz{' | ./abc
-	echo 'abcHHHABCDEFiiilmn' | ./abc
-	echo 'dabcemoqmnopqrrtaduvwxaz' | ./abc
+test: summary
+	echo '1' | ./summary
+	echo '1 2' | ./summary
+	echo '1 2 3 4 5 6 7 8 9 10' | ./summary
+	echo '34 2348 234 234 839 234 90238 493 948328 949 9203 0938203 03820 0492 8 040293 80238 92093 83' | ./summary
+	echo '' | ./summary
 
