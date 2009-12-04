@@ -18,14 +18,9 @@ int main(int argc, char** argv) {
     int* results;
     int* aggregated;
 
-    /* Read input from user */
-    printf("Please enter number to calculate series from them: ");
-    char str[1000];
-    scanf("%s", str);
-    printf("%s", str);
-    
     /* Parse the string input, convert it into int[] */
-    results = parseInput(str, &resultsSize);
+    printf("Please enter number to calculate series from them: ");
+    results = parseInput(&resultsSize);
 
     /* Process the input further to allow task logic */
     aggregated = aggregateArray(results, resultsSize);

@@ -15,28 +15,25 @@ static char PARSER_PATTERN[]  = "\t ";
  * possible requirment. Then convert the array of string tokens into an
  * simple array of integers.
  */
-int* parseInput(char* input, int* nOfResults) {
-    
-
-    /* Allocate memory by the maximum possibly required size for int... */
-    int *results = (int*) malloc(strlen(input) * sizeof(int));
-
-    int* insertIterator = results;
-    char* pch;
-
-    
-    /* We trash the user input, but it's cool - Worthless as usual. */
-    pch = strtok(input, "\t ");
-    *nOfResults = 0;
-    
-    while(pch != NULL) {
-        (*nOfResults)++;
-        
-        *insertIterator = atoi(pch);
-        insertIterator++;
-        pch = strtok(NULL, "\t ");
+int* parseInput(int* nOfResults) {
+    int *results = malloc(sizeof(int));
+    int result_size = 1;
+ 
+    int currentValue;
+ 
+    /* We assume here that the input coming from the user is valid... */
+    while(scanf("%d", &currentValue) != EOF) {
+       int *p = realloc(results, (result_size + 1) * sizeof(int));
+       if(!p) {
+          free(results);
+          return NULL; /* BIG PROBLEM - NO MEMORY !! */
+       }
+       results = p;
+       results[result_size - 1] = currentValue;
+       result_size++;
     }
 
+    *nOfResults = result_size-1;
     return results;
 }
 
