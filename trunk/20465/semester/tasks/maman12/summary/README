@@ -1,0 +1,20 @@
+########################################################################
+# PLEASE NOTE: Run example for Maman12, assignment 1                   #
+########################################################################
+
+
+hq4ever@lukcy:~/Desktop/openu/20465/semester/tasks/maman12/summary$ make test
+echo '1' | ./summary
+Please enter number to calculate series from them:
+1
+echo '1 2' | ./summary
+Please enter number to calculate series from them:
+1 3
+echo '1 2 3 4 5 6 7 8 9 10' | ./summary
+Please enter number to calculate series from them:
+1 3 6 10 15 21 28 36 45 55
+echo '34 2348 234 234 839 234 90238 493 948328 949 9203 0938203 03820 0492 8 040293 80238 92093 83' | ./summary
+Please enter number to calculate series from them:
+34 2382 2616 2850 3689 3923 94161 94654 1042982 1043931 1053134 1991337 1995157 1995649 1995657 2035950 2116188 2208281 2208364
+echo '' | ./summary
+Please enter number to calculate series from them: make: *** [test] Error 1

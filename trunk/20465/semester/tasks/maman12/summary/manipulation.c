@@ -9,7 +9,6 @@
 #include <string.h>
 #include <stdio.h>
 
-static char PARSER_PATTERN[]  = "\t ";
 /*
  * Parse the input from user, dynamically allocate memory to the maximum
  * possible requirment. Then convert the array of string tokens into an

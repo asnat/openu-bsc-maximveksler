@@ -22,16 +22,22 @@ int main(int argc, char** argv) {
     printf("Please enter number to calculate series from them: ");
     results = parseInput(&resultsSize);
 
+    if(resultsSize == 0) {
+        return EXIT_FAILURE; /*We want results for input, otherwise we exit*/
+    }
+
     /* Process the input further to allow task logic */
     aggregated = aggregateArray(results, resultsSize);
 
+    
     /* Finally print the result */
+    printf("\n");
     int i = 0;
     while(i < resultsSize) {
-        printf("%d\n", *(aggregated+i));
+        printf("%d ", *(aggregated+i));
         i++;
     }
-
+    printf("\n");
     
     /* Be free my memory, FLY like the wind!! */
     free(aggregated);
