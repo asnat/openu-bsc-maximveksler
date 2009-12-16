@@ -6,10 +6,12 @@
  */
 
 #ifndef _MESSAGES_H
-#define	_MESSAGES_H
+    #define	_MESSAGES_H
 
-#define PLEASE_ENTER_COMMAND "Please enter valid command: "
-#define NO_COMMAND_INPUT "No command input was found."
-#define NOT_VALID_COMMAND "Not a valid command."
+    #define PLEASE_ENTER_COMMAND "Please enter valid command: "
+    #define NO_COMMAND_INPUT "No command input was found."
+    #define NOT_VALID_COMMAND "Not a valid command."
+    #define INVALID_VARIABLE_NAME "Invalid variable name."
+
 #endif	/* _MESSAGES_H */
 
