@@ -8,11 +8,13 @@
 #ifndef _COMPLEX_H
 #define	_COMPLEX_H
 
-#define DEBUG 1
+#define DEBUG 0
+#define TOK_INPUT "\n\t ,"
 
 typedef struct {
-    int real;
-    int imaginary;
+    char   registerId;
+    double real;
+    double imaginary;
 } Complex;
 
 typedef struct {
@@ -20,8 +22,7 @@ typedef struct {
     void (*pt2func)(char*);
 } conv_t;
 
-
-void ppComplex(Complex);
+void initializeRegisters();
 void print_comp(char*);
 void add_comp(char*);
 void sub_comp(char*);

@@ -5,6 +5,7 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>complex.h</itemPath>
+      <itemPath>maindefs.h</itemPath>
       <itemPath>messages.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"

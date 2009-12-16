@@ -10,11 +10,11 @@
 #include <string.h>
 #include "complex.h"
 #include "messages.h"
+#include "maindefs.h"
 
 #define TRUE 1
-#define TOK_INPUT "\n\t ,"
 
-void halt(char *input) {
+void halt() {
     #if DEBUG
         printf("OUTING");
     #endif
@@ -23,7 +23,6 @@ void halt(char *input) {
 }
 
 conv_t conversion_array[] = {
-    {"halt", halt},
     {"print_comp", print_comp},
     {"add_comp", add_comp},
     {"sub_comp", sub_comp},
@@ -43,14 +42,25 @@ int main(int argc, char** argv) {
     char *pch;
 
     conv_t *dynaFuncHandler;
+
+    initializeRegisters();
     
     while(TRUE) {
         printf(PLEASE_ENTER_COMMAND);
         fgets(userInput, 1000, stdin);
         pch = strtok(userInput, TOK_INPUT);
 
+
         if(pch != NULL) {
-            /* Dynamically seek (&find) correct fuction to call */
+            /* Check if it's time to die */
+            if(strcmp(HALT_FUNCTION_NAME, pch) == 0) {
+                halt();
+            }
+
+            /* Dynamically seek (&find) correct fuction to call
+             * We stop either on dynaFuncHandler->function_name == NULL
+             * or on match strcmp(pch,  dynaFuncHandler->function_name) == 0
+             */
             for(dynaFuncHandler = conversion_array;  dynaFuncHandler->function_name && strcmp(pch,  dynaFuncHandler->function_name); dynaFuncHandler++);
 
             /* If we have found a function at this name */
