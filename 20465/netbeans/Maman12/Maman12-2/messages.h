@@ -12,6 +12,8 @@
     #define NO_COMMAND_INPUT "No command input was found."
     #define NOT_VALID_COMMAND "Not a valid command."
     #define INVALID_VARIABLE_NAME "Invalid variable name."
+    #define NO_DOUBLE_VALUE_FOUND "No double value found."
+    #define NO_FREE_MEMORY "No free memory."
 
 #endif	/* _MESSAGES_H */
 
