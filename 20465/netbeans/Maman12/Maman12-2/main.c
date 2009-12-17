@@ -57,7 +57,7 @@ static Complex* __getComplex(char *input) {
 /* extract from the input a double number as was typed by the user
  *  input: The input string that was types by the user
  *  output: double if not found then 0.0 and errno is set to NO_NUMBER_FOUND */
-static double __getDouble(char *input) {
+static double __getDouble(char *input, char* info_TargetParameterName) {
     char *pch;
 
     errno = NO_ERROR;
@@ -66,7 +66,7 @@ static double __getDouble(char *input) {
 
     if(pch == NULL) {
         errno = NO_NUMBER_FOUND;
-        fprintf(stderr, NO_DOUBLE_VALUE_FOUND);
+        fprintf(stderr, "%s %s %s", WRONG_PARAMETERS, info_TargetParameterName, NO_DOUBLE_VALUE_FOUND);
         return ERROR_DOUBLE_RETURN_VALUE;
     } else {
         /* The next block verifies we are dealing with valid floating point
@@ -88,7 +88,7 @@ static double __getDouble(char *input) {
         if(testedChar != '.') {
             if(testedChar != '\0') {
                 errno = NO_NUMBER_FOUND;
-                fprintf(stderr, NO_DOUBLE_VALUE_FOUND);
+                fprintf(stderr, "%s %s %s", WRONG_PARAMETERS, info_TargetParameterName, NO_DOUBLE_VALUE_FOUND);
                 return ERROR_DOUBLE_RETURN_VALUE;
             }
         } else {
@@ -101,7 +101,7 @@ static double __getDouble(char *input) {
 
         if(testedChar != '\0') {
             errno = NO_NUMBER_FOUND;
-            fprintf(stderr, NO_DOUBLE_VALUE_FOUND);
+            fprintf(stderr, "%s %s %s", WRONG_PARAMETERS, info_TargetParameterName, NO_DOUBLE_VALUE_FOUND);
             return ERROR_DOUBLE_RETURN_VALUE;
         }
     }
@@ -122,12 +122,12 @@ static void read_comp_integration(char* input) {
 
     p1 = __getComplex(input);
     if(p1 != NULL) {
-         d1 = __getDouble(NULL);
+         d1 = __getDouble(NULL, "second");
          if(errno == NO_NUMBER_FOUND) {
              return;
          }
 
-         d2 = __getDouble(NULL);
+         d2 = __getDouble(NULL, "third");
          if(errno == NO_NUMBER_FOUND) {
              return;
          }
@@ -201,7 +201,7 @@ static void mult_comp_real_integration(char *input) {
 
     p1 = __getComplex(input);
     if(p1 != NULL) {
-         d = __getDouble(NULL);
+         d = __getDouble(NULL, "second");
          if(errno == NO_NUMBER_FOUND) {
              return;
          }
@@ -222,7 +222,7 @@ static void mult_comp_img_integration(char *input) {
 
     p1 = __getComplex(input);
     if(p1 != NULL) {
-         d = __getDouble(NULL);
+         d = __getDouble(NULL, "second");
          if(errno == NO_NUMBER_FOUND) {
              return;
          }
