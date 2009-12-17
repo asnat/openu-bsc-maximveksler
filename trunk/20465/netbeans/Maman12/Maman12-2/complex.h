@@ -10,9 +10,11 @@
 
 #define DEBUG 0
 #define TOK_INPUT "\n\t ,"
+#define NO_NUMBER_FOUND 50
+#define NO_ERROR 0
+#define ERROR_DOUBLE_RETURN_VALUE 0.0
 
 typedef struct {
-    char   registerId;
     double real;
     double imaginary;
 } Complex;
@@ -22,14 +24,14 @@ typedef struct {
     void (*pt2func)(char*);
 } conv_t;
 
-void initializeRegisters();
-void print_comp(char*);
-void add_comp(char*);
-void sub_comp(char*);
-void mult_comp_real(char*);
-void mult_comp_img(char*);
-void mult_comp_comp(char*);
-void abs_comp(char*);
+void read_comp(Complex *p1, double d1, double d2);
+void print_comp(Complex *p);
+void add_comp(Complex *p1, Complex *p2);
+void sub_comp(Complex *p1, Complex *p2);
+void mult_comp_real(Complex *p1, double d);
+void mult_comp_img(Complex *p1, double d);
+void mult_comp_comp(Complex *p1, Complex *p2);
+void abs_comp(Complex *p);
 
 #endif	/* _COMPLEX_H */
 

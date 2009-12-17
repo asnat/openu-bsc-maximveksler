@@ -7,6 +7,9 @@
 
 #ifndef _MAINDEFS_H
     #define	_MAINDEFS_H
+
+    #define TRUE 1
     #define HALT_FUNCTION_NAME "halt"
+
 #endif	/* _MAINDEFS_H */
 

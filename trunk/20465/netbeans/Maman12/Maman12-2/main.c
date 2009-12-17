@@ -12,9 +12,8 @@
 #include "messages.h"
 #include "maindefs.h"
 
-#define TRUE 1
 
-void halt() {
+static void halt() {
     #if DEBUG
         printf("OUTING");
     #endif
@@ -22,14 +21,260 @@ void halt() {
     exit(EXIT_SUCCESS);
 }
 
-conv_t conversion_array[] = {
-    {"print_comp", print_comp},
-    {"add_comp", add_comp},
-    {"sub_comp", sub_comp},
-    {"mult_comp_real", mult_comp_real},
-    {"mult_comp_img", mult_comp_img},
-    {"mult_comp_comp", mult_comp_comp},
-    {"abs_comp", abs_comp},
+Complex A;
+Complex B;
+Complex C;
+Complex D;
+Complex E;
+Complex F;
+
+static int errno;
+
+/* extract from the input the next complex number to be used by string matching
+ *  input: The input string that was types by the user
+ *  output: pointer to the complex variable to be used, if not found then NULL */
+static Complex* __getComplex(char *input) {
+    char *pch;
+
+    pch = strtok(input, TOK_INPUT);
+
+    if(pch == NULL || strlen(pch) != 1 || !(pch[0] >= 'A' && pch[0] <= 'F')) {
+        fprintf(stderr, INVALID_VARIABLE_NAME);
+        return NULL;
+    } else {
+        switch (pch[0]) {
+            case 'A' : return &A;
+            case 'B' : return &B;
+            case 'C' : return &C;
+            case 'D' : return &D;
+            case 'E' : return &E;
+            case 'F' : return &F;
+        }
+    }
+}
+
+
+/* extract from the input a double number as was typed by the user
+ *  input: The input string that was types by the user
+ *  output: double if not found then 0.0 and errno is set to NO_NUMBER_FOUND */
+static double __getDouble(char *input) {
+    char *pch;
+
+    errno = NO_ERROR;
+
+    pch = strtok(input, TOK_INPUT);
+
+    if(pch == NULL) {
+        errno = NO_NUMBER_FOUND;
+        fprintf(stderr, NO_DOUBLE_VALUE_FOUND);
+        return ERROR_DOUBLE_RETURN_VALUE;
+    } else {
+        /* The next block verifies we are dealing with valid floating point
+         * number representation, note we do not support scientific E notation...
+         */
+        char *c = pch;
+        char testedChar;
+
+        testedChar = *c;
+        if(testedChar == '+' || testedChar == '-') {
+            c++;
+            testedChar = *c;
+        }
+
+        while((testedChar >= '0' && testedChar <= '9')) {
+            testedChar = *(++c);
+        }
+
+        if(testedChar != '.') {
+            if(testedChar != '\0') {
+                errno = NO_NUMBER_FOUND;
+                fprintf(stderr, NO_DOUBLE_VALUE_FOUND);
+                return ERROR_DOUBLE_RETURN_VALUE;
+            }
+        } else {
+            testedChar = *(++c);
+        }
+
+        while((testedChar >= '0' && testedChar <= '9')) {
+            testedChar = *(++c);
+        }
+
+        if(testedChar != '\0') {
+            errno = NO_NUMBER_FOUND;
+            fprintf(stderr, NO_DOUBLE_VALUE_FOUND);
+            return ERROR_DOUBLE_RETURN_VALUE;
+        }
+    }
+
+    return atof(pch);
+
+}
+
+static void read_comp_integration(char* input) {
+    Complex *p1;
+    double d1;
+    double d2;
+
+    /* char holds 1 variable name, 2 float... */
+    #if DEBUG
+        printf("add_comp %s\n", input);
+    #endif
+
+    p1 = __getComplex(input);
+    if(p1 != NULL) {
+         d1 = __getDouble(NULL);
+         if(errno == NO_NUMBER_FOUND) {
+             return;
+         }
+
+         d2 = __getDouble(NULL);
+         if(errno == NO_NUMBER_FOUND) {
+             return;
+         }
+
+         read_comp(p1, d1, d2);
+    }
+}
+
+static void print_comp_integration(char *input) {
+    Complex *p;
+
+    /* Char holds variable name... */
+    #if DEBUG
+        printf("print_comp_integration %s\n", input);
+    #endif
+
+    p = __getComplex(input);
+
+    if(p != NULL) {
+        print_comp(p);
+    }
+}
+
+static void add_comp_integration(char *input) {
+    Complex *p1;
+    Complex *p2;
+
+    /* char holds 2 variable names... */
+    #if DEBUG
+        printf("add_comp %s\n", input);
+    #endif
+
+    p1 = __getComplex(input);
+    if(p1 != NULL) {
+        p2 = __getComplex(NULL);
+
+        if(p2 != NULL) {
+            add_comp(p1, p2);
+        } /*if(p2 != NULL)*/
+    } /*if(p1 != NULL)*/
+} /*add_comp*/
+
+static void sub_comp_integration(char *input) {
+    Complex *p1;
+    Complex *p2;
+
+    /* char holds 2 variable names... */
+    #if DEBUG
+        printf("sub_comp %s\n", input);
+    #endif
+
+    p1 = __getComplex(input);
+    if(p1 != NULL) {
+        p2 = __getComplex(NULL);
+
+        if(p2 != NULL) {
+            sub_comp(p1, p2);
+        }
+    }
+}
+
+static void mult_comp_real_integration(char *input) {
+    Complex *p1;
+    double d;
+
+    /* char holds 1 variable, 1 float*/
+    #if DEBUG
+        printf("multi_comp_real %s\n", input);
+    #endif
+
+
+    p1 = __getComplex(input);
+    if(p1 != NULL) {
+         d = __getDouble(NULL);
+         if(errno == NO_NUMBER_FOUND) {
+             return;
+         }
+    }
+
+    mult_comp_real(p1, d);
+}
+
+static void mult_comp_img_integration(char *input) {
+    Complex *p1;
+    double d;
+
+    /* char holds 1 variable, 1 float imaginary*/
+    #if DEBUG
+        printf("multi_comp_img %s\n", input);
+    #endif
+
+
+    p1 = __getComplex(input);
+    if(p1 != NULL) {
+         d = __getDouble(NULL);
+         if(errno == NO_NUMBER_FOUND) {
+             return;
+         }
+    }
+
+    mult_comp_img(p1, d);
+}
+
+static void mult_comp_comp_integration(char *input) {
+    Complex *p1;
+    Complex *p2;
+
+    /* char holds 2 variable */
+    #if DEBUG
+        printf("multi_comp_comp %s\n", input);
+    #endif
+
+    p1 = __getComplex(input);
+    if(p1 != NULL) {
+        p2 = __getComplex(NULL);
+
+        if(p2 != NULL) {
+            mult_comp_comp(p1, p2);
+        }
+    }
+}
+
+static void abs_comp_integration(char *input) {
+    Complex *p;
+
+    /* char holds 1 variable */
+    #if DEBUG
+        printf("abs_comp %s\n", input);
+    #endif
+
+    p = __getComplex(input);
+
+    if(p != NULL) {
+        abs_comp(p);
+    }
+
+}
+
+static conv_t conversion_array[] = {
+    {"read_comp", read_comp_integration},
+    {"print_comp", print_comp_integration},
+    {"add_comp", add_comp_integration},
+    {"sub_comp", sub_comp_integration},
+    {"mult_comp_real", mult_comp_real_integration},
+    {"mult_comp_img", mult_comp_img_integration},
+    {"mult_comp_comp", mult_comp_comp_integration},
+    {"abs_comp", abs_comp_integration},
     {0, 0},
 };
 
@@ -42,8 +287,6 @@ int main(int argc, char** argv) {
     char *pch;
 
     conv_t *dynaFuncHandler;
-
-    initializeRegisters();
     
     while(TRUE) {
         printf(PLEASE_ENTER_COMMAND);
@@ -65,8 +308,8 @@ int main(int argc, char** argv) {
 
             /* If we have found a function at this name */
             if(dynaFuncHandler->function_name) {
-                pch = strtok(NULL, TOK_INPUT);
-                dynaFuncHandler->pt2func(pch);
+                /* We want to pass the next location after the function name in the general user input string */
+                dynaFuncHandler->pt2func(&userInput[strlen(pch)+1]);
             } else {
                 fprintf(stderr, NOT_VALID_COMMAND);
             }

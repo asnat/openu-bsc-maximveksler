@@ -35,6 +35,7 @@
       <compileType>
         <linkerTool>
           <linkerLibItems>
+            <linkerLibStdlibItem>Mathematics</linkerLibStdlibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
