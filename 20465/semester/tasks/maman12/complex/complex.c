@@ -1,3 +1,10 @@
+/* 
+* File:   complex.c
+* Author: Maxim Veksler 303856983
+*
+* Created on December 3, 2009, 23:28
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

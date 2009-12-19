@@ -4,79 +4,79 @@
 
 
 hq4ever@lukcy:~/Desktop/openu/20465/semester/tasks/maman12/complex$ ./complex                                                                                                       
-Please enter valid command: print_comp A                                                                                                                                            
+? print_comp A                                                                                                                                            
 0.00 + (0.00)i                                                                                                                                                                      
-Please enter valid command: print_comp G                                                                                                                                            
+? print_comp G                                                                                                                                            
 No such complex number                                                                                                                                                              
-Please enter valid command: print_comp                                                                                                                                              
+? print_comp                                                                                                                                              
 No such complex number                                                                                                                                                              
-Please enter valid command:                                                                                                                                                         
+?                                                                                                                                                         
 No command input was found.                                                                                                                                                         
-Please enter valid command: print_comp 12                                                                                                                                           
+? print_comp 12                                                                                                                                           
 No such complex number                                                                                                                                                              
-Please enter valid command: add_comp A,B                                                                                                                                            
+? add_comp A,B                                                                                                                                            
 0.00 + (0.00)i                                                                                                                                                                      
-Please enter valid command: read_comp F,67.3,22                                                                                                                                     
+? read_comp F,67.3,22                                                                                                                                     
 
-Please enter valid command: print_comp A
+? print_comp A
 0.00 + (0.00)i                          
-Please enter valid command: print_comp F
+? print_comp F
 67.30 + (22.00)i                        
-Please enter valid command: read_comp F,68.3,,,,,,,9       
+? read_comp F,68.3,,,,,,,9       
 
-Please enter valid command: print_comp F
+? print_comp F
 68.30 + (9.00)i                         
-Please enter valid command: read_comp F,68.3,,,,,,,C
+? read_comp F,68.3,,,,,,,C
 Wrong parameters third parameter must be a real number
-Please enter valid command: read_comp F,68.C,3        
+? read_comp F,68.C,3        
 Wrong parameters second parameter must be a real number
-Please enter valid command: read_comp F,68.C,3         
+? read_comp F,68.C,3         
 Wrong parameters second parameter must be a real number
-Please enter valid command: read_comp 66,22,11         
+? read_comp 66,22,11         
 No such complex number                                 
-Please enter valid command: read_comp C 99                                   ,            23.23
+? read_comp C 99                                   ,            23.23
 
-Please enter valid command: print_comp C
+? print_comp C
 99.00 + (23.23)i                        
-Please enter valid command: add_comp A,B
+? add_comp A,B
 0.00 + (0.00)i                          
-Please enter valid command: add_comp A,B,C
+? add_comp A,B,C
 0.00 + (0.00)i                            
-Please enter valid command: add_comp B,C      
+? add_comp B,C      
 99.00 + (23.23)i                              
-Please enter valid command: add_comp B,[      
+? add_comp B,[      
 No such complex number                        
-Please enter valid command: add_comp B,2      
+? add_comp B,2      
 No such complex number                        
-Please enter valid command: add_comp T,A      
+? add_comp T,A      
 No such complex number
-Please enter valid command: mult_comp_real C,9.2
+? mult_comp_real C,9.2
 910.80 + (213.72)i
-Please enter valid command: mult_comp_real C,OO
+? mult_comp_real C,OO
 Wrong parameters second parameter must be a real number
-Please enter valid command: mult_comp_real 9,2
+? mult_comp_real 9,2
 No such complex number
-Please enter valid command: mult_comp_real 9.2
+? mult_comp_real 9.2
 No such complex number
-Please enter valid command: mult_comp_img C, 9.2
+? mult_comp_img C, 9.2
 -213.72 + (910.80)i
-Please enter valid command: mult_comp_comp A,A
+? mult_comp_comp A,A
 0.00 + (0.00)i
-Please enter valid command: mult_comp_comp C,C
+? mult_comp_comp C,C
 9261.37 + (4599.54)i
-Please enter valid command: mult_comp_comp C,9
+? mult_comp_comp C,9
 No such complex number
-Please enter valid command: mult_comp_comp 9,C
+? mult_comp_comp 9,C
 No such complex number
-Please enter valid command: abs_comp A
+? abs_comp A
 |0.00 + (0.00)i|=0.00
-Please enter valid command: abs_comp C
+? abs_comp C
 |99.00 + (23.23)i|=101.69
-Please enter valid command: abs_comp 3
+? abs_comp 3
 No such complex number
-Please enter valid command:
+?
 No command input was found.
-Please enter valid command: halt
+? halt
 
 
 
@@ -130,4 +130,4 @@ NOW.... You might want to try suppling halt a few more parameters, who knows... 
 
 
 It goes something like this:
-Please enter valid command: halt Shit Happens! even to you friend on this forsaken planet we live on
+? halt Shit Happens! even to you friend on this forsaken planet we live on

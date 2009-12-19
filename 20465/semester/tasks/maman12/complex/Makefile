@@ -12,7 +12,7 @@ all: $(APPBIN)
 $(APPBIN):	$(OBJS)
 	$(CC) -o $@ $^ $(LFLAGS) $(LIBS)
 
-%.o:%.c
+%.o:%.c messages.h maindefs.h complex.h
 	$(CC) $(CFLAGS) -c $<
 
 
