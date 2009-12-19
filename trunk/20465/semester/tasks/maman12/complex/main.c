@@ -1,8 +1,8 @@
 /* 
  * File:   main.c
- * Author: hq4ever
+ * Author: Maxim Veksler 303856983
  *
- * Created on December 4, 2009, 9:39 PM
+ * Created on December 17, 2009, 9:39 PM
  */
 
 #include <stdio.h>
@@ -12,37 +12,23 @@
 #include "messages.h"
 #include "maindefs.h"
 
-
-static void halt() {
-    /* Easter egg code... */
-    char *pch;
-    int jokeIndex = 0;
-    char *jokes[] = { "What?!?!? !!!", 
-		      "WHAT DO YOU WANT FROM ME???",
-		      "Ya neit speak your language",
-                      "What do you think I am? a Telepathic vending machine?",
-		      "Stop it!",
-                      "Go away!",
-                      "Leave me alone.",
-                      "Dude, I mean it!!",
-                      "That's it, You have been telekanisized!!  ( http://www.tapuz.co.il/blog/userBlog.asp?FolderName=orenzarif )"
-                   };
-    for(pch = strtok(NULL, TOK_INPUT), jokeIndex = 0; pch != NULL && jokeIndex < 9; pch = strtok(NULL, TOK_INPUT), jokeIndex++) {
-       printf("\"%s\" Ha? -- %s\n", pch, jokes[jokeIndex]);
-    }
-    /* Easter egg code ends here... */
-
-    exit(EXIT_SUCCESS);
-}
-
-Complex A;
-Complex B;
-Complex C;
-Complex D;
-Complex E;
-Complex F;
-
 static int errno;
+
+static Complex A;
+static Complex B;
+static Complex C;
+static Complex D;
+static Complex E;
+static Complex F;
+
+
+
+static void halt();
+static void help();
+
+
+
+
 
 /* extract from the input the next complex number to be used by string matching
  *  input: The input string that was types by the user
@@ -89,37 +75,36 @@ static double __getDouble(char *input, char* info_TargetParameterName) {
          * number representation, note we do not support scientific E notation...
          */
         char *c = pch;
-        char testedChar;
 
-        testedChar = *c;
-        if(testedChar == '+' || testedChar == '-') {
+	/* First make sure to chup off the +/- signs */
+        if(*c == '+' || *c == '-') {
             c++;
-            testedChar = *c;
         }
 
-        while((testedChar >= '0' && testedChar <= '9')) {
-            testedChar = *(++c);
+        while((*c >= '0' && *c <= '9')) {
+           c++;
         }
 
-        if(testedChar != '.') {
-            if(testedChar != '\0') {
+        if(*c != '.') { 
+            if(*c != '\0') { /* If number contains no \. then it must end here, otherwise it's an error */
                 errno = NO_NUMBER_FOUND;
                 fprintf(stderr, "%s %s %s", WRONG_PARAMETERS, info_TargetParameterName, NO_DOUBLE_VALUE_FOUND);
                 return ERROR_DOUBLE_RETURN_VALUE;
             }
-        } else {
-            testedChar = *(++c);
+        } else { /* We found a number in the format [[:digit:]]+\. */
+            c++;
+
+            while((*c >= '0' && *c <= '9')) {
+                c++;
+            }
+
+            if(*c != '\0') {
+                errno = NO_NUMBER_FOUND;
+                fprintf(stderr, "%s %s %s", WRONG_PARAMETERS, info_TargetParameterName, NO_DOUBLE_VALUE_FOUND);
+                return ERROR_DOUBLE_RETURN_VALUE;
+            }
         }
 
-        while((testedChar >= '0' && testedChar <= '9')) {
-            testedChar = *(++c);
-        }
-
-        if(testedChar != '\0') {
-            errno = NO_NUMBER_FOUND;
-            fprintf(stderr, "%s %s %s", WRONG_PARAMETERS, info_TargetParameterName, NO_DOUBLE_VALUE_FOUND);
-            return ERROR_DOUBLE_RETURN_VALUE;
-        }
     }
 
     return atof(pch);
@@ -282,31 +267,35 @@ static void abs_comp_integration(char *input) {
 
 }
 
+
 static conv_t conversion_array[] = {
-    {"read_comp", read_comp_integration},
-    {"print_comp", print_comp_integration},
-    {"add_comp", add_comp_integration},
-    {"sub_comp", sub_comp_integration},
-    {"mult_comp_real", mult_comp_real_integration},
-    {"mult_comp_img", mult_comp_img_integration},
-    {"mult_comp_comp", mult_comp_comp_integration},
-    {"abs_comp", abs_comp_integration},
-    {0, 0},
+    {"read_comp", read_comp_integration, "<reg>,<float1>,<float2> - Set complex <reg> to value <float1> + (<float2>)i"},
+    {"print_comp", print_comp_integration, "<reg> - Print complex <reg> value"},
+    {"add_comp", add_comp_integration, "<reg1>,<reg2>- Add complex <reg1> to <reg2> and print the result"},
+    {"sub_comp", sub_comp_integration, "<reg1>,<reg2> - Subtract complex <reg1> from <reg2> and print the result"},
+    {"mult_comp_real", mult_comp_real_integration, "<reg>,<float>- Multiply complex <reg> with real <float> and print the result"},
+    {"mult_comp_img", mult_comp_img_integration, "<reg>,<float> - Multiply complex <reg> with imaginary <float> and print the result"},
+    {"mult_comp_comp", mult_comp_comp_integration, "<reg1>,<reg2> - Multiply complex <reg1> with complex <reg2> and print the result"},
+    {"abs_comp", abs_comp_integration, "<reg> - Calculate absolute value of <reg> and print the result"},
+    {NULL, NULL, NULL},
 };
 
 
 /*
- * 
+ * Loop on user input, Read user command and respond with proper function call 
+ * if appropreiate function was found, else print informative error message
  */
 int main(int argc, char** argv) {
-    char userInput[1000];
+    char userInput[USER_INPUT_SIZE];
     char *pch;
 
     conv_t *dynaFuncHandler;
     
+    printf(CALCULATOR_HEADER);
+
     while(TRUE) {
         printf(PLEASE_ENTER_COMMAND);
-        fgets(userInput, 1000, stdin);
+        fgets(userInput, USER_INPUT_SIZE, stdin);
         pch = strtok(userInput, TOK_INPUT);
 
 
@@ -314,6 +303,9 @@ int main(int argc, char** argv) {
             /* Check if it's time to die */
             if(strncmp(HALT_FUNCTION_NAME, pch, 4 /*ester egg*/) == 0) {
                 halt();
+            } else if(strncmp(HELP_FUNCTION_NAME, pch, 4) == 0) {
+                help();
+                continue;
             }
 
             /* Dynamically seek (&find) correct fuction to call
@@ -331,6 +323,7 @@ int main(int argc, char** argv) {
             }
         } else {
             fprintf(stderr, NO_COMMAND_INPUT);
+            help();
         }
 
         printf("\n");
@@ -340,3 +333,39 @@ int main(int argc, char** argv) {
     return EXIT_SUCCESS;
 }
 
+static void help() {
+	conv_t *dynaFuncHandler;
+
+        printf("Following Complex number registers are defined: A,B,C,D,E,F\n");
+        printf("\n");
+	printf("These operations available:\n");
+
+	for(dynaFuncHandler = conversion_array;  dynaFuncHandler->function_name; dynaFuncHandler++) {
+		printf("\t%s %s\n", dynaFuncHandler->function_name, dynaFuncHandler->helpText);
+	}
+
+	printf("\n");
+        printf("halt - To exit the application.\n");
+}
+
+static void halt() {
+    /* Easter egg code... */
+    char *pch;
+    int jokeIndex = 0;
+    char *jokes[] = { "What?!?!? !!!", 
+		      "WHAT DO YOU WANT FROM ME???",
+		      "Ya neit speak your language",
+                      "What do you think I am? a Telepathic vending machine?",
+		      "Stop it!",
+                      "Go away!",
+                      "Leave me alone.",
+                      "Dude, I mean it!!",
+                      "That's it, You have been telekanisized!!  ( http://www.tapuz.co.il/blog/userBlog.asp?FolderName=orenzarif )"
+                   };
+    for(pch = strtok(NULL, TOK_INPUT), jokeIndex = 0; pch != NULL && jokeIndex < 9; pch = strtok(NULL, TOK_INPUT), jokeIndex++) {
+       printf("\"%s\" Ha? -- %s\n", pch, jokes[jokeIndex]);
+    }
+    /* Easter egg code ends here... */
+
+    exit(EXIT_SUCCESS);
+}

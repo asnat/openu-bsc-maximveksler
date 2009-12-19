@@ -1,6 +1,6 @@
 /* 
  * File:   complex.h
- * Author: hq4ever
+ * Author: Maxim Veksler
  *
  * Created on December 4, 2009, 9:49 PM
  */
@@ -18,11 +18,6 @@ typedef struct {
     double real;
     double imaginary;
 } Complex;
-
-typedef struct {
-    char *function_name;
-    void (*pt2func)(char*);
-} conv_t;
 
 void read_comp(Complex *p1, double d1, double d2);
 void print_comp(Complex *p);
