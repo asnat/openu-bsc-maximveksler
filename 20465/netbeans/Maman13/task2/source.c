@@ -99,11 +99,9 @@ void strfilecpy(FILE *fp, char *filename) {
 int main(int argc, char** argv) {
     char *filename;
 
-
     filename = getSourceFileName(argv[0]);
-    printf("%s", filename);
     
-    //strfilecpy(stdout, filename);
+    strfilecpy(stdout, filename);
     
     free(filename);
     return (EXIT_SUCCESS);
