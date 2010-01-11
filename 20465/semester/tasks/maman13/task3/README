@@ -1,0 +1,12 @@
+########################################################################
+# PLEASE NOTE: Run example for Maman12, assignment 2                   #
+########################################################################
+
+hq4ever@lukcy:~/Desktop/openu/20465/semester/tasks/maman13/task3$ ./min_call
+min_value(-1)           minimum is 2147483647
+min_value(100,12,99,-1) minimum is 12
+min_value(3,12,15,-1)   minimum is 3
+min_value(90,80,70,-1)  minimum is 3
+min_value(-1)           minimum is 3
+min_value(1,0,1,0,-1)   minimum is 0
+
