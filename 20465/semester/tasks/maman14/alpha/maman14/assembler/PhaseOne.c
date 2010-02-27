@@ -9,8 +9,8 @@ void processAssemblyLine(char *asmCodeLine) {
     AsmInstruction asmInst = parseLine(asmCodeLine);
 
     if(asmInst->instructionType == INST) {
-        // calling the function that matches this command
-        //commandFunction(/*rest of asmCodeLine minus the command name*/);
+        // calling the function that matches this command from a function table.
+        //commandFunction(asmInst);
     }
 
 }

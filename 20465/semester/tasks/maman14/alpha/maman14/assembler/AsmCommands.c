@@ -1,4 +1,9 @@
 
+
+
+#include "AsmInstruction.h"
+#include "CodeSegmentMgr.h"
+
 void* cmdLookupTable(char* commandName) {
     /*
     while(bla bla bla, not null) {
@@ -8,4 +13,8 @@ void* cmdLookupTable(char* commandName) {
 
      return null;
      */
+}
+
+void mov(AsmInstruction asmInst) {
+
 }
