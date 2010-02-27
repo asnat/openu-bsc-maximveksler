@@ -32,10 +32,13 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/LineParser.o \
-	${OBJECTDIR}/PhaseOne.o \
+	${OBJECTDIR}/CodeSegmentMgr.o \
+	${OBJECTDIR}/DataSegmentMgr.o \
 	${OBJECTDIR}/Assembler.o \
-	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/AsmCommands.o
+	${OBJECTDIR}/AsmCommands.o \
+	${OBJECTDIR}/LabelTableMgr.o \
+	${OBJECTDIR}/PhaseOne.o \
+	${OBJECTDIR}/main.o
 
 # C Compiler Flags
 CFLAGS=
@@ -66,25 +69,40 @@ ${OBJECTDIR}/LineParser.o: nbproject/Makefile-${CND_CONF}.mk LineParser.c
 	${RM} $@.d
 	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/LineParser.o LineParser.c
 
-${OBJECTDIR}/PhaseOne.o: nbproject/Makefile-${CND_CONF}.mk PhaseOne.c 
+${OBJECTDIR}/CodeSegmentMgr.o: nbproject/Makefile-${CND_CONF}.mk CodeSegmentMgr.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/PhaseOne.o PhaseOne.c
+	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/CodeSegmentMgr.o CodeSegmentMgr.c
+
+${OBJECTDIR}/DataSegmentMgr.o: nbproject/Makefile-${CND_CONF}.mk DataSegmentMgr.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/DataSegmentMgr.o DataSegmentMgr.c
 
 ${OBJECTDIR}/Assembler.o: nbproject/Makefile-${CND_CONF}.mk Assembler.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Assembler.o Assembler.c
 
-${OBJECTDIR}/main.o: nbproject/Makefile-${CND_CONF}.mk main.c 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.c
-
 ${OBJECTDIR}/AsmCommands.o: nbproject/Makefile-${CND_CONF}.mk AsmCommands.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/AsmCommands.o AsmCommands.c
+
+${OBJECTDIR}/LabelTableMgr.o: nbproject/Makefile-${CND_CONF}.mk LabelTableMgr.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/LabelTableMgr.o LabelTableMgr.c
+
+${OBJECTDIR}/PhaseOne.o: nbproject/Makefile-${CND_CONF}.mk PhaseOne.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/PhaseOne.o PhaseOne.c
+
+${OBJECTDIR}/main.o: nbproject/Makefile-${CND_CONF}.mk main.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.c
 
 # Subprojects
 .build-subprojects:
