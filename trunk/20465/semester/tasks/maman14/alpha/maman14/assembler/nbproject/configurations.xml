@@ -4,9 +4,11 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>AsmCommands.h</itemPath>
       <itemPath>AsmInstruction.h</itemPath>
       <itemPath>CodeSegmentMgr.h</itemPath>
       <itemPath>Constants.h</itemPath>
+      <itemPath>ErrorHandler.h</itemPath>
       <itemPath>ErrorMessages.h</itemPath>
       <itemPath>LineParser.h</itemPath>
       <itemPath>PhaseOne.h</itemPath>
@@ -22,6 +24,7 @@
       <itemPath>Assembler.c</itemPath>
       <itemPath>CodeSegmentMgr.c</itemPath>
       <itemPath>DataSegmentMgr.c</itemPath>
+      <itemPath>ErrorHandler.c</itemPath>
       <itemPath>LabelTableMgr.c</itemPath>
       <itemPath>LineParser.c</itemPath>
       <itemPath>PhaseOne.c</itemPath>

@@ -35,7 +35,8 @@ typedef union InstructionUnion {
 
 typedef struct AsmInstruction {
     char* label;
-
+    int lineNumber;
+    
     InstructionType instructionType;
     InstructionUnion instruction;
     

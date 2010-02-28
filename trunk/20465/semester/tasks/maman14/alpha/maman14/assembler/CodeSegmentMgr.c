@@ -16,12 +16,13 @@ int getIC() {
     return IC;
 }
 
-void storeData(unsigned short data) {
+unsigned short storeData(unsigned short data) {
     codeSegment[IC] = data;
-
     IC += 1;
+    
+    return codeSegment[IC-1];
 }
 
-short* getData() {
+unsigned short* getData() {
     return codeSegment;
 }

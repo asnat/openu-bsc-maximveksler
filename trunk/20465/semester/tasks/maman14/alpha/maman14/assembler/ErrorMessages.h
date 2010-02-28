@@ -8,7 +8,7 @@
 #ifndef _ERRORMESSAGES_H
 #define	_ERRORMESSAGES_H
 
-#define FAILURE_TO_OPEN_FILE "Failed to open assembly code file"
+#define FAILURE_TO_OPEN_FILE 1
 
 #endif	/* _ERRORMESSAGES_H */
 
