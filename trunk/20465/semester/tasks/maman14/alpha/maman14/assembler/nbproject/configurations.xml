@@ -5,6 +5,7 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>AsmInstruction.h</itemPath>
+      <itemPath>CodeSegmentMgr.h</itemPath>
       <itemPath>Constants.h</itemPath>
       <itemPath>ErrorMessages.h</itemPath>
       <itemPath>LineParser.h</itemPath>
