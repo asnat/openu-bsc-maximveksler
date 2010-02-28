@@ -12,19 +12,36 @@
 
 #include "AsmInstruction.h"
 
+    int maxTest = 1;
+    int doronTest = 2;
+
 int main(int argc, char** argv) {
+    int thisTest = maxTest;
+
+    if(thisTest == maxTest)
+        doMaxTest();
+    else
+        doDoronTest();
 
     //FILE *fp;
-    
     //printf("%s", FAILURE_TO_OPEN_FILE);
-    AsmInstruction inst = malloc(sizeof(struct AsmInstruction));
-    inst->instructionType = INST;
-    inst->instruction = malloc(sizeof(union InstructionUnion));
 
-    inst->instruction->INST.command = "mov";
-    
-    printf("%s\n", inst->instruction->INST.command);
     
     return (EXIT_SUCCESS);
 }
 
+doMaxTest() {
+        AsmInstruction inst = malloc(sizeof(struct AsmInstruction));
+    inst->instructionType = INST;
+
+    inst->instruction = malloc(sizeof(union InstructionUnion));
+    inst->instruction->INST.command = "mov";
+    inst->instruction->INST.operand1 = "LENGTH";
+    inst->instruction->INST.operand1Type = DIRECT;
+    inst->instruction->INST.operand2 = "r1";
+    inst->instruction->INST.operand2Type = REGISTER;
+}
+
+doDoronTest() {
+    
+}
