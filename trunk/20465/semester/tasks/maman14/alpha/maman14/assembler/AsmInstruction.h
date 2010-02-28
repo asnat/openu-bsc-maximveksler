@@ -34,6 +34,10 @@ typedef union InstructionUnion {
 
 
 typedef struct AsmInstruction {
+    // Used for logging purpuses only... In order to easly print to stderr the
+    // offending line.
+    char* _log_unparsedAssemblyLine;
+    
     char* label;
     int lineNumber;
     
