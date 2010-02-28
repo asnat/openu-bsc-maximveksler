@@ -37,6 +37,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Assembler.o \
 	${OBJECTDIR}/AsmCommands.o \
 	${OBJECTDIR}/LabelTableMgr.o \
+	${OBJECTDIR}/ErrorHandler.o \
 	${OBJECTDIR}/PhaseOne.o \
 	${OBJECTDIR}/main.o
 
@@ -93,6 +94,11 @@ ${OBJECTDIR}/LabelTableMgr.o: nbproject/Makefile-${CND_CONF}.mk LabelTableMgr.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/LabelTableMgr.o LabelTableMgr.c
+
+${OBJECTDIR}/ErrorHandler.o: nbproject/Makefile-${CND_CONF}.mk ErrorHandler.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/ErrorHandler.o ErrorHandler.c
 
 ${OBJECTDIR}/PhaseOne.o: nbproject/Makefile-${CND_CONF}.mk PhaseOne.c 
 	${MKDIR} -p ${OBJECTDIR}
