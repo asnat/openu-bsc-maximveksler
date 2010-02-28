@@ -3,6 +3,7 @@
 #include "AsmInstruction.h"
 #include "CodeSegmentMgr.h"
 #include "ErrorHandler.h"
+#include "ErrorMessages.h"
 
 static unsigned short storeToCodeSegment(unsigned short dstRgstrCode,
         unsigned short dstAddrTypeCode,
@@ -139,7 +140,8 @@ void* process(AsmInstruction asmLineInstruction) {
         /* We want to pass the next location after the function name in the general user input string */
         dynaFuncHandler->pt2func(asmLineInstruction);
     } else {
-        fprintf(stderr, NOT_VALID_COMMAND);
+        handleError(asmLineInstruction->lineNumber, NO_SUCH_ASSEMBLY_COMMAND, handlerName, asmLineInstruction->_log_unparsedAssemblyLine);
+
     }
 
     /*
