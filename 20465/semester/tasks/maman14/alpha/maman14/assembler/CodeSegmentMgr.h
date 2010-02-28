@@ -9,7 +9,7 @@
 #define	_CODESEGMENTMGR_H
 
 int getIC();
-void storeData(short* data, int length);
+void storeData(unsigned short data);
 short* getData();
 
 #endif	/* _CODESEGMENTMGR_H */

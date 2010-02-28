@@ -10,16 +10,16 @@
 #include "Constants.h"
 
 int IC = 0;
-short codeSegment[SEGMENT_MAXIMUM_SIZE];
+unsigned short codeSegment[SEGMENT_MAXIMUM_SIZE];
 
 int getIC() {
     return IC;
 }
 
-void storeData(short* data, int length) {
-    // copy from data to our array.
+void storeData(unsigned short data) {
+    codeSegment[IC] = data;
 
-    IC += length;
+    IC += 1;
 }
 
 short* getData() {
