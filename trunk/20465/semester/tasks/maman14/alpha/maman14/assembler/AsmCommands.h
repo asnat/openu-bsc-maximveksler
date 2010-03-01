@@ -8,16 +8,15 @@
 #ifndef _ASMCOMMANDS_H
 #define	_ASMCOMMANDS_H
 
-#ifdef	__cplusplus
-extern "C" {
-#endif
+typedef struct {
+    char *function_name;
+    void (*pt2func)(AsmInstruction);
+    //char *helpText;
+} conv_t;
 
-
-
-
-#ifdef	__cplusplus
-}
-#endif
+short int noParm(char*);
+short int oneParm(char*);
+short int twoParm(char*);
 
 #endif	/* _ASMCOMMANDS_H */
 
