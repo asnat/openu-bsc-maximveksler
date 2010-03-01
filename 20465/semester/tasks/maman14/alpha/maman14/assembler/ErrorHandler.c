@@ -11,8 +11,11 @@
 
 static char* errorDescriptions[] = {
     {"SUCCESS"},
-    {"Failed to open assembly code file "}, // Error #1 FAILURE_TO_OPEN_FILE
-    {"No such assembly command "}, // Error #1 NO_SUCH_ASSEMBLY_COMMAND
+    {"Failed to open assembly code file "}, /* Error #1 FAILURE_TO_OPEN_FILE */
+    {"No such assembly command "}, /* Error #2 NO_SUCH_ASSEMBLY_COMMAND */
+    {"Wrong number of parmeter"}, /* Error #3 WRONG_NUMBER_OF_PARAMETER*/
+    {"Cant allocate space"}, /* Error #4 CANT_ALLOCATE_SPACE */
+    {"Wrong addressing type"}, /* WRONG_ADDRESSING_TYPE */
 };
 
 void handleError(int lineNumber, int errorCode, char* errorMoreInfo, char* asmCodeLine) {

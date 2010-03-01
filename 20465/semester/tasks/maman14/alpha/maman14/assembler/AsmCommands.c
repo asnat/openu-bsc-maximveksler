@@ -4,6 +4,7 @@
 #include "CodeSegmentMgr.h"
 #include "ErrorHandler.h"
 #include "ErrorMessages.h"
+#include "AsmCommands.h"
 
 static unsigned short storeToCodeSegment(unsigned short dstRgstrCode,
         unsigned short dstAddrTypeCode,
@@ -25,7 +26,7 @@ static unsigned short storeToCodeSegment(unsigned short dstRgstrCode,
 // #############################################################
 // ###### Assembly language implementation #####################
 // #############################################################
-void mov(AsmInstruction asmInst) {
+/*void mov(AsmInstruction asmInst) {
     short instructionCode = 0;
     // verify has 2 operands.
     // verify addressing methods are valid.
@@ -91,32 +92,28 @@ void rts(AsmInstruction asmInst) {
 
 void hlt(AsmInstruction asmInst) {
     short instructionCode = 15;
-}
+}*/
 
-typedef struct {
-    char *function_name;
-    void (*pt2func)(AsmInstruction);
-    //char *helpText;
-} conv_t;
+
 
 
 static conv_t cmdTable[] = {
-    {"mov", mov},
-    {"cmp", cmp},
-    {"add", add},
-    {"sub", sub},
-    {"mul", mul},
-    {"div", div},
-    {"lea", lea},
-    {"inc", inc},
-    {"dec", dec},
-    {"jmp", jmp},
-    {"bne", bne},
-    {"red", red},
-    {"prn", prn},
-    {"jsr", jsr},
-    {"rts", rts},
-    {"hlt", hlt},
+    {"mov", twoParm},
+    {"cmp", twoParm},
+    {"add", twoParm},
+    {"sub", twoParm},
+    {"mul", twoParm},
+    {"div", twoParm},
+    {"lea", twoParm},
+    {"inc", oneParm},
+    {"dec", oneParm},
+    {"jmp", oneParm},
+    {"bne", oneParm},
+    {"red", oneParm},
+    {"prn", oneParm},
+    {"jsr", oneParm},
+    {"rts", noParm},
+    {"hlt", noParm},
     {NULL, NULL}
 };
 
