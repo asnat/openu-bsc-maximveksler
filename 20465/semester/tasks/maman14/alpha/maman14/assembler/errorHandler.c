@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "ErrorMessages.h"
+#include "errorMessages.h"
 
 static char* errorDescriptions[] = {
     {"SUCCESS"},
@@ -15,7 +15,8 @@ static char* errorDescriptions[] = {
     {"No such assembly command "}, /* Error #2 NO_SUCH_ASSEMBLY_COMMAND */
     {"Wrong number of parmeter"}, /* Error #3 WRONG_NUMBER_OF_PARAMETER*/
     {"Cant allocate space"}, /* Error #4 CANT_ALLOCATE_SPACE */
-    {"Wrong addressing type"}, /* WRONG_ADDRESSING_TYPE */
+    {"Wrong addressing type"}, /* Error #5 WRONG_ADDRESSING_TYPE */
+    {"No such labal"}, /* Error #6 NO_SUCH_LABEL */
 };
 
 void handleError(int lineNumber, int errorCode, char* errorMoreInfo, char* asmCodeLine) {

@@ -1,10 +1,10 @@
-#include <stddef.h>
+#include <stdio.h>
 
-#include "AsmInstruction.h"
-#include "CodeSegmentMgr.h"
-#include "ErrorHandler.h"
-#include "ErrorMessages.h"
-#include "AsmCommands.h"
+#include "asmInstruction.h"
+#include "codeSegmentMgr.h"
+#include "errorHandler.h"
+#include "errorMessages.h"
+#include "asmCommands.h"
 
 static unsigned short storeToCodeSegment(unsigned short dstRgstrCode,
         unsigned short dstAddrTypeCode,

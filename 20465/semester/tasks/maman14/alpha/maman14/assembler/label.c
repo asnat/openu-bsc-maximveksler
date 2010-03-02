@@ -1,9 +1,18 @@
+#include <stdio.h>
 #include "hash.h"
+#include "constants.h"
 
 static hashNode* labelHashTable[HASHSIZE];
 
-unsigned getLabelAddress(char* labelName){
-    return getNodeData(labelHashTable,labelName);
+_bool getLabelAddress(unsigned* address, char* labelName){
+    unsigned* address;
+    _bool labelExist;
+
+    if (address = getNodeData(labelHashTable,labelName))
+        labelExist = true;
+    else
+        labelExist = false;
+    return labelExist;
 }
 
 

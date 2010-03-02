@@ -24,10 +24,12 @@ static hashNode* lookup(const hashNode** hashArray, const char* nodeName){
 }
 
 /* Return the value on the data variable */
-unsigned getNodeData(const hashNode** hashArray, const char* nodeName){
-    hashNode* np =lookup(hashArray, nodeName);
-    if (*np)
-        return np->data;
+unsigned* getNodeData(const hashNode** hashArray, const char* nodeName){
+    hashNode* np = lookup(hashArray, nodeName);
+    unsigned* data;
+    if (*np) {
+        data = &np->data;
+    }
     else
         return NULL;
 }

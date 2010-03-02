@@ -7,9 +7,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "Constants.h"
+#include "constants.h"
 
-static unsigned IC = 0;
+unsigned IC = 0;
 static unsigned short codeSegment[SEGMENT_MAXIMUM_SIZE];
 
 unsigned getIC() {
