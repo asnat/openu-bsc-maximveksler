@@ -9,10 +9,10 @@
 #include <stdlib.h>
 #include "Constants.h"
 
-int IC = 0;
-unsigned short codeSegment[SEGMENT_MAXIMUM_SIZE];
+static unsigned IC = 0;
+static unsigned short codeSegment[SEGMENT_MAXIMUM_SIZE];
 
-int getIC() {
+unsigned getIC() {
     return IC;
 }
 
