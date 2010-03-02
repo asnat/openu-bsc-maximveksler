@@ -24,7 +24,7 @@ static hashNode* lookup(const hashNode** hashArray, const char* nodeName){
 }
 
 /* Return the value on the data variable */
-unsigned getData(const hashNode** hashArray, const char* nodeName){
+unsigned getNodeData(const hashNode** hashArray, const char* nodeName){
     hashNode* np =lookup(hashArray, nodeName);
     if (*np)
         return np->data;
