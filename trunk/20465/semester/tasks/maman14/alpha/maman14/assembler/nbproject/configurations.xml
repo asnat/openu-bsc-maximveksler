@@ -12,6 +12,7 @@
       <itemPath>ErrorMessages.h</itemPath>
       <itemPath>LineParser.h</itemPath>
       <itemPath>PhaseOne.h</itemPath>
+      <itemPath>hash.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -28,6 +29,7 @@
       <itemPath>LabelTableMgr.c</itemPath>
       <itemPath>LineParser.c</itemPath>
       <itemPath>PhaseOne.c</itemPath>
+      <itemPath>hash.c</itemPath>
       <itemPath>main.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"

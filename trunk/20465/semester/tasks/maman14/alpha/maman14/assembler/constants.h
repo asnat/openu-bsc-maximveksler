@@ -10,5 +10,13 @@
 
 #define SEGMENT_MAXIMUM_SIZE 2000
 
+
+typedef enum {
+    false,
+    true
+}_bool;
+
+
+
 #endif	/* _CONSTANTS_H */
 
