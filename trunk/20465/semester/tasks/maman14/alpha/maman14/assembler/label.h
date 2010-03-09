@@ -8,7 +8,7 @@
 #ifndef _LABEL_H
 #define	_LABEL_H
 
-unsigned getLabelAddress(unsigned*, char*);
+unsigned getLabelAddress(char*);
 unsigned addLabel(char*, unsigned );
 
 #endif	/* _LABEL_H */

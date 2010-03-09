@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include "hash.h"
-
+#include "constants.h"
 
 /* Calculate the hash value for a name */
-unsigned hashVal(const char* const nodeName){
+unsigned hashVal(char*  nodeName){
     unsigned val; /* will contain the hash value*/
     char* cp = nodeName; /* pointer to current charcter in the name */
 
@@ -13,7 +13,7 @@ unsigned hashVal(const char* const nodeName){
 }
 
 /* Find a node in the table, return NULL if not found */
-static hashNode* lookup(const hashNode** hashArray, const char* nodeName){
+static hashNode* lookup(hashNode** hashArray,char* nodeName){
     hashNode* np = *(hashArray + hashVal(nodeName)); /* point to the current node */
     
     /* look for the node in the specific index */
@@ -24,12 +24,11 @@ static hashNode* lookup(const hashNode** hashArray, const char* nodeName){
 }
 
 /* Return the value on the data variable */
-unsigned* getNodeData(const hashNode** hashArray, const char* nodeName){
+/*unsigned getNodeData(hashNode** hashArray, char* nodeName){
     hashNode* np = lookup(hashArray, nodeName);
-    unsigned* data;
     if (*np) {
-        data = &np->data;
+        return np->data;
     }
     else
         return NULL;
-}
+}*/

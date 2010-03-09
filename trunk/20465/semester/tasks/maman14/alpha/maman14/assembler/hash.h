@@ -10,15 +10,15 @@
 
 #define HASHSIZE 100
 
-typedef struct node {
+typedef struct node{
     char* name;
     unsigned data;
-    node* next;
+    struct node* next;
 }hashNode;
 
-unsigned hashVal(const char*);
+unsigned hashVal(char*);
 short int addNode(hashNode**,const char*,const int);
-unsigned* getData(hashNode**, char*);
+unsigned getData(hashNode**, char*);
 
 #endif	/* _HASH_H */
 
