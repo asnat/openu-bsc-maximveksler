@@ -12,13 +12,13 @@ void process(AsmInstruction asmLineInstruction);
 
 typedef struct {
     char *function_name;
-    void (*pt2func)(AsmInstruction);
+    short (*pt2func)(AsmInstruction asmInstruction,
+        unsigned short commandCode,
+        unsigned int supportedAddressing);
+    unsigned short commandCode;
+    unsigned short supportedAddressingBitmap;
     //char *helpText;
-} conv_t;
-
-short int noParm(char*);
-short int oneParm(char*);
-short int twoParm(char*);
+} asm_cmd_struct ;
 
 #endif	/* _ASMCOMMANDS_H */
 
