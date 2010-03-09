@@ -11,6 +11,7 @@
 #include "ErrorMessages.h"
 
 #include "AsmInstruction.h"
+#include "AsmCommands.h"
 
     int maxTest = 1;
     int doronTest = 2;
@@ -26,12 +27,11 @@ int main(int argc, char** argv) {
     //FILE *fp;
     //printf("%s", FAILURE_TO_OPEN_FILE);
 
-    
     return (EXIT_SUCCESS);
 }
 
 doMaxTest() {
-        AsmInstruction inst = malloc(sizeof(struct AsmInstruction));
+    AsmInstruction inst = malloc(sizeof(struct AsmInstruction));
     inst->instructionType = INST;
 
     inst->instruction = malloc(sizeof(union InstructionUnion));
@@ -40,6 +40,11 @@ doMaxTest() {
     inst->instruction->INST.operand1Type = DIRECT;
     inst->instruction->INST.operand2 = "r1";
     inst->instruction->INST.operand2Type = REGISTER;
+
+    inst->_log_unparsedAssemblyLine = "MAIN: mov LENGTH, r1";
+    inst->lineNumber = 1;
+
+    process(inst);
 }
 
 doDoronTest() {
