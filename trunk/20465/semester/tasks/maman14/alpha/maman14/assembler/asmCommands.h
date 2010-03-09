@@ -8,6 +8,8 @@
 #ifndef _ASMCOMMANDS_H
 #define	_ASMCOMMANDS_H
 
+void process(AsmInstruction asmLineInstruction);
+
 typedef struct {
     char *function_name;
     void (*pt2func)(AsmInstruction);

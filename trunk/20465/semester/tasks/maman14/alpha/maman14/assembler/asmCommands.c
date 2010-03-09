@@ -3,7 +3,6 @@
 #include "asmInstruction.h"
 #include "codeSegmentMgr.h"
 #include "errorHandler.h"
-#include "errorMessages.h"
 #include "asmCommands.h"
 
 static unsigned short storeToCodeSegment(unsigned short dstRgstrCode,
@@ -23,6 +22,7 @@ static unsigned short storeToCodeSegment(unsigned short dstRgstrCode,
     storeData(instruction);
 }
 
+short int twoArgumentCommand()
 // #############################################################
 // ###### Assembly language implementation #####################
 // #############################################################
@@ -117,7 +117,7 @@ static conv_t cmdTable[] = {
     {NULL, NULL}
 };
 
-void* process(AsmInstruction asmLineInstruction) {
+void process(AsmInstruction asmLineInstruction) {
     conv_t *dynaFuncHandler;
     char *handlerName;
 
@@ -140,14 +140,5 @@ void* process(AsmInstruction asmLineInstruction) {
         handleError(asmLineInstruction->lineNumber, NO_SUCH_ASSEMBLY_COMMAND, handlerName, asmLineInstruction->_log_unparsedAssemblyLine);
 
     }
-
-    /*
-    while(bla bla bla, not null) {
-        if found cmd
-            return function address;
-    }
-
-     return null;
-     */
 }
 

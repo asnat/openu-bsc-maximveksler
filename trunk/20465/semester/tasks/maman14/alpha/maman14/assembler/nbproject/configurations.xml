@@ -4,15 +4,15 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>AsmCommands.h</itemPath>
-      <itemPath>AsmInstruction.h</itemPath>
-      <itemPath>CodeSegmentMgr.h</itemPath>
-      <itemPath>Constants.h</itemPath>
-      <itemPath>ErrorHandler.h</itemPath>
-      <itemPath>ErrorMessages.h</itemPath>
-      <itemPath>LineParser.h</itemPath>
-      <itemPath>PhaseOne.h</itemPath>
+      <itemPath>asmCommands.h</itemPath>
+      <itemPath>asmInstruction.h</itemPath>
+      <itemPath>codeSegmentMgr.h</itemPath>
+      <itemPath>constants.h</itemPath>
+      <itemPath>errorHandler.h</itemPath>
       <itemPath>hash.h</itemPath>
+      <itemPath>label.h</itemPath>
+      <itemPath>lineParser.h</itemPath>
+      <itemPath>phaseOne.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -21,16 +21,17 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>AsmCommands.c</itemPath>
-      <itemPath>Assembler.c</itemPath>
-      <itemPath>CodeSegmentMgr.c</itemPath>
-      <itemPath>DataSegmentMgr.c</itemPath>
-      <itemPath>ErrorHandler.c</itemPath>
-      <itemPath>LabelTableMgr.c</itemPath>
-      <itemPath>LineParser.c</itemPath>
-      <itemPath>PhaseOne.c</itemPath>
+      <itemPath>asmCommands.c</itemPath>
+      <itemPath>assembler.c</itemPath>
+      <itemPath>codeSegmentMgr.c</itemPath>
+      <itemPath>dataSegmentMgr.c</itemPath>
+      <itemPath>errorHandler.c</itemPath>
       <itemPath>hash.c</itemPath>
+      <itemPath>label.c</itemPath>
+      <itemPath>labelTableMgr.c</itemPath>
+      <itemPath>lineParser.c</itemPath>
       <itemPath>main.c</itemPath>
+      <itemPath>phaseOne.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
