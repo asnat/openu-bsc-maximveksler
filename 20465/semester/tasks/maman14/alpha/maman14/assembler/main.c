@@ -8,10 +8,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "ErrorMessages.h"
+#include "errorHandler.h"
 
-#include "AsmInstruction.h"
-#include "AsmCommands.h"
+#include "asmInstruction.h"
+#include "asmCommands.h"
 
     int maxTest = 1;
     int doronTest = 2;

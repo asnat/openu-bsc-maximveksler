@@ -4,15 +4,16 @@
 
 static hashNode* labelHashTable[HASHSIZE];
 
-_bool getLabelAddress(unsigned* address, char* labelName){
-    unsigned* address;
-    _bool labelExist;
-
-    if (address = getNodeData(labelHashTable,labelName))
-        labelExist = true;
-    else
-        labelExist = false;
-    return labelExist;
+void initLabelTable(void){
+    register int i;
+    for(i=0;i<HASHSIZE;i++)
+        labelHashTable[i]=NULL;
 }
 
+unsigned getLabelAddress(char* labelName){
+    return getNodeData(labelHashTable,labelName);
+}
 
+void addLabel(char labelName){
+
+}
