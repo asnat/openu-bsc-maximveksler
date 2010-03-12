@@ -42,7 +42,7 @@ _bool commandTwoArguments(AsmInstruction asmInstruction,
         return FALSE;
     }
 
-    if(! (OP_DST_CBIT_EXTRACT(supportedAddressing) & OP_DST_CBIT(asmInstruction->instruction->INST.srcOPType))) {
+    if(! (OP_DST_CBIT_EXTRACT(supportedAddressing) & OP_DST_CBIT(asmInstruction->instruction->INST.dstOPType))) {
         handleError(asmInstruction->lineNumber, WRONG_ADDRESSING_TYPE, "Destination operand is illigal for instruction", asmInstruction->_log_unparsedAssemblyLine);
         return FALSE;
     }
