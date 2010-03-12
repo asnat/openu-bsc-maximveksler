@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+#include "assemblyLANG.h"
 #include "asmInstruction.h"
 #include "codeSegmentMgr.h"
 #include "errorHandler.h"
@@ -15,7 +16,8 @@
 #define DEBUG 1
 
 
-static unsigned short storeToCodeSegment(unsigned short dstRgstrCode,
+static unsigned short storeToCodeSegment(
+        unsigned short dstRgstrCode,
         unsigned short dstAddrTypeCode,
         unsigned short srcRgstrCode,
         unsigned short srcAddrTypeCode,
@@ -24,17 +26,24 @@ static unsigned short storeToCodeSegment(unsigned short dstRgstrCode,
     unsigned short instruction = 0;
 
     instruction = dstRgstrCode;
-    instruction &= (dstAddrTypeCode << 3);
-    instruction &= (srcRgstrCode << 6);
-    instruction &= (srcAddrTypeCode << 9);
-    instruction &= (instCode << 12);
+    instruction |= (dstAddrTypeCode << 3);
+    instruction |= (srcRgstrCode << 6);
+    instruction |= (srcAddrTypeCode << 9);
+    instruction |= (instCode << 12);
 
+    #if DEBUG
+        printf("Storing: %X into data segment", instruction);
+    #endif
+        
     storeData(instruction);
 }
 
 _bool commandTwoArguments(AsmInstruction asmInstruction,
         unsigned short commandCode,
         unsigned int supportedAddressing) {
+
+    unsigned short dstAddrTypeCode = 0;
+    unsigned short srcAddrTypeCode = 0;
 
     if(! (OP_SRC_CBIT_EXTRACT(supportedAddressing) & OP_SRC_CBIT(asmInstruction->instruction->INST.srcOPType))) {
         /* Check that the first operand type supplied is valid */
@@ -47,9 +56,56 @@ _bool commandTwoArguments(AsmInstruction asmInstruction,
         return FALSE;
     }
 
+    
     /* Reaching here we know that our supplied operand for instruction are indeed valid. YAY! */
 
 
+    /* Translate addressing operand code from ENUM representation to asm instruction code */
+    switch (OP_SRC_CBIT(asmInstruction->instruction->INST.srcOPType)) {
+        case OP_SRC_CBIT(IMMIDIATE):
+            srcAddrTypeCode = ASM_LANG_ADDR_IMMIDIATE;
+            break;
+        case OP_SRC_CBIT(DIRECT):
+            srcAddrTypeCode = ASM_LANG_ADDR_DIRECT;
+            break;
+        case OP_SRC_CBIT(INDIRECT):
+            srcAddrTypeCode = ASM_LANG_ADDR_INDIRECT;
+            break;
+        case OP_SRC_CBIT(REGISTER):
+            srcAddrTypeCode = ASM_LANG_ADDR_REGISTER;
+            break;
+        case OP_SRC_CBIT(NO_OP):
+            srcAddrTypeCode = ASM_LANG_ADDR_NO_OP;
+            break;
+        /* at this stage srcOPType is ensured to be valid, so no need for error catching default */
+    }
+
+    switch (OP_DST_CBIT(asmInstruction->instruction->INST.dstOPType)) {
+        case OP_DST_CBIT(IMMIDIATE):
+            dstAddrTypeCode = ASM_LANG_ADDR_IMMIDIATE;
+            break;
+        case OP_DST_CBIT(DIRECT):
+            dstAddrTypeCode = ASM_LANG_ADDR_DIRECT;
+            break;
+        case OP_DST_CBIT(INDIRECT):
+            dstAddrTypeCode = ASM_LANG_ADDR_INDIRECT;
+            break;
+        case OP_DST_CBIT(REGISTER):
+            dstAddrTypeCode = ASM_LANG_ADDR_REGISTER;
+            break;
+        case OP_DST_CBIT(NO_OP):
+            dstAddrTypeCode = ASM_LANG_ADDR_NO_OP;
+            break;
+        /* at this stage dstOPType is ensured to be valid, so no need for error catching default */
+    }
+
+    /* Finally after passing all check and translations we are ready to store the asm instruction */
+    storeToCodeSegment(
+        /*unsigned short dstRgstrCode*/     0,
+        /*unsigned short dstAddrTypeCode*/  dstAddrTypeCode,
+        /*unsigned short srcRgstrCode*/     0,
+        /*unsigned short srcAddrTypeCode*/  srcAddrTypeCode,
+        /*unsigned short instCode*/         commandCode);
 }
 
 _bool commandOneArguments(AsmInstruction asmInstruction,
@@ -68,67 +124,67 @@ _bool commandNulArguments(AsmInstruction asmInstruction,
 // #############################################################
 
 static asm_cmd_struct cmdTable[] = {
-    {"mov", commandTwoArguments, 0,
+    {"mov", commandTwoArguments, ASM_LANG_CMD_MOV_CODE,
             OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"cmp", commandTwoArguments, 1,
+    {"cmp", commandTwoArguments, ASM_LANG_CMD_CMP_CODE,
             OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
             | OP_DST_CBIT(IMMIDIATE) | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"add", commandTwoArguments, 2,
+    {"add", commandTwoArguments, ASM_LANG_CMD_ADD_CODE,
             OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"sub", commandTwoArguments, 3,
+    {"sub", commandTwoArguments, ASM_LANG_CMD_SUB_CODE,
             OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"mul", commandTwoArguments, 4,
+    {"mul", commandTwoArguments, ASM_LANG_CMD_MUL_CODE,
             OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"div", commandTwoArguments, 5,
+    {"div", commandTwoArguments, ASM_LANG_CMD_DIV_CODE,
             OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"lea", commandTwoArguments, 6,
+    {"lea", commandTwoArguments, ASM_LANG_CMD_LEA_CODE,
             OP_SRC_CBIT(DIRECT)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"inc", commandOneArguments, 7,
+    {"inc", commandOneArguments, ASM_LANG_CMD_INC_CODE,
             OP_SRC_CBIT(NO_OP)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"dec", commandOneArguments, 8,
+    {"dec", commandOneArguments, ASM_LANG_CMD_DEC_CODE,
             OP_SRC_CBIT(NO_OP)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"jmp", commandOneArguments, 9,
+    {"jmp", commandOneArguments, ASM_LANG_CMD_JMP_CODE,
             OP_SRC_CBIT(NO_OP)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT)
     },
-    {"bne", commandOneArguments, 10,
+    {"bne", commandOneArguments, ASM_LANG_CMD_BNE_CODE,
             OP_SRC_CBIT(NO_OP)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT)
     },
-    {"red", commandOneArguments, 11,
+    {"red", commandOneArguments, ASM_LANG_CMD_RED_CODE,
             OP_SRC_CBIT(NO_OP)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"prn", commandOneArguments, 12,
+    {"prn", commandOneArguments, ASM_LANG_CMD_PRN_CODE,
             OP_SRC_CBIT(NO_OP)
             | OP_DST_CBIT(IMMIDIATE) | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"jsr", commandOneArguments, 13,
+    {"jsr", commandOneArguments, ASM_LANG_CMD_JSR_CODE,
             OP_SRC_CBIT(NO_OP)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT)
     },
-    {"rts", commandNulArguments, 14,
+    {"rts", commandNulArguments, ASM_LANG_CMD_RTS_CODE,
             OP_SRC_CBIT(NO_OP)
             | OP_DST_CBIT(NO_OP)
     },
-    {"hlt", commandNulArguments, 15,
+    {"hlt", commandNulArguments, ASM_LANG_CMD_HLT_CODE,
             OP_SRC_CBIT(NO_OP)
             | OP_DST_CBIT(NO_OP)
     },
