@@ -47,6 +47,9 @@ _bool processCommand(AsmInstruction asmInstruction,
     unsigned short srcRgstrCode = 0;
     unsigned short srcAddrTypeCode = 0;
 
+    _bool __reserve_dst_label_space = FALSE;
+    _bool __reserve_src_label_space = FALSE;
+    
     if(! (OP_SRC_CBIT_EXTRACT(supportedAddressing) & OP_SRC_CBIT(asmInstruction->instruction->INST.srcOPType))) {
         /* Check that the first operand type supplied is valid */
         handleError(asmInstruction->lineNumber, WRONG_ADDRESSING_TYPE, "Source operand is illigal for instruction", asmInstruction->_log_unparsedAssemblyLine);
@@ -66,12 +69,15 @@ _bool processCommand(AsmInstruction asmInstruction,
     switch (OP_SRC_CBIT(asmInstruction->instruction->INST.srcOPType)) {
         case OP_SRC_CBIT(IMMIDIATE):
             srcAddrTypeCode = ASM_LANG_ADDR_IMMIDIATE;
+            __reserve_src_label_space = TRUE;
             break;
         case OP_SRC_CBIT(DIRECT):
             srcAddrTypeCode = ASM_LANG_ADDR_DIRECT;
+            __reserve_src_label_space = TRUE;
             break;
         case OP_SRC_CBIT(INDIRECT):
             srcAddrTypeCode = ASM_LANG_ADDR_INDIRECT;
+            __reserve_src_label_space = TRUE;
             break;
         case OP_SRC_CBIT(REGISTER):
             srcAddrTypeCode = ASM_LANG_ADDR_REGISTER;
@@ -87,12 +93,15 @@ _bool processCommand(AsmInstruction asmInstruction,
     switch (OP_DST_CBIT(asmInstruction->instruction->INST.dstOPType)) {
         case OP_DST_CBIT(IMMIDIATE):
             dstAddrTypeCode = ASM_LANG_ADDR_IMMIDIATE;
+            __reserve_dst_label_space = TRUE;
             break;
         case OP_DST_CBIT(DIRECT):
             dstAddrTypeCode = ASM_LANG_ADDR_DIRECT;
+            __reserve_dst_label_space = TRUE;
             break;
         case OP_DST_CBIT(INDIRECT):
             dstAddrTypeCode = ASM_LANG_ADDR_INDIRECT;
+            __reserve_dst_label_space = TRUE;
             break;
         case OP_DST_CBIT(REGISTER):
             dstAddrTypeCode = ASM_LANG_ADDR_REGISTER;
@@ -112,6 +121,16 @@ _bool processCommand(AsmInstruction asmInstruction,
         /*unsigned short srcRgstrCode*/     srcRgstrCode  ,
         /*unsigned short srcAddrTypeCode*/  srcAddrTypeCode,
         /*unsigned short instCode*/         commandCode);
+
+    
+    /* Possibly make some more calls, to reservce space for later label filling logic... */
+    if(__reserve_dst_label_space) {
+        storeToCodeSegment(0, 0, 0, 0, 0);
+    }
+
+    if(__reserve_src_label_space) {
+        storeToCodeSegment(0, 0, 0, 0, 0);
+    }
 }
 
 _bool commandOneArguments(AsmInstruction asmInstruction,
