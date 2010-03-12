@@ -11,16 +11,16 @@
 typedef enum InstructionType { INST, DATA, ENTRY, EXTERN } InstructionType;
 
 typedef enum DataType { DataType_STRING, DataType_DATA } DataType;
-typedef enum AddressingType { IMMIDIATE=0b1, DIRECT=0b10, INDIRECT=0b100, REGISTER=0b1000 } AddressingType;
+typedef enum AddressingType { IMMIDIATE=0b1, DIRECT=0b10, INDIRECT=0b100, REGISTER=0b1000, NO_OP=0b10000 } AddressingType;
 
 typedef union InstructionUnion {
     struct {
         // Normal instructions (instructionType=INST)
         char* command;
-        char* operand1;
-        AddressingType operand1Type;
-        char* operand2;
-        AddressingType operand2Type;
+        char* srcOP;
+        AddressingType srcOPType;
+        char* dstOP;
+        AddressingType dstOPType;
     } INST;
 
     struct {
