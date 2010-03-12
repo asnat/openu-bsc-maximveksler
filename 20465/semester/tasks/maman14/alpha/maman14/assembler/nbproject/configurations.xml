@@ -6,6 +6,7 @@
                    projectFiles="true">
       <itemPath>asmCommands.h</itemPath>
       <itemPath>asmInstruction.h</itemPath>
+      <itemPath>assemblyLANG.h</itemPath>
       <itemPath>codeSegmentMgr.h</itemPath>
       <itemPath>constants.h</itemPath>
       <itemPath>errorHandler.h</itemPath>
