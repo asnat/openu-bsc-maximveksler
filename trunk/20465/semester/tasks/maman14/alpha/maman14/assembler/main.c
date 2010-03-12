@@ -36,10 +36,10 @@ doMaxTest() {
 
     inst->instruction = malloc(sizeof(union InstructionUnion));
     inst->instruction->INST.command = "mov";
-    inst->instruction->INST.operand1 = "LENGTH";
-    inst->instruction->INST.operand1Type = DIRECT;
-    inst->instruction->INST.operand2 = "r1";
-    inst->instruction->INST.operand2Type = REGISTER;
+    inst->instruction->INST.srcOP = "LENGTH";
+    inst->instruction->INST.srcOPType = DIRECT;
+    inst->instruction->INST.dstOP = "r1";
+    inst->instruction->INST.dstOPType = REGISTER;
 
     inst->_log_unparsedAssemblyLine = "MAIN: mov LENGTH, r1";
     inst->lineNumber = 1;
