@@ -32,17 +32,19 @@ static unsigned short storeToCodeSegment(
     instruction |= (instCode << 12);
 
     #if DEBUG
-        printf("Storing: %X into data segment", instruction);
+        printf("Storing: %X into data segment\n", instruction);
     #endif
         
     storeData(instruction);
 }
 
-_bool commandTwoArguments(AsmInstruction asmInstruction,
+_bool processCommand(AsmInstruction asmInstruction,
         unsigned short commandCode,
         unsigned int supportedAddressing) {
 
+    unsigned short dstRgstrCode = 0;
     unsigned short dstAddrTypeCode = 0;
+    unsigned short srcRgstrCode = 0;
     unsigned short srcAddrTypeCode = 0;
 
     if(! (OP_SRC_CBIT_EXTRACT(supportedAddressing) & OP_SRC_CBIT(asmInstruction->instruction->INST.srcOPType))) {
@@ -73,6 +75,8 @@ _bool commandTwoArguments(AsmInstruction asmInstruction,
             break;
         case OP_SRC_CBIT(REGISTER):
             srcAddrTypeCode = ASM_LANG_ADDR_REGISTER;
+            /* Calculate src register code if we are in REGISTER addressing */
+            srcRgstrCode = asmInstruction->instruction->INST.srcOP[1] - 48;
             break;
         case OP_SRC_CBIT(NO_OP):
             srcAddrTypeCode = ASM_LANG_ADDR_NO_OP;
@@ -92,6 +96,8 @@ _bool commandTwoArguments(AsmInstruction asmInstruction,
             break;
         case OP_DST_CBIT(REGISTER):
             dstAddrTypeCode = ASM_LANG_ADDR_REGISTER;
+            /* Calculate dst register code if we are in REGISTER addressing */
+            dstRgstrCode = asmInstruction->instruction->INST.dstOP[1] - 48;
             break;
         case OP_DST_CBIT(NO_OP):
             dstAddrTypeCode = ASM_LANG_ADDR_NO_OP;
@@ -101,9 +107,9 @@ _bool commandTwoArguments(AsmInstruction asmInstruction,
 
     /* Finally after passing all check and translations we are ready to store the asm instruction */
     storeToCodeSegment(
-        /*unsigned short dstRgstrCode*/     0,
+        /*unsigned short dstRgstrCode*/     dstRgstrCode,
         /*unsigned short dstAddrTypeCode*/  dstAddrTypeCode,
-        /*unsigned short srcRgstrCode*/     0,
+        /*unsigned short srcRgstrCode*/     srcRgstrCode  ,
         /*unsigned short srcAddrTypeCode*/  srcAddrTypeCode,
         /*unsigned short instCode*/         commandCode);
 }
@@ -124,75 +130,75 @@ _bool commandNulArguments(AsmInstruction asmInstruction,
 // #############################################################
 
 static asm_cmd_struct cmdTable[] = {
-    {"mov", commandTwoArguments, ASM_LANG_CMD_MOV_CODE,
+    {"mov", ASM_LANG_CMD_MOV_CODE,
             OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"cmp", commandTwoArguments, ASM_LANG_CMD_CMP_CODE,
+    {"cmp", ASM_LANG_CMD_CMP_CODE,
             OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
             | OP_DST_CBIT(IMMIDIATE) | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"add", commandTwoArguments, ASM_LANG_CMD_ADD_CODE,
+    {"add", ASM_LANG_CMD_ADD_CODE,
             OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"sub", commandTwoArguments, ASM_LANG_CMD_SUB_CODE,
+    {"sub", ASM_LANG_CMD_SUB_CODE,
             OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"mul", commandTwoArguments, ASM_LANG_CMD_MUL_CODE,
+    {"mul", ASM_LANG_CMD_MUL_CODE,
             OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"div", commandTwoArguments, ASM_LANG_CMD_DIV_CODE,
+    {"div", ASM_LANG_CMD_DIV_CODE,
             OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"lea", commandTwoArguments, ASM_LANG_CMD_LEA_CODE,
+    {"lea", ASM_LANG_CMD_LEA_CODE,
             OP_SRC_CBIT(DIRECT)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"inc", commandOneArguments, ASM_LANG_CMD_INC_CODE,
+    {"inc", ASM_LANG_CMD_INC_CODE,
             OP_SRC_CBIT(NO_OP)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"dec", commandOneArguments, ASM_LANG_CMD_DEC_CODE,
+    {"dec", ASM_LANG_CMD_DEC_CODE,
             OP_SRC_CBIT(NO_OP)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"jmp", commandOneArguments, ASM_LANG_CMD_JMP_CODE,
+    {"jmp", ASM_LANG_CMD_JMP_CODE,
             OP_SRC_CBIT(NO_OP)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT)
     },
-    {"bne", commandOneArguments, ASM_LANG_CMD_BNE_CODE,
+    {"bne", ASM_LANG_CMD_BNE_CODE,
             OP_SRC_CBIT(NO_OP)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT)
     },
-    {"red", commandOneArguments, ASM_LANG_CMD_RED_CODE,
+    {"red", ASM_LANG_CMD_RED_CODE,
             OP_SRC_CBIT(NO_OP)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"prn", commandOneArguments, ASM_LANG_CMD_PRN_CODE,
+    {"prn", ASM_LANG_CMD_PRN_CODE,
             OP_SRC_CBIT(NO_OP)
             | OP_DST_CBIT(IMMIDIATE) | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
     },
-    {"jsr", commandOneArguments, ASM_LANG_CMD_JSR_CODE,
+    {"jsr", ASM_LANG_CMD_JSR_CODE,
             OP_SRC_CBIT(NO_OP)
             | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT)
     },
-    {"rts", commandNulArguments, ASM_LANG_CMD_RTS_CODE,
+    {"rts", ASM_LANG_CMD_RTS_CODE,
             OP_SRC_CBIT(NO_OP)
             | OP_DST_CBIT(NO_OP)
     },
-    {"hlt", commandNulArguments, ASM_LANG_CMD_HLT_CODE,
+    {"hlt", ASM_LANG_CMD_HLT_CODE,
             OP_SRC_CBIT(NO_OP)
             | OP_DST_CBIT(NO_OP)
     },
-    {NULL, NULL, (int)NULL}
+    {NULL, (unsigned short)((unsigned int)NULL), (unsigned int)NULL}
 };
 
 void process(AsmInstruction asmLineInstruction) {
-    asm_cmd_struct *dynaFuncHandler;
+    asm_cmd_struct *asm_cmd_struct_handler;
     char *handlerName;
 
     if(asmLineInstruction->instructionType == INST) {
@@ -204,18 +210,17 @@ void process(AsmInstruction asmLineInstruction) {
      * We stop either on dynaFuncHandler->function_name == NULL
      * or on match strcmp(pch,  dynaFuncHandler->function_name) == 0
      */
-    for(dynaFuncHandler = cmdTable;  dynaFuncHandler->function_name && strcmp(handlerName,  dynaFuncHandler->function_name); dynaFuncHandler++);
+    for(asm_cmd_struct_handler = cmdTable;  asm_cmd_struct_handler->function_name && strcmp(handlerName,  asm_cmd_struct_handler->function_name); asm_cmd_struct_handler++);
 
     /* If we have found a function at this name */
-    if(dynaFuncHandler->function_name) {
+    if(asm_cmd_struct_handler->function_name) {
         #ifdef DEBUG
-            printf("asmCommands.process: function_name = %s\n", dynaFuncHandler->function_name);
+            printf("asmCommands.process: function_name = %s\n", asm_cmd_struct_handler->function_name);
         #endif
         /* We want to pass the next location after the function name in the general user input string */
-        dynaFuncHandler->pt2func(asmLineInstruction, dynaFuncHandler->commandCode, dynaFuncHandler->supportedAddressingBitmap);
+        processCommand(asmLineInstruction, asm_cmd_struct_handler->commandCode, asm_cmd_struct_handler->supportedAddressingBitmap);
     } else {
         handleError(asmLineInstruction->lineNumber, NO_SUCH_ASSEMBLY_COMMAND, handlerName, asmLineInstruction->_log_unparsedAssemblyLine);
 
     }
 }
-
