@@ -16,7 +16,7 @@ typedef enum AddressingType { IMMIDIATE=1, DIRECT=2, INDIRECT=4, REGISTER=8, NO_
 typedef union InstructionUnion {
     struct {
         /* Normal instructions (instructionType=INST) */
-        char* command;
+        const char* command;
         char* srcOP;
         AddressingType srcOPType;
         char* dstOP;

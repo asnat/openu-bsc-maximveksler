@@ -46,6 +46,13 @@ AsmInstruction allocAsmInstructionINST(
                                                        because line won't be
                                                        released before our
                                                        logic finishs. */
+
+
+    asmInstruction->instruction = malloc(sizeof(union InstructionUnion));
+    if(asmInstruction->instruction == NULL) {
+        fatalError(lineNumber, MEMORY_ALLOCATION_FAILURE, "Can't allocate memory for InstructionUnion", line);
+    }
+
     asmInstruction->instructionType = INST;
 
     /* String operations */
@@ -56,7 +63,7 @@ AsmInstruction allocAsmInstructionINST(
 
     /* Command addressing types */
     asmInstruction->instruction->INST.srcOPType = srcOPType;
-    asmInstruction->instruction->INST.srcOPType = dstOPType;
+    asmInstruction->instruction->INST.dstOPType = dstOPType;
 
     return asmInstruction;
 }

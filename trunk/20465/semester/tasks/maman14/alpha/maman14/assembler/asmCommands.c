@@ -213,7 +213,7 @@ static asm_cmd_struct cmdTable[] = {
 
 void process(AsmInstruction asmLineInstruction) {
     asm_cmd_struct *asm_cmd_struct_handler;
-    char *handlerName;
+    const char *handlerName;
 
     if(asmLineInstruction->instructionType == INST) {
         handlerName = asmLineInstruction->instruction->INST.command;
