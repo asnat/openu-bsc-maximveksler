@@ -6,7 +6,7 @@
 #include "lineParser.h"
 #include "phaseOne.h"
 
-void processAssemblyLine(char *asmCodeLine) {
+void processAssemblyLine(const char *asmCodeLine) {
     AsmInstruction asmInst = parseLine(asmCodeLine);
 
     if(asmInst->instructionType == INST) {

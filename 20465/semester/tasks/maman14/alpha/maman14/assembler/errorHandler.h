@@ -14,8 +14,14 @@
 #define CANT_ALLOCATE_SPACE 4
 #define WRONG_ADDRESSING_TYPE 5
 #define NO_SUCH_LABEL 6
+#define MEMORY_ALLOCATION_FAILURE 7
 
-void handleError(int lineNumber, int errorCode, char* errorMoreInfo, char* asmCodeLine);
+/* Logical error has occured and is being reported, we continue after notifiying user about the error */
+void handleError(const int unsigned lineNumber, const int unsigned errorCode, const char* errorMoreInfo, const char* asmCodeLine);
+
+/* Fatal error has occured, we will be quiting the program on this failure. */
+void fatalError(const int unsigned lineNumber, const int unsigned errorCode, const char* errorMoreInfo, const char* asmCodeLine);
+
 
 #endif	/* _ERRORHANDLER_H */
 

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "assemblyLANG.h"
 #include "asmInstruction.h"
@@ -16,7 +17,7 @@
 #define DEBUG 1
 
 
-static unsigned short storeToCodeSegment(
+_bool storeToCodeSegment(
         unsigned short dstRgstrCode,
         unsigned short dstAddrTypeCode,
         unsigned short srcRgstrCode,
@@ -26,16 +27,18 @@ static unsigned short storeToCodeSegment(
     unsigned short instruction = 0;
 
     instruction = dstRgstrCode;
-    instruction |= (dstAddrTypeCode << 3);
-    instruction |= (srcRgstrCode << 6);
-    instruction |= (srcAddrTypeCode << 9);
-    instruction |= (instCode << 12);
+    instruction |= (unsigned short) (dstAddrTypeCode << 3);
+    instruction |= (unsigned short) (srcRgstrCode << 6);
+    instruction |= (unsigned short) (srcAddrTypeCode << 9);
+    instruction |= (unsigned short) (instCode << 12);
 
     #if DEBUG
         printf("Storing: %X into data segment\n", instruction);
     #endif
         
-    storeData(instruction);
+    storeCode(instruction);
+
+    return TRUE;
 }
 
 static _bool processCommand(AsmInstruction asmInstruction,
@@ -82,7 +85,7 @@ static _bool processCommand(AsmInstruction asmInstruction,
         case OP_SRC_CBIT(REGISTER):
             srcAddrTypeCode = ASM_LANG_ADDR_REGISTER;
             /* Calculate src register code if we are in REGISTER addressing */
-            srcRgstrCode = asmInstruction->instruction->INST.srcOP[1] - 48;
+            srcRgstrCode = (unsigned short) (asmInstruction->instruction->INST.srcOP[1] - 48);
             break;
         case OP_SRC_CBIT(NO_OP):
             srcAddrTypeCode = ASM_LANG_ADDR_NO_OP;
@@ -106,7 +109,7 @@ static _bool processCommand(AsmInstruction asmInstruction,
         case OP_DST_CBIT(REGISTER):
             dstAddrTypeCode = ASM_LANG_ADDR_REGISTER;
             /* Calculate dst register code if we are in REGISTER addressing */
-            dstRgstrCode = asmInstruction->instruction->INST.dstOP[1] - 48;
+            dstRgstrCode = (unsigned short) (asmInstruction->instruction->INST.dstOP[1] - 48);
             break;
         case OP_DST_CBIT(NO_OP):
             dstAddrTypeCode = ASM_LANG_ADDR_NO_OP;
@@ -131,6 +134,8 @@ static _bool processCommand(AsmInstruction asmInstruction,
     if(__reserve_src_label_space) {
         storeToCodeSegment(0, 0, 0, 0, 0);
     }
+
+    return TRUE;
 }
 
 /* #############################################################

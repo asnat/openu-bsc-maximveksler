@@ -41,7 +41,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/hash.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/asmCommands.o \
-	${OBJECTDIR}/label.o
+	${OBJECTDIR}/label.o \
+	${OBJECTDIR}/stringUtil.o
 
 # C Compiler Flags
 CFLAGS=
@@ -121,6 +122,11 @@ ${OBJECTDIR}/label.o: nbproject/Makefile-${CND_CONF}.mk label.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/label.o label.c
+
+${OBJECTDIR}/stringUtil.o: nbproject/Makefile-${CND_CONF}.mk stringUtil.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/stringUtil.o stringUtil.c
 
 # Subprojects
 .build-subprojects:

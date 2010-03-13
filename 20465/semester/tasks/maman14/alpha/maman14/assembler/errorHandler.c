@@ -8,7 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static char* errorDescriptions[] = {
+#include "errorHandler.h"
+
+static const char* errorDescriptions[] = {
     "SUCCESS",
     "Failed to open assembly code file ", /* Error #1 FAILURE_TO_OPEN_FILE */
     "No such assembly command ", /* Error #2 NO_SUCH_ASSEMBLY_COMMAND */
@@ -16,14 +18,21 @@ static char* errorDescriptions[] = {
     "Cant allocate space", /* Error #4 CANT_ALLOCATE_SPACE */
     "Wrong addressing type", /* Error #5 WRONG_ADDRESSING_TYPE */
     "No such labal", /* Error #6 NO_SUCH_LABEL */
+    "Failed to allocate memory" /* Error #7 MEMORY_ALLOCATION_FAILURE */
 };
 
-void handleError(int lineNumber, int errorCode, char* errorMoreInfo, char* asmCodeLine) {
+void handleError(const int unsigned lineNumber, const int unsigned errorCode, const char* errorMoreInfo, const char* asmCodeLine) {
     fprintf(stderr, "ERRPR #%d: %s\n", errorCode, errorDescriptions[errorCode]);
 
     if(lineNumber != (int)NULL) { /* If we have line number we must surly also have the asmText... */
         fprintf(stderr, "\tat %d: %s => %s\n", lineNumber, asmCodeLine, errorMoreInfo);
     } else if(errorMoreInfo != NULL) {
-        fprintf(stderr, "\tAdditional information:\n", errorMoreInfo);
+        fprintf(stderr, "\tAdditional information: %s\n", errorMoreInfo);
     }
+}
+
+void fatalError(const int unsigned lineNumber, const int unsigned errorCode, const char* errorMoreInfo, const char* asmCodeLine) {
+    handleError(lineNumber, errorCode, errorMoreInfo, asmCodeLine);
+
+    exit(EXIT_FAILURE);
 }
