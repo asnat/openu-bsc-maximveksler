@@ -21,7 +21,7 @@ typedef struct {
  */
     unsigned short commandCode;
     unsigned int supportedAddressingBitmap;
-    //char *helpText;
+    /* char *helpText; */
 } asm_cmd_struct ;
 
 #endif	/* _ASMCOMMANDS_H */

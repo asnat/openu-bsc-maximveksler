@@ -4,14 +4,14 @@
 #include "phaseOne.h"
 
 void assemble(FILE *fp) {
-    // read lines from fp
+    /* read lines from fp */
 
     char* line;
-    // for each line in lines:
-    //phase1()...
+    /* for each line in lines: */
+    /* phase1()... */
     processAssemblyLine(line);
 
-    // for each line in lines:
-    //phase2()...
+    /* for each line in lines: */
+    /* phase2()... */
 
 }

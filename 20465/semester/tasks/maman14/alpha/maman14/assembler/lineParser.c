@@ -13,9 +13,9 @@
  * 
  */
 AsmInstruction parseLine(char* line) {
-    // bla bla bla
+    /* bla bla bla */
 
-    // in the end will returned parsed line.
+    /* in the end will returned parsed line. */
     return 0;
 }
 

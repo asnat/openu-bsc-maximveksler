@@ -11,6 +11,7 @@
 #define	_LINEPARSER_H
 
 AsmInstruction parseLine(char* line);
+void freeAsmInstruction(AsmInstruction asmInst);
 
 #endif	/* _LINEPARSER_H */
 

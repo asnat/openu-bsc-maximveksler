@@ -133,9 +133,10 @@ static _bool processCommand(AsmInstruction asmInstruction,
     }
 }
 
-// #############################################################
-// ###### Assembly language implementation #####################
-// #############################################################
+/* #############################################################
+ * ###### Assembly language implementation #####################
+ * #############################################################
+ */
 
 static asm_cmd_struct cmdTable[] = {
     {"mov", ASM_LANG_CMD_MOV_CODE,
