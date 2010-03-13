@@ -38,7 +38,7 @@ static unsigned short storeToCodeSegment(
     storeData(instruction);
 }
 
-_bool processCommand(AsmInstruction asmInstruction,
+static _bool processCommand(AsmInstruction asmInstruction,
         unsigned short commandCode,
         unsigned int supportedAddressing) {
 
@@ -133,17 +133,6 @@ _bool processCommand(AsmInstruction asmInstruction,
     }
 }
 
-_bool commandOneArguments(AsmInstruction asmInstruction,
-        unsigned short commandCode,
-        unsigned int supportedAddressing) {
-
-}
-
-_bool commandNulArguments(AsmInstruction asmInstruction,
-        unsigned short commandCode,
-        unsigned int supportedAddressing) {
-
-}
 // #############################################################
 // ###### Assembly language implementation #####################
 // #############################################################
