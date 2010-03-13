@@ -7,16 +7,19 @@ char* substr(const char* source, const unsigned int lineNumber, const unsigned i
     unsigned int i;
     unsigned int n = toPos-fromPos;
 
+    if(n <= 0) /* we do no copying when range is invalid, this is not an error */
+        return NULL;
+
     newStr = (char*) malloc(n+1);
     if(newStr == NULL) {
         fatalError(lineNumber, MEMORY_ALLOCATION_FAILURE, "Can't allocate memory for String", source);
     }
 
-    for(i = 0; i <= n; i++) {
+    for(i = 0; i < n; i++) {
         newStr[i] = source[fromPos+i];
     }
 
-    newStr[n+1] = '\0';
+    newStr[n] = '\0';
 
     return newStr;
 }
