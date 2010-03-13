@@ -21,7 +21,7 @@ static char* errorDescriptions[] = {
 void handleError(int lineNumber, int errorCode, char* errorMoreInfo, char* asmCodeLine) {
     fprintf(stderr, "ERRPR #%d: %s\n", errorCode, errorDescriptions[errorCode]);
 
-    if(lineNumber != (int)NULL) { // If we have line number we must surly also have the asmText...
+    if(lineNumber != (int)NULL) { /* If we have line number we must surly also have the asmText... */
         fprintf(stderr, "\tat %d: %s => %s\n", lineNumber, asmCodeLine, errorMoreInfo);
     } else if(errorMoreInfo != NULL) {
         fprintf(stderr, "\tAdditional information:\n", errorMoreInfo);

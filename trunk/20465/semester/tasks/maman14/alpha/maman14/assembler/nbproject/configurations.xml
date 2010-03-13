@@ -49,6 +49,10 @@
         <platform>2</platform>
       </toolsSet>
       <compileType>
+        <cTool>
+          <commandLine>-ansi</commandLine>
+          <warningLevel>3</warningLevel>
+        </cTool>
         <linkerTool>
           <linkerLibItems>
           </linkerLibItems>

@@ -11,7 +11,7 @@ void initLabelTable(void){
 }
 
 unsigned getLabelAddress(char* labelName){
-    //return getNodeData(labelHashTable,labelName);
+    /* return getNodeData(labelHashTable,labelName); */
     return 0;
 }
 

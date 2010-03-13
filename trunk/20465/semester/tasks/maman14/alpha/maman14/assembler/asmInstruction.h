@@ -15,7 +15,7 @@ typedef enum AddressingType { IMMIDIATE=0b1, DIRECT=0b10, INDIRECT=0b100, REGIST
 
 typedef union InstructionUnion {
     struct {
-        // Normal instructions (instructionType=INST)
+        /* Normal instructions (instructionType=INST) */
         char* command;
         char* srcOP;
         AddressingType srcOPType;
@@ -24,7 +24,7 @@ typedef union InstructionUnion {
     } INST;
 
     struct {
-        // Normal instructions (instructionType=DATA)
+        /* Normal instructions (instructionType=DATA) */
         char* label;
         char* command;
         char* operand1;
@@ -33,8 +33,9 @@ typedef union InstructionUnion {
 } *InstructionUnion;
 
 typedef struct AsmInstruction {
-    // Used for logging purpuses only... In order to easly print to stderr the
-    // offending line.
+    /* Used for logging purpuses only... In order to easly print to stderr the
+     * offending line.
+     */
     char* _log_unparsedAssemblyLine;
     
     char* label;

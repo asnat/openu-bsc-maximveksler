@@ -24,8 +24,8 @@ int main(int argc, char** argv) {
     else
         doDoronTest();
 
-    //FILE *fp;
-    //printf("%s", FAILURE_TO_OPEN_FILE);
+    /* FILE *fp; */
+    /* printf("%s", FAILURE_TO_OPEN_FILE); */
 
     return (EXIT_SUCCESS);
 }
