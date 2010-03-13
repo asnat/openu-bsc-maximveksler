@@ -8,7 +8,7 @@
 #ifndef _PHASEONE_H
 #define	_PHASEONE_H
 
-void processAssemblyLine(char *asmCodeLine);
+void processAssemblyLine(const char *asmCodeLine);
 
 #endif	/* _PHASEONE_H */
 

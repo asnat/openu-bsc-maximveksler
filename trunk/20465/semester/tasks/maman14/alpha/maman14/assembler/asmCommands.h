@@ -14,7 +14,7 @@
 void process(AsmInstruction asmLineInstruction);
 
 typedef struct {
-    char *function_name;
+    const char *function_name;
 /*    _bool (*pt2func)(AsmInstruction asmInstruction,
         unsigned short commandCode,
         unsigned int supportedAddressing);

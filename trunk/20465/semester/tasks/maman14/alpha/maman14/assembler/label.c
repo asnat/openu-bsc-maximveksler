@@ -12,9 +12,11 @@ void initLabelTable(void){
 
 unsigned getLabelAddress(char* labelName){
     /* return getNodeData(labelHashTable,labelName); */
+    labelName = labelName;
+    
     return 0;
 }
 
 void addLabel(char labelName){
-
+    labelName = labelName;
 }

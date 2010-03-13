@@ -11,7 +11,7 @@
 typedef enum InstructionType { INST, DATA, ENTRY, EXTERN } InstructionType;
 
 typedef enum DataType { DataType_STRING, DataType_DATA } DataType;
-typedef enum AddressingType { IMMIDIATE=0b1, DIRECT=0b10, INDIRECT=0b100, REGISTER=0b1000, NO_OP=0b10000 } AddressingType;
+typedef enum AddressingType { IMMIDIATE=1, DIRECT=2, INDIRECT=4, REGISTER=8, NO_OP=16 } AddressingType;
 
 typedef union InstructionUnion {
     struct {
@@ -25,7 +25,6 @@ typedef union InstructionUnion {
 
     struct {
         /* Normal instructions (instructionType=DATA) */
-        char* label;
         char* command;
         char* operand1;
         char* operand2;
@@ -36,10 +35,10 @@ typedef struct AsmInstruction {
     /* Used for logging purpuses only... In order to easly print to stderr the
      * offending line.
      */
-    char* _log_unparsedAssemblyLine;
+    const char* _log_unparsedAssemblyLine;
     
     char* label;
-    int lineNumber;
+    unsigned int lineNumber;
     
     InstructionType instructionType;
     InstructionUnion instruction;

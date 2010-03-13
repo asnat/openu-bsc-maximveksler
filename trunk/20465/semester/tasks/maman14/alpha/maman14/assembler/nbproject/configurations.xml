@@ -14,6 +14,7 @@
       <itemPath>label.h</itemPath>
       <itemPath>lineParser.h</itemPath>
       <itemPath>phaseOne.h</itemPath>
+      <itemPath>stringUtil.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -33,6 +34,7 @@
       <itemPath>lineParser.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>phaseOne.c</itemPath>
+      <itemPath>stringUtil.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -50,7 +52,7 @@
       </toolsSet>
       <compileType>
         <cTool>
-          <commandLine>-ansi</commandLine>
+          <commandLine>-pedantic -Wall -Wextra -Wwrite-strings -Wconversion -ansi</commandLine>
           <warningLevel>3</warningLevel>
         </cTool>
         <linkerTool>

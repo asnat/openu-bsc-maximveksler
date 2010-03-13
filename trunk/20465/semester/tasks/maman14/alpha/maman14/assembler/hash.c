@@ -8,7 +8,8 @@ unsigned hashVal(char*  nodeName){
     char* cp = nodeName; /* pointer to current charcter in the name */
 
     for (val = 0; nodeName != NULL; cp++)
-        val *= 31 + *cp;
+        val *= 31 + (unsigned int) *cp;
+
     return val % HASHSIZE;
 }
 
@@ -24,11 +25,16 @@ static hashNode* lookup(hashNode** hashArray,char* nodeName){
 }
 
 /* Return the value on the data variable */
-/*unsigned getNodeData(hashNode** hashArray, char* nodeName){
+unsigned getNodeData(hashNode** hashArray, char* nodeName) {
     hashNode* np = lookup(hashArray, nodeName);
-    if (*np) {
+
+    np = np;
+    return 0;
+    
+ /*   if (*np) {
         return np->data;
     }
     else
         return NULL;
-}*/
+  */
+}

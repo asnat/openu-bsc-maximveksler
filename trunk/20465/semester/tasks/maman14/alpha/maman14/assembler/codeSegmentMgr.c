@@ -16,13 +16,13 @@ unsigned getIC() {
     return IC;
 }
 
-unsigned short storeData(unsigned short data) {
+unsigned short storeCode(unsigned short data) {
     codeSegment[IC] = data;
     IC += 1;
     
     return codeSegment[IC-1];
 }
 
-unsigned short* getData() {
+unsigned short* getCode() {
     return codeSegment;
 }
