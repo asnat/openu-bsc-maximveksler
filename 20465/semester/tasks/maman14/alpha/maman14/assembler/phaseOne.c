@@ -13,4 +13,5 @@ void processAssemblyLine(char *asmCodeLine) {
         process(asmInst);
     }
 
+    freeAsmInstruction(asmInst);
 }
