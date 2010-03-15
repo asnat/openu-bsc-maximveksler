@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "hash.h"
 #include "constants.h"
 
@@ -18,23 +19,19 @@ static hashNode* lookup(hashNode** hashArray,char* nodeName){
     hashNode* np = *(hashArray + hashVal(nodeName)); /* point to the current node */
     
     /* look for the node in the specific index */
-    while ( np != NULL || np->name != nodeName )
+    while ( np != NULL || strcmp(np->name,nodeName) )
         np = np->next;
-    
     return np;
 }
 
 /* Return the value on the data variable */
-unsigned getNodeData(hashNode** hashArray, char* nodeName) {
+unsigned* getNodeData(hashNode** hashArray, char* nodeName) {
     hashNode* np = lookup(hashArray, nodeName);
 
-    np = np;
-    return 0;
-    
- /*   if (*np) {
-        return np->data;
+    if (np) {
+        return &np->data;
     }
     else
         return NULL;
-  */
+  
 }

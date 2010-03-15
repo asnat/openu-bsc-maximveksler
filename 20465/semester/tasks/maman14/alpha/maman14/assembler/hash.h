@@ -18,7 +18,7 @@ typedef struct node{
 
 unsigned hashVal(char*);
 short int addNode(hashNode**,const char*,const int);
-unsigned getData(hashNode**, char*);
+unsigned* getData(hashNode**, char*);
 
 #endif	/* _HASH_H */
 
