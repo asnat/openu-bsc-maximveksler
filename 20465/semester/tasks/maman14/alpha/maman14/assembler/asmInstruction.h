@@ -38,7 +38,7 @@ typedef struct AsmInstruction {
     const char* _log_unparsedAssemblyLine;
     
     char* label;
-    unsigned int lineNumber;
+    unsigned lineNumber;
     
     InstructionType instructionType;
     InstructionUnion instruction;

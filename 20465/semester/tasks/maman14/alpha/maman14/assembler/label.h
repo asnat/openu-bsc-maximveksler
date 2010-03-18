@@ -8,8 +8,13 @@
 #ifndef _LABEL_H
 #define	_LABEL_H
 
-unsigned getLabelAddress(char*);
-unsigned addLabel(char*, unsigned );
+#ifndef _ERRORHANDLER_H
+#include "errorHandler.h"
+#endif
+
+void initLabelTable(void);
+errorCode getLabelAddress(char*, unsigned*);
+errorCode addLabel(char*, unsigned );
 
 #endif	/* _LABEL_H */
 

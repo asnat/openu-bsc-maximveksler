@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "hash.h"
-#include "constants.h"
+#include "errorHandler.h"
 
 static hashNode* labelHashTable[HASHSIZE];
 
@@ -10,12 +10,10 @@ void initLabelTable(void){
         labelHashTable[i]=NULL;
 }
 
-unsigned getLabelAddress(char* labelName){
-    unsigned* dp = getNodeData(labelHashTable,labelName);
-    if (dp)
-       return 0;
+errorCode getLabelAddress(char* labelName, unsigned* data){
+    return getData(labelHashTable, labelName, data);
 }
 
-void addLabel(char labelName){
-    
+errorCode addLabel(char* labelName, unsigned data){
+    return addHashNode(labelHashTable, labelName, data);
 }
