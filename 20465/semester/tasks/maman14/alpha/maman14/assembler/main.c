@@ -52,10 +52,13 @@ void doMaxTest() {
 void doDoronTest() {
     char name[] = "doron";
     unsigned address = 100;
-    errorCode rc;
+    _bool rc;
+
     initLabelTable();
     rc = addLabel(name, address);
-    printf("%hu",rc);
+    address = 200;
+    rc = getLabelAddress(name,&address);
+    printf("%hu %u\n",rc,address);
 }
 
 int main() {
