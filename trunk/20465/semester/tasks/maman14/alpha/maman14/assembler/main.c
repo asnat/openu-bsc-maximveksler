@@ -13,6 +13,7 @@
 #include "asmInstruction.h"
 #include "asmCommands.h"
 #include "lineParser.h"
+#include "label.h"
 
     int maxTest = 1;
     int doronTest = 2;
@@ -49,11 +50,16 @@ void doMaxTest() {
 }
 
 void doDoronTest() {
-    
+    char name[] = "doron";
+    unsigned address = 100;
+    errorCode rc;
+    initLabelTable();
+    rc = addLabel(name, address);
+    printf("%hu",rc);
 }
 
 int main() {
-    int thisTest = maxTest;
+    int thisTest = doronTest;
 
     if(thisTest == maxTest)
         doMaxTest();

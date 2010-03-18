@@ -8,6 +8,10 @@
 #ifndef _HASH_H
 #define	_HASH_H
 
+#ifndef _ERRORHANDLER_H
+#include "errorHandler.h"
+#endif
+
 #define HASHSIZE 100
 
 typedef struct node{
@@ -16,9 +20,9 @@ typedef struct node{
     struct node* next;
 }hashNode;
 
-unsigned hashVal(char*);
-short int addNode(hashNode**,const char*,const int);
-unsigned* getData(hashNode**, char*);
+unsigned hashVal(const char*);
+errorCode addHashNode(hashNode**, char*, unsigned);
+errorCode getData(hashNode**, char*, unsigned*);
 
 #endif	/* _HASH_H */
 
