@@ -10,6 +10,8 @@
 
 #include "errorHandler.h"
 
+static unsigned errorCode;
+
 static const char* errorDescriptions[] = {
     "SUCCESS",
     "Failed to open assembly code file ", /* Error #1 FAILURE_TO_OPEN_FILE */
@@ -21,17 +23,21 @@ static const char* errorDescriptions[] = {
     "Failed to allocate memory" /* Error #7 MEMORY_ALLOCATION_FAILURE */
 };
 
-void handleError(const int unsigned lineNumber, const int unsigned errorCode, const char* errorMoreInfo, const char* asmCodeLine) {
+void setErrorCode(unsigned errorNum){
+    errorCode = errorNum;
+}
+
+void handleError(const unsigned lineNumber, const char* errorMoreInfo, const char* asmCodeLine) {
     fprintf(stderr, "ERRPR #%d: %s\n", errorCode, errorDescriptions[errorCode]);
 
-    if(lineNumber != (int)NULL) { /* If we have line number we must surly also have the asmText... */
+    if(lineNumber != NULL) { /* If we have line number we must surly also have the asmText... */
         fprintf(stderr, "\tat %d: %s => %s\n", lineNumber, asmCodeLine, errorMoreInfo);
     } else if(errorMoreInfo != NULL) {
         fprintf(stderr, "\tAdditional information: %s\n", errorMoreInfo);
     }
 }
 
-void fatalError(const int unsigned lineNumber, const int unsigned errorCode, const char* errorMoreInfo, const char* asmCodeLine) {
+void fatalError(const unsigned lineNumber, const char* errorMoreInfo, const char* asmCodeLine) {
     handleError(lineNumber, errorCode, errorMoreInfo, asmCodeLine);
 
     exit(EXIT_FAILURE);

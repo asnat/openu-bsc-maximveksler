@@ -18,13 +18,12 @@
 #define LABEL_ALREADY_EXIST 7
 #define MEMORY_ALLOCATION_FAILURE 8
 
-typedef unsigned short errorCode;
-
+void setErrorCode(unsigned);
 /* Logical error has occured and is being reported, we continue after notifiying user about the error */
-void handleError(const int unsigned lineNumber, const int unsigned errorCode, const char* errorMoreInfo, const char* asmCodeLine);
+void handleError(const unsigned lineNumber, const char* errorMoreInfo, const char* asmCodeLine);
 
 /* Fatal error has occured, we will be quiting the program on this failure. */
-void fatalError(const int unsigned lineNumber, const int unsigned errorCode, const char* errorMoreInfo, const char* asmCodeLine);
+void fatalError(const int unsigned lineNumber,  const char* errorMoreInfo, const char* asmCodeLine);
 
 
 #endif	/* _ERRORHANDLER_H */

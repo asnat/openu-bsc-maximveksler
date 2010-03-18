@@ -8,8 +8,8 @@
 #ifndef _HASH_H
 #define	_HASH_H
 
-#ifndef _ERRORHANDLER_H
-#include "errorHandler.h"
+#ifndef _CONSTANTS_H
+#include "constants.h"
 #endif
 
 #define HASHSIZE 100
@@ -21,8 +21,8 @@ typedef struct node{
 }hashNode;
 
 unsigned hashVal(const char*);
-errorCode addHashNode(hashNode**, char*, unsigned);
-errorCode getData(hashNode**, char*, unsigned*);
+_bool addHashNode(hashNode**, char*, unsigned);
+_bool getHashNodeData(hashNode**,const char*, unsigned*);
 
 #endif	/* _HASH_H */
 

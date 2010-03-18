@@ -24,32 +24,37 @@ static hashNode* lookup(hashNode** hashArray,const char* nodeName){
     hashNode* np = *(hashArray + hashVal(nodeName)); /* point to the current node */
     
     /* look for the node in the specific index */
-    while ( np != NULL || strcmp(np->name,nodeName) )
+    while ( np != NULL && strcmp(np->name,nodeName))
+        
         np = np->next;
     return np;
 }
 
 /* Return the value on the data variable */
-errorCode getNodeData(hashNode** hashArray, const char* nodeName,unsigned* data) {
+_bool getHashNodeData(hashNode** hashArray, const char* nodeName,unsigned* data) {
     hashNode* np = lookup(hashArray, nodeName); /* look for the label in the table */
-
-    /* if label not exist, data point to the node data */
-    if (!np) {
-        data = &np->data;
-        return SUCCESS;
+    _bool rc = FALSE; /* return code */
+    /* if label exist, data point to the node data */
+    if (np) {
+        *data = np->data;
+        rc = TRUE;
     }
     else
-        return NO_SUCH_LABEL;
+        setErrorCode(NO_SUCH_LABEL);
+    free(np);
+    return rc;
 }
 
 /* Add a new node to the hash table */
-errorCode addHashNode(hashNode** hashArray, char* nodeName, unsigned data){
+_bool addHashNode(hashNode** hashArray, char* nodeName, unsigned data){
     hashNode* node;
     unsigned hashValue;
-    /* check if the node already exist */
+
     node = (hashNode*) malloc(sizeof(hashNode));
-    if (!node)
-        return MEMORY_ALLOCATION_FAILURE;
+    if (!node) {
+        setErrorCode(MEMORY_ALLOCATION_FAILURE);
+        return FALSE;
+    }
 
     /* if the node not exist create a new node */
     if (!(lookup(hashArray, nodeName))){
@@ -57,12 +62,11 @@ errorCode addHashNode(hashNode** hashArray, char* nodeName, unsigned data){
         node->data = data;
         hashValue = hashVal(node->name);
         node->next = *(hashArray + hashValue);
-        (*(hashArray + hashValue))->next = node;
-        return SUCCESS;
+        *(hashArray + hashValue) = node;
+        return TRUE;
     }
     else {
-        free(node);
-        return LABEL_ALREADY_EXIST;
+        setErrorCode(LABEL_ALREADY_EXIST);
+        return FALSE;
     }
 }
-
