@@ -131,7 +131,7 @@ AsmInstruction parseLine(const char* line) {
         }
         srcOPFrom = index;
 
-        while (isalnum(line[++index]));
+        while (isalnum(line[++index]) || (line[index] == '-' || line[index] == '+'));
         srcOPTo = index;
 
         if(isspace(line[index])) {
@@ -158,7 +158,7 @@ AsmInstruction parseLine(const char* line) {
         }
         dstOPFrom = index;
 
-        while (isalnum(line[++index]));
+        while (isalnum(line[++index]) || (line[index] == '-' || line[index] == '+'));
         
         if(!line[index] == '\0') {
             /* TODO: Error illigal char in command*/
@@ -177,6 +177,82 @@ AsmInstruction parseLine(const char* line) {
     return NULL; /* We should never reach here */
 }
 
+static _bool parseOperand(const char* line, unsigned int opFrom, unsigned int opTo,
+        char **op, AddressingType* opType) {
+
+    unsigned int helperI = 0;
+
+    if(line[opFrom] == '#') {
+        *op = substr(line, opFrom+1, opTo);
+        *opType = IMMIDIATE;
+
+        if(**op != '+' && **op != '-' && !isdigit(**op)) {
+
+            /* TODO: ERROR Source operand is not a valid number */
+            return FALSE;
+        }
+
+        helperI = 0;
+        while(isdigit(*((*op) + ++helperI)));
+
+        if(*((*op) + helperI) != '\0') {
+            
+            /* TODO: ERROR Source operand is not a valid number */
+            return FALSE;
+        }
+        /* Reaching here means we have a valid IMMIDIATE direction */
+    } else if (line[opFrom] == '@') {
+        *op = substr(line, opFrom+1, opTo);
+        *opType = INDIRECT;
+
+        if(!isalpha(**op)) {
+            
+            /* TODO: ERROR source operand is not a valid INDIRECT notation */
+            return FALSE;
+        }
+
+        while(isalnum(*((*op) + ++helperI)));
+        if(*((*op) + helperI) != '\0') {
+
+            /* TODO: ERROR source operand is not a valid INDIRECT notation */
+            return FALSE;
+        }
+        /* Reaching here means we have a valid INDIRECT direction */  
+    } else if (line[opFrom] == 'r' && (opTo - opFrom) == 2) { /* Register is length 2 and starts with small "r" */
+        *op = substr(line, opFrom, opTo);
+        *opType = REGISTER;
+
+        if(*((*op) + 1) > '7' || *((*op) + 1) < '0') {
+
+            /* TODO: ERROR source operand is not a valid REGISTER notation */
+            return FALSE;
+        }
+
+         /* Reaching here means we have a valid REGISTER direction */
+    } else {
+        *op = substr(line, opFrom, opTo);
+        *opType = DIRECT;
+
+        if(!isalpha(**op)) {
+
+            /* TODO: ERROR source operand is not a valid DIRECT notation */
+            return FALSE;
+        }
+
+        while(isalnum(*((*op) + ++helperI)));
+        if(*((*op) + helperI) != '\0') {
+
+            /* TODO: ERROR source operand is not a valid DIRECT notation */
+            return FALSE;
+        }
+
+         /* Reaching here means we have a valid DIRECT direction */
+    }
+
+
+    return TRUE;
+}
+
 /* TOOD: This is public only for testing, after all is working this should
     become static and only be called from parseLine */
 AsmInstruction allocAsmInstructionINST(
@@ -186,8 +262,6 @@ AsmInstruction allocAsmInstructionINST(
         const unsigned int srcOPFrom, const unsigned int srcOPTo,
         const unsigned int dstOPFrom, const unsigned int dstOPTo
         ) {
-
-    int helperI;
     
     AsmInstruction asmInstruction = (AsmInstruction) malloc(sizeof(struct AsmInstruction));
     if(asmInstruction == NULL) {
@@ -205,79 +279,6 @@ AsmInstruction allocAsmInstructionINST(
     asmInstruction->label = substr(line, labelFrom, labelTo);
     asmInstruction->instruction->INST.command = substr(line, cmdFrom, cmdTo);
 
-    if(line[srcOPFrom] == '#') {
-        asmInstruction->instruction->INST.srcOP = substr(line, srcOPFrom+1, srcOPTo);
-        asmInstruction->instruction->INST.srcOPType = IMMIDIATE;
-
-        if(asmInstruction->instruction->INST.srcOP[0] != '+'
-                && asmInstruction->instruction->INST.srcOP[0] != '-'
-                && !isdigit(asmInstruction->instruction->INST.srcOP[0])) {
-
-            /* TODO: ERROR Source operand is not a valid number */
-            freeAsmInstruction(asmInstruction);
-            return NULL;
-        }
-
-        helperI = 0;
-        while(isdigit(asmInstruction->instruction->INST.srcOP[++helperI]));
-
-        if(asmInstruction->instruction->INST.srcOP[helperI] != '\0') {
-            /* TODO: ERROR Source operand is not a valid number */
-            freeAsmInstruction(asmInstruction);
-            return NULL;
-        }
-
-        /* Reaching here means we have a valid IMMIDIATE direction */
-    } else if (line[srcOPFrom] == '@') {
-        asmInstruction->instruction->INST.srcOP = substr(line, srcOPFrom+1, srcOPTo);
-        asmInstruction->instruction->INST.srcOPType = INDIRECT;
-
-        helperI = 0;
-        if(!isalpha(asmInstruction->instruction->INST.srcOP[0])) {
-            /* TODO: ERROR source operand is not a valid INDIRECT notation */
-            freeAsmInstruction(asmInstruction);
-            return NULL;
-        }
-
-        while(isalnum(asmInstruction->instruction->INST.srcOP[++helperI]));
-        if(asmInstruction->instruction->INST.srcOP[helperI] != '\0') {
-            /* TODO: ERROR source operand is not a valid INDIRECT notation */
-            freeAsmInstruction(asmInstruction);
-            return NULL;
-        }
-        
-         /* Reaching here means we have a valid INDIRECT direction */
-    } else if (line[srcOPFrom] == 'r' && (srcOPTo - srcOPFrom) == 2) { /* Register is length 2 and starts with small "r" */
-        asmInstruction->instruction->INST.srcOP = substr(line, srcOPFrom, srcOPTo);
-        asmInstruction->instruction->INST.srcOPType = REGISTER;
-
-        if(asmInstruction->instruction->INST.srcOP[1] > '7' || asmInstruction->instruction->INST.srcOP[1] < '0') {
-            /* TODO: ERROR source operand is not a valid REGISTER notation */
-            freeAsmInstruction(asmInstruction);
-            return NULL;
-        }
-
-         /* Reaching here means we have a valid REGISTER direction */
-    } else {
-        asmInstruction->instruction->INST.srcOP = substr(line, srcOPFrom, srcOPTo);
-        asmInstruction->instruction->INST.srcOPType = DIRECT;
-
-        helperI = 0;
-        if(!isalpha(asmInstruction->instruction->INST.srcOP[0])) {
-            /* TODO: ERROR source operand is not a valid DIRECT notation */
-            freeAsmInstruction(asmInstruction);
-            return NULL;
-        }
-
-        while(isalnum(asmInstruction->instruction->INST.srcOP[++helperI]));
-        if(asmInstruction->instruction->INST.srcOP[helperI] != '\0') {
-            /* TODO: ERROR source operand is not a valid DIRECT notation */
-            freeAsmInstruction(asmInstruction);
-            return NULL;
-        }
-        
-         /* Reaching here means we have a valid DIRECT direction */
-    }
 
     asmInstruction->instruction->INST.dstOP = substr(line, dstOPFrom, dstOPTo);
 
@@ -286,8 +287,28 @@ AsmInstruction allocAsmInstructionINST(
     asmInstruction->instruction->INST.dstOPType = dstOPType;
  */
 
+    if(!parseOperand(line, srcOPFrom, srcOPTo,
+            &asmInstruction->instruction->INST.srcOP,
+            &asmInstruction->instruction->INST.srcOPType)) {
+
+        freeAsmInstruction(asmInstruction);
+        return NULL;
+    }
+
+    if(!parseOperand(line, dstOPFrom, dstOPTo,
+            &asmInstruction->instruction->INST.dstOP,
+            &asmInstruction->instruction->INST.dstOPType)) {
+
+        freeAsmInstruction(asmInstruction);
+        return NULL;
+    }
+
     return asmInstruction;
 }
+
+
+
+
 
 void freeAsmInstruction(AsmInstruction asmInst) {
     /*
