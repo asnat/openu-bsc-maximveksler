@@ -14,6 +14,10 @@
 #include "asmCommands.h"
 #include "lineParser.h"
 #include "label.h"
+#include "errorHandler.h"
+#include "assembler.h"
+
+#define FILE_NAME_MAX_SIZE 512
 
     int maxTest = 1;
     int doronTest = 2;
@@ -61,13 +65,51 @@ void doDoronTest() {
     */
 }
 
-int main() {
-    int thisTest = doronTest;
+int main(int argc, char **argv) {
+    char fileName[FILE_NAME_MAX_SIZE];
+    
+    int fileNameIndex;
+    char* inputArgv;
+    
+    FILE *fp = NULL;
 
-    if(thisTest == maxTest)
-        doMaxTest();
-    else
-        doDoronTest();
+    /* We are not interested in program name */
+    argc--;
+    argv++;
+    
+    while(argc--) { /* For each input argument which represents assembly file names... */
+        fileNameIndex = 0;
+        inputArgv = *argv;
+        
+        while(fileNameIndex < FILE_NAME_MAX_SIZE && (fileName[fileNameIndex++] = *inputArgv++));
+
+        /* To the next argv */
+        argv++;
+
+        /* Handle error is file name is too long */
+        if(fileNameIndex > FILE_NAME_MAX_SIZE - 3) {
+            handleError(FILENAME_TOO_LONG, *argv);
+            continue; /* Continue to next file */
+        }
+
+        /* Add the suffix .as */
+        fileName[fileNameIndex-1] = '.'; /* fileNameIndex-1 because we want to override the \0 */
+        fileName[fileNameIndex] = 'a';
+        fileName[fileNameIndex+1] = 's';
+        fileName[fileNameIndex+2] = '\0';
+
+        fp = fopen (fileName, "rt");  /* open the file for reading */
+        if(fp == NULL) {
+            perror(fileName);
+            continue;
+        }
+
+        assemble(fp); /* Calling the assembly engine */
+
+        fclose(fp); /* Close the file reference */
+        
+    }
+
 
     /* FILE *fp; */
     /* printf("%s", FAILURE_TO_OPEN_FILE); */
