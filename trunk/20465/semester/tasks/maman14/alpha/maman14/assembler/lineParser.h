@@ -18,13 +18,10 @@ AsmInstruction parseLine(const char* line);
  */
 AsmInstruction allocAsmInstructionINST(
         const char* line,
-        const unsigned int lineNumber,
         const unsigned int labelFrom, const unsigned int labelTo,
         const unsigned int cmdFrom, const unsigned int cmdTo,
         const unsigned int srcOPFrom, const unsigned int srcOPTo,
-        const AddressingType srcOPType,
-        const unsigned int dstOPFrom, const unsigned int dstOPTo,
-        const AddressingType dstOPType
+        const unsigned int dstOPFrom, const unsigned int dstOPTo
         );
 
 void freeAsmInstruction(AsmInstruction asmInst);

@@ -9,9 +9,11 @@
 void processAssemblyLine(const char *asmCodeLine) {
     AsmInstruction asmInst = parseLine(asmCodeLine);
 
-    if(asmInst->instructionType == INST) {
-        process(asmInst);
-    }
+    if(asmInst != NULL) { /* If we get NULL it's a comment hench no processing required */
+        if(asmInst->instructionType == INST) {
+            process(asmInst);
+        }
 
-    freeAsmInstruction(asmInst);
+        freeAsmInstruction(asmInst);
+    }
 }

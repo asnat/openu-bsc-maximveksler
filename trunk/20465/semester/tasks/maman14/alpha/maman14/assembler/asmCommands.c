@@ -55,12 +55,12 @@ static _bool processCommand(AsmInstruction asmInstruction,
     
     if(! (OP_SRC_CBIT_EXTRACT(supportedAddressing) & OP_SRC_CBIT(asmInstruction->instruction->INST.srcOPType))) {
         /* Check that the first operand type supplied is valid */
-        handleError(asmInstruction->lineNumber, WRONG_ADDRESSING_TYPE, "Source operand is illigal for instruction", asmInstruction->_log_unparsedAssemblyLine);
+        handleError(WRONG_ADDRESSING_TYPE, "Source operand is illigal for instruction");
         return FALSE;
     }
 
     if(! (OP_DST_CBIT_EXTRACT(supportedAddressing) & OP_DST_CBIT(asmInstruction->instruction->INST.dstOPType))) {
-        handleError(asmInstruction->lineNumber, WRONG_ADDRESSING_TYPE, "Destination operand is illigal for instruction", asmInstruction->_log_unparsedAssemblyLine);
+        handleError(WRONG_ADDRESSING_TYPE, "Destination operand is illigal for instruction");
         return FALSE;
     }
 
@@ -234,7 +234,7 @@ void process(AsmInstruction asmLineInstruction) {
         /* We want to pass the next location after the function name in the general user input string */
         processCommand(asmLineInstruction, asm_cmd_struct_handler->commandCode, asm_cmd_struct_handler->supportedAddressingBitmap);
     } else {
-        handleError(asmLineInstruction->lineNumber, NO_SUCH_ASSEMBLY_COMMAND, handlerName, asmLineInstruction->_log_unparsedAssemblyLine);
+        handleError(NO_SUCH_ASSEMBLY_COMMAND, handlerName);
 
     }
 }

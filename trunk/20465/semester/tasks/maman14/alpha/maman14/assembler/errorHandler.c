@@ -10,7 +10,9 @@
 
 #include "errorHandler.h"
 
-static unsigned errorCode;
+static unsigned int _errorCode;
+static unsigned _lineNumber;
+static const char* _unparsedAssemblyLine;
 
 static const char* errorDescriptions[] = {
     "SUCCESS",
@@ -23,22 +25,50 @@ static const char* errorDescriptions[] = {
     "Failed to allocate memory" /* Error #7 MEMORY_ALLOCATION_FAILURE */
 };
 
-void setErrorCode(unsigned errorNum){
-    errorCode = errorNum;
+void initErrorHandler() {
+    _errorCode = SUCCESS;
+    _lineNumber = 0;
+    _unparsedAssemblyLine = NULL;
 }
 
-void handleError(const unsigned lineNumber, const char* errorMoreInfo, const char* asmCodeLine) {
-    fprintf(stderr, "ERRPR #%d: %s\n", errorCode, errorDescriptions[errorCode]);
+void setUnparsedAssemblyLine(const char* unparsedAssemblyLine) {
+    _unparsedAssemblyLine = unparsedAssemblyLine;
+}
 
-    if(lineNumber != NULL) { /* If we have line number we must surly also have the asmText... */
-        fprintf(stderr, "\tat %d: %s => %s\n", lineNumber, asmCodeLine, errorMoreInfo);
+const char* getUnparsedAssemblyLine() {
+    return _unparsedAssemblyLine;
+}
+
+void setErrorCode(unsigned errorCode) {
+    _errorCode = errorCode;
+}
+
+unsigned int getErrorCode() {
+    return _errorCode;
+}
+
+void setLineNumber(const unsigned lineNumber) {
+    _lineNumber = lineNumber;
+}
+
+unsigned getLineNumber() {
+    return _lineNumber;
+}
+
+void handleError(const int unsigned errorCode, const char* errorMoreInfo) {
+    setErrorCode(errorCode);
+    
+    fprintf(stderr, "ERRPR #%d: %s\n", _errorCode, errorDescriptions[_errorCode]);
+
+    if(_lineNumber != (const unsigned) NULL) { /* If we have line number we must surly also have the asmText... */
+        fprintf(stderr, "\tat %d: %s => %s\n", _lineNumber, _unparsedAssemblyLine, errorMoreInfo);
     } else if(errorMoreInfo != NULL) {
         fprintf(stderr, "\tAdditional information: %s\n", errorMoreInfo);
     }
 }
 
-void fatalError(const unsigned lineNumber, const char* errorMoreInfo, const char* asmCodeLine) {
-    handleError(lineNumber, errorCode, errorMoreInfo, asmCodeLine);
+void fatalError(const int unsigned errorCode, const char* errorMoreInfo) {
+    handleError(errorCode, errorMoreInfo);
 
     exit(EXIT_FAILURE);
 }

@@ -8,9 +8,7 @@
 #ifndef _LABEL_H
 #define	_LABEL_H
 
-#ifndef _CONSTANTS_H
 #include "constants.h"
-#endif
 
 void initLabelTable(void);
 _bool getLabelAddress(char*, unsigned*);

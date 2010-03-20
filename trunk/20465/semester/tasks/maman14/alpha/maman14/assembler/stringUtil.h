@@ -9,7 +9,7 @@
 #define	_STRINGUTIL_H
 
 /* Create new char array at the size of toPos-fromPos+1 and copy content from source to this array */
-char* substr(const char* source, const unsigned int lineNumber, const unsigned int fromPos, const unsigned int toPos);
+char* substr(const char* source, const unsigned int fromPos, const unsigned int toPos);
 
 #endif	/* _STRINGUTIL_H */
 
