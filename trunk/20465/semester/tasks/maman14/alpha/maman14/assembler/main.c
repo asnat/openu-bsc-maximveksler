@@ -104,6 +104,8 @@ int main(int argc, char **argv) {
             continue;
         }
 
+        setFileName(fileName);
+        
         assemble(fp); /* Calling the assembly engine */
 
         fclose(fp); /* Close the file reference */

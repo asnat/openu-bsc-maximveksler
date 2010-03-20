@@ -18,7 +18,7 @@
 #define MEMORY_ALLOCATION_FAILURE 7
 #define LABEL_ALREADY_EXIST 8
 #define FILENAME_TOO_LONG 9
-#define ASSEMBLY_LINE_TOO_LONG 9
+#define ASSEMBLY_LINE_TOO_LONG 10
 
 
 /* Initialize error handler, should be called for each processed line */
@@ -47,6 +47,10 @@ void setUnparsedAssemblyLine(const char* unparsedAssemblyLine);
 
 /* Get the unparsed assembly line for logging purposes */
 const char* getUnparsedAssemblyLine();
+
+void setFileName(const char* fileName);
+
+const char* getFileName();
 
 #endif	/* _ERRORHANDLER_H */
 
