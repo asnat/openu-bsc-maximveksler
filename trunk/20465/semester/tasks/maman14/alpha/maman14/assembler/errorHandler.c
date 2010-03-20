@@ -22,7 +22,9 @@ static const char* errorDescriptions[] = {
     "Cant allocate space", /* Error #4 CANT_ALLOCATE_SPACE */
     "Wrong addressing type", /* Error #5 WRONG_ADDRESSING_TYPE */
     "No such labal", /* Error #6 NO_SUCH_LABEL */
-    "Failed to allocate memory" /* Error #7 MEMORY_ALLOCATION_FAILURE */
+    "Failed to allocate memory", /* Error #7 MEMORY_ALLOCATION_FAILURE */
+    "Label redefined", /* Error #8 LABEL_ALREADY_EXIST */
+    "File name is too long" /* Error #9 FILENAME_TOO_LONG */
 };
 
 void initErrorHandler() {

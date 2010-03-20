@@ -17,6 +17,8 @@
 #define NO_SUCH_LABEL 6
 #define MEMORY_ALLOCATION_FAILURE 7
 #define LABEL_ALREADY_EXIST 8
+#define FILENAME_TOO_LONG 9
+#define ASSEMBLY_LINE_TOO_LONG 9
 
 
 /* Initialize error handler, should be called for each processed line */
