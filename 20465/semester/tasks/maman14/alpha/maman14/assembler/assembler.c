@@ -21,27 +21,48 @@ void assemble(FILE *fp) {
     
     while((c = fgetc(fp)) != EOF) {
         setLineNumber(assemblyLineCounter);
-        
-        if(fgetc(fp) == '\r' || fgetc(fp) == '\n') {
-            /* Good, we've found a valid line */
-            
-        }
-        
+        setUnparsedAssemblyLine(line);
+
         if(lineIndex >= LINE_LENGTH-1) {
-            handleError(ASSEMBLY_LINE_TOO_LONG, line);
+            line[lineIndex] = '\0';
+            handleError(ASSEMBLY_LINE_TOO_LONG, NULL);
 
             /* Consume until EOL */
-            while(fgetc(fp) != EOF && (fgetc(fp) == '\r' || fgetc(fp) == '\n'));
+            while((c = fgetc(fp)) != EOF) {
+                if(c == '\r' || c == '\n') {
+                    break;
+                }
+            }
+
+            lineIndex = 0;
+            assemblyLineCounter++;
+
+            continue;
+        } else
+
+        if(c == '\r' || c == '\n') {
+            /* Good, we've found a valid line */
+            line[lineIndex] = '\0';
+            
+            processAssemblyLine(line);
+            
+            lineIndex = 0;
+            assemblyLineCounter++;
+
+            continue;
         }
 
-        line[lineIndex++] = (char) c;
+        line[lineIndex++] = (char) c;        
     }
 
-
+    /* catch last line, which might not be terminated by a \n */
+    if(lineIndex > 0) {
+        line[lineIndex] = '\0';
+        processAssemblyLine(line);
+    }
+    
     /* for each line in lines: */
     /* phase1()... */
-
-    processAssemblyLine(line);
 
     /* for each line in lines: */
     /* phase2()... */

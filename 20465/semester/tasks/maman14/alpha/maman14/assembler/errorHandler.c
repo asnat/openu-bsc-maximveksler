@@ -13,6 +13,7 @@
 static unsigned int _errorCode;
 static unsigned _lineNumber;
 static const char* _unparsedAssemblyLine;
+static const char* _fileName;
 
 static const char* errorDescriptions[] = {
     "SUCCESS",
@@ -24,7 +25,8 @@ static const char* errorDescriptions[] = {
     "No such labal", /* Error #6 NO_SUCH_LABEL */
     "Failed to allocate memory", /* Error #7 MEMORY_ALLOCATION_FAILURE */
     "Label redefined", /* Error #8 LABEL_ALREADY_EXIST */
-    "File name is too long" /* Error #9 FILENAME_TOO_LONG */
+    "File name is too long", /* Error #9 FILENAME_TOO_LONG */
+    "Assembly line is too long" /* Error #10 ASSEMBLY_LINE_TOO_LONG */
 };
 
 void initErrorHandler() {
@@ -57,13 +59,24 @@ unsigned getLineNumber() {
     return _lineNumber;
 }
 
+void setFileName(const char* fileName) {
+    _fileName = fileName;
+}
+
+const char* getFileName() {
+    return _fileName;
+}
+
 void handleError(const int unsigned errorCode, const char* errorMoreInfo) {
     setErrorCode(errorCode);
     
-    fprintf(stderr, "ERRPR #%d: %s\n", _errorCode, errorDescriptions[_errorCode]);
+    fprintf(stderr, "ERROR #%d: %s\n", _errorCode, errorDescriptions[_errorCode]);
 
     if(_lineNumber != (const unsigned) NULL) { /* If we have line number we must surly also have the asmText... */
-        fprintf(stderr, "\tat %d: %s => %s\n", _lineNumber, _unparsedAssemblyLine, errorMoreInfo);
+        fprintf(stderr, "\t%s at %d: %s\n", _fileName, _lineNumber, _unparsedAssemblyLine);
+        if(errorMoreInfo != NULL) {
+            fprintf(stderr, "\tMore Info: %s\n", errorMoreInfo);
+        }
     } else if(errorMoreInfo != NULL) {
         fprintf(stderr, "\tAdditional information: %s\n", errorMoreInfo);
     }
