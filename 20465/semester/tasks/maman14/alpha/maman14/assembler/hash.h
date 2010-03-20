@@ -8,9 +8,7 @@
 #ifndef _HASH_H
 #define	_HASH_H
 
-#ifndef _CONSTANTS_H
 #include "constants.h"
-#endif
 
 #define HASHSIZE 100
 

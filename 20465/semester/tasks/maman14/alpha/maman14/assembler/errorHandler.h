@@ -15,16 +15,36 @@
 #define CANT_ALLOCATE_SPACE 4
 #define WRONG_ADDRESSING_TYPE 5
 #define NO_SUCH_LABEL 6
-#define LABEL_ALREADY_EXIST 7
-#define MEMORY_ALLOCATION_FAILURE 8
+#define MEMORY_ALLOCATION_FAILURE 7
+#define LABEL_ALREADY_EXIST 8
 
+
+/* Initialize error handler, should be called for each processed line */
+void initErrorHandler();
+
+/* Set error number if occured, to be polled by external code */
 void setErrorCode(unsigned);
+
+/* Get error number if occured, to be polled by external code */
+unsigned int getErrorCode();
+
 /* Logical error has occured and is being reported, we continue after notifiying user about the error */
-void handleError(const unsigned lineNumber, const char* errorMoreInfo, const char* asmCodeLine);
+void handleError(const int unsigned errorCode, const char* errorMoreInfo);
 
 /* Fatal error has occured, we will be quiting the program on this failure. */
-void fatalError(const int unsigned lineNumber,  const char* errorMoreInfo, const char* asmCodeLine);
+void fatalError(const int unsigned errorCode, const char* errorMoreInfo);
 
+/* Set current working assembly line number */
+void setLineNumber(const unsigned lineNumber);
+
+/* Get current working assembly line number */
+unsigned getLineNumber();
+
+/* Store the unparsed assembly line for logging purposes */
+void setUnparsedAssemblyLine(const char* unparsedAssemblyLine);
+
+/* Get the unparsed assembly line for logging purposes */
+const char* getUnparsedAssemblyLine();
 
 #endif	/* _ERRORHANDLER_H */
 

@@ -21,13 +21,10 @@
 void doMaxTest() {
     AsmInstruction inst = allocAsmInstructionINST(
             "mov LENGTH, r1",
-            17,
             0, 0, /* label */
             0, 3, /* cmd */
             4, 10, /* srcOPFrom */
-            DIRECT,
-            12, 14, /* srcOPFrom */
-            REGISTER
+            12, 14 /* srcOPFrom */
             );
 
 /*
@@ -50,15 +47,18 @@ void doMaxTest() {
 }
 
 void doDoronTest() {
+    /*
     char name[] = "doron";
     unsigned address = 100;
     _bool rc;
+
 
     initLabelTable();
     rc = addLabel(name, address);
     address = 200;
     rc = getLabelAddress(name,&address);
     printf("%hu %u\n",rc,address);
+    */
 }
 
 int main() {
