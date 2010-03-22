@@ -16,7 +16,20 @@
 #include "constants.h"
 
 /*
- * 
+ * Gets input line which is assembly code line and builds AsmInstruction struct from it.
+ * strings that go into each field should be pre calculated.
+ */
+static AsmInstruction allocAsmInstructionINST(
+        const char* line,
+        const unsigned int labelFrom, const unsigned int labelTo,
+        const unsigned int cmdFrom, const unsigned int cmdTo,
+        const unsigned int srcOPFrom, const unsigned int srcOPTo,
+        const unsigned int dstOPFrom, const unsigned int dstOPTo
+        );
+
+/*
+ * Gets unparsed string represnting asm instructions, parses it and calls
+ * proper function to create matching structure.
  */
 AsmInstruction parseLine(const char* line) {
     unsigned int index = 0;
@@ -90,8 +103,9 @@ AsmInstruction parseLine(const char* line) {
         if(!isspace(line[index])) { /* After instruction name there should be space seperator */
             /* TODO: ERROR not valid declaration format */
             return NULL;
+        } else {
+            while(isspace(line[++index])); /* Good, valid label syntax - Consume all space chars */
         }
-        while(isspace(line[++index])); /* Good, valid label syntax - Consume all space chars */
 
 
         if(!isgraph(line[index])) {
@@ -253,9 +267,8 @@ static _bool parseOperand(const char* line, unsigned int opFrom, unsigned int op
     return TRUE;
 }
 
-/* TOOD: This is public only for testing, after all is working this should
-    become static and only be called from parseLine */
-AsmInstruction allocAsmInstructionINST(
+/* Construct and AsmInstruction which represents an assmebly instruction line. */
+static AsmInstruction allocAsmInstructionINST(
         const char* line,
         const unsigned int labelFrom, const unsigned int labelTo,
         const unsigned int cmdFrom, const unsigned int cmdTo,
@@ -306,6 +319,13 @@ AsmInstruction allocAsmInstructionINST(
     return asmInstruction;
 }
 
+/*static AsmInstruction allocAsmInstructionDCRL(
+        const char* line,
+        const unsigned int labelFrom, const unsigned int labelTo,
+        const unsigned int cmdFrom, const unsigned int cmdTo,
+        const unsigned int srcOPFrom, const unsigned int srcOPTo,
+        const unsigned int dstOPFrom, const unsigned int dstOPTo
+*/
 
 
 

@@ -25,7 +25,8 @@ static const char* errorDescriptions[] = {
     "Failed to allocate memory", /* Error #7 MEMORY_ALLOCATION_FAILURE */
     "Label redefined", /* Error #8 LABEL_ALREADY_EXIST */
     "File name is too long", /* Error #9 FILENAME_TOO_LONG */
-    "Assembly line is too long" /* Error #10 ASSEMBLY_LINE_TOO_LONG */
+    "Assembly line is too long", /* Error #10 ASSEMBLY_LINE_TOO_LONG */
+    "At least 1 assembly file should be supplied" /* #11 NOT_ENOUGH_ARGUMENTS */
 };
 
 void initErrorHandler() {
