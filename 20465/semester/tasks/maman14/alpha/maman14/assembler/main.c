@@ -71,7 +71,7 @@ int main(int argc,char** argv){
     char* currentFilePath; /* the current proccess file path including the suffix .as*/
     FILE *currentFileHandle; /* the current proccess file handle */
     int fileNameSize; /* the size of the file name*/
-    unsigned int currentArg; /* point to the current argument */
+    int currentArg; /* point to the current argument */
 
     /* see if any atrgument given */
     if (argc == 1)

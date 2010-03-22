@@ -16,7 +16,7 @@
 #define EXT_FILE 1
 #define ENT_FILE 2
 
-_bool initOutputFiles(char*);
+void initOutputFiles(char*);
 
 
 #endif	/* _OUTPUFILESHANDLER_H */
