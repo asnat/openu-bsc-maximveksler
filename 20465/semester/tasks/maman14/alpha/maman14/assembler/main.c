@@ -18,6 +18,8 @@
 #include "assembler.h"
 
 #define FILE_NAME_MAX_SIZE 512
+#define SUFFIX_SIZE 3
+#define ASM_FILE_SUFFIX ".as"
 
     int maxTest = 1;
     int doronTest = 2;
@@ -65,57 +67,39 @@ void doDoronTest() {
     */
 }
 
-int main(int argc, char **argv) {
-    char fileName[FILE_NAME_MAX_SIZE];
-    
-    int fileNameIndex;
-    char* inputArgv;
-    
-    FILE *fp = NULL;
+int main(int argc,char** argv){
+    char* currentFilePath; /* the current proccess file path including the suffix .as*/
+    FILE *currentFileHandle; /* the current proccess file handle */
+    int fileNameSize; /* the size of the file name*/
+    unsigned int currentArg; /* point to the current argument */
 
-    /* We are not interested in program name */
-    argc--;
-    argv++;
-    
-    while(argc--) { /* For each input argument which represents assembly file names... */
-        fileNameIndex = 0;
-        inputArgv = *argv;
+    /* see if any atrgument given */
+    if (argc == 1)
+        fatalError(NOT_ENOUGH_ARGUMENTS, "no file to process");
+
+    for(currentArg=1;currentArg < argc;currentArg++){
+        fileNameSize = (int) strlen(argv[currentArg])+1;
         
-        while(fileNameIndex < FILE_NAME_MAX_SIZE && (fileName[fileNameIndex++] = *inputArgv++));
-
-        /* To the next argv */
-        argv++;
-
-        /* Handle error is file name is too long */
-        if(fileNameIndex > FILE_NAME_MAX_SIZE - 3) {
-            handleError(FILENAME_TOO_LONG, *argv);
-            continue; /* Continue to next file */
+        if ( fileNameSize > FILE_NAME_MAX_SIZE - SUFFIX_SIZE) {
+           handleError(FILENAME_TOO_LONG, argv[currentArg]);
         }
+        else {
 
-        /* Add the suffix .as */
-        fileName[fileNameIndex-1] = '.'; /* fileNameIndex-1 because we want to override the \0 */
-        fileName[fileNameIndex] = 'a';
-        fileName[fileNameIndex+1] = 's';
-        fileName[fileNameIndex+2] = '\0';
+            if ((currentFilePath = (char*) malloc(fileNameSize*sizeof(char)+SUFFIX_SIZE)) == NULL)
+                fatalError(MEMORY_ALLOCATION_FAILURE, argv[currentArg]);
 
-        fp = fopen (fileName, "rt");  /* open the file for reading */
-        if(fp == NULL) {
-            perror(fileName);
-            continue;
-        }
-
-        setFileName(fileName);
-        
-        assemble(fp); /* Calling the assembly engine */
-
-        fclose(fp); /* Close the file reference */
-        
+            strcpy(currentFilePath,argv[currentArg]);
+            strcat(currentFilePath,ASM_FILE_SUFFIX);
+            if ((currentFileHandle = fopen(currentFilePath, "r")) == NULL)
+                perror(currentFilePath);
+            else {
+                setFileName(currentFilePath);
+                assemble(currentFileHandle);
+                fclose(currentFileHandle);
+            }
+            free(currentFilePath);
+         }
     }
-
-
-    /* FILE *fp; */
-    /* printf("%s", FAILURE_TO_OPEN_FILE); */
-
-    return (EXIT_SUCCESS);
+    return EXIT_SUCCESS;
 }
 

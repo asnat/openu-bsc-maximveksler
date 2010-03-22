@@ -19,6 +19,7 @@
 #define LABEL_ALREADY_EXIST 8
 #define FILENAME_TOO_LONG 9
 #define ASSEMBLY_LINE_TOO_LONG 10
+#define NOT_ENOUGH_ARGUMENTS 20
 
 
 /* Initialize error handler, should be called for each processed line */
