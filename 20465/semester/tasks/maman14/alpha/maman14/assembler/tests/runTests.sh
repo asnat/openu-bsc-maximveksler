@@ -14,13 +14,22 @@ ERROR_FOUND=false
 rm -f $VALID.real
 rm -f $INVALID.real
 
+for FILE in $(find asms -type f); do
+	if [[ "${FILE%.as}.as" = $FILE ]]; then
+		#echo "Not deleting $FILE"
+		:
+	else
+		rm -f ${FILE}
+	fi
+done
+
 exec 3>&1
 exec 4>&2
 
 exec 1>$VALID.real
 exec 2>$INVALID.real
 
-
+	
 ################################################################
 ################################################################
 ##### TESTS - add your assembly calls here... ##################
