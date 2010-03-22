@@ -41,8 +41,6 @@ if ! diff -Naur $VALID $VALID.real; then
 fi
 
 echo
-echo
-echo
 
 if ! diff -Naur $INVALID $INVALID.real; then
 	echo FUCK it, Build failed because unexpected output wasn\'t fun
@@ -58,4 +56,5 @@ else
 	echo "BUILD FAILED. Yup, you broke it... AGAIN!"
 fi
 
+echo
 
