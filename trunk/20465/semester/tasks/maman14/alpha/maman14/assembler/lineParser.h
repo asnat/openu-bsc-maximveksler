@@ -12,17 +12,6 @@
 
 AsmInstruction parseLine(const char* line);
 
-/*
- * Gets input line which is assembly code line and builds AsmInstruction struct from it.
- * strings that go into each field should be pre calculated.
- */
-AsmInstruction allocAsmInstructionINST(
-        const char* line,
-        const unsigned int labelFrom, const unsigned int labelTo,
-        const unsigned int cmdFrom, const unsigned int cmdTo,
-        const unsigned int srcOPFrom, const unsigned int srcOPTo,
-        const unsigned int dstOPFrom, const unsigned int dstOPTo
-        );
 
 void freeAsmInstruction(AsmInstruction asmInst);
 

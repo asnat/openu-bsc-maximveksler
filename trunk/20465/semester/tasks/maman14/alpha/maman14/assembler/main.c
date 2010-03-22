@@ -21,53 +21,7 @@
 #define SUFFIX_SIZE 3
 #define ASM_FILE_SUFFIX ".as"
 
-    int maxTest = 1;
-    int doronTest = 2;
-
-void doMaxTest() {
-    AsmInstruction inst = allocAsmInstructionINST(
-            "mov LENGTH, r1",
-            0, 0, /* label */
-            0, 3, /* cmd */
-            4, 10, /* srcOPFrom */
-            12, 14 /* srcOPFrom */
-            );
-
-/*
-    malloc(sizeof(struct AsmInstruction));
-    inst->instructionType = INST;
-
-    inst->instruction = malloc(sizeof(union InstructionUnion));
-    inst->instruction->INST.command = malloc(3);
-    "mov";
-    inst->instruction->INST.srcOP = "LENGTH";
-    inst->instruction->INST.srcOPType = DIRECT;
-    inst->instruction->INST.dstOP = "r1";
-    inst->instruction->INST.dstOPType = REGISTER;
-
-    inst->_log_unparsedAssemblyLine = "mov LENGTH, r1";
-    inst->lineNumber = 1;
-*/
-    
-    process(inst);
-}
-
-void doDoronTest() {
-    /*
-    char name[] = "doron";
-    unsigned address = 100;
-    _bool rc;
-
-
-    initLabelTable();
-    rc = addLabel(name, address);
-    address = 200;
-    rc = getLabelAddress(name,&address);
-    printf("%hu %u\n",rc,address);
-    */
-}
-
-int main(int argc,char** argv){
+int main(int argc, char** argv) {
     char* currentFilePath; /* the current proccess file path including the suffix .as*/
     FILE *currentFileHandle; /* the current proccess file handle */
     int fileNameSize; /* the size of the file name*/
