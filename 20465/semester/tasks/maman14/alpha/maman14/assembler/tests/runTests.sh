@@ -35,7 +35,7 @@ $ASM
 exec 1>&3
 exec 2>&4
 
-if ! diff $VALID $VALID.real; then
+if ! diff -Naur $VALID $VALID.real; then
 	echo FUCK Build failed because expected output was unexpected
 	ERROR_FOUND=true
 fi
@@ -44,7 +44,7 @@ echo
 echo
 echo
 
-if ! diff $INVALID $INVALID.real; then
+if ! diff -Naur $INVALID $INVALID.real; then
 	echo FUCK it, Build failed because unexpected output wasn\'t fun
 	ERROR_FOUND=true
 fi
