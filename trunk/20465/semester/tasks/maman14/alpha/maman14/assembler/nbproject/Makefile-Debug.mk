@@ -13,8 +13,8 @@ CP=cp
 CCADMIN=CCadmin
 RANLIB=ranlib
 CC=gcc
-CCC=g++
-CXX=g++
+CCC=
+CXX=
 FC=
 AS=as
 
@@ -45,7 +45,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/stringUtil.o
 
 # C Compiler Flags
-CFLAGS=-pedantic -Wall -Wextra -Wwrite-strings -Wconversion -ansi
+CFLAGS=-Wall -Wextra -Wwrite-strings -ansi
 
 # CC Compiler Flags
 CCFLAGS=

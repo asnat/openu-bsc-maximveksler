@@ -7,7 +7,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "errorHandler.h"
 
 static unsigned int _errorCode;

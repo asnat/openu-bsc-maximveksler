@@ -53,7 +53,7 @@
       </toolsSet>
       <compileType>
         <cTool>
-          <commandLine>-pedantic -Wall -Wextra -Wwrite-strings -Wconversion -ansi</commandLine>
+          <commandLine>-Wall -Wextra -Wwrite-strings -ansi</commandLine>
           <warningLevel>3</warningLevel>
         </cTool>
         <linkerTool>
