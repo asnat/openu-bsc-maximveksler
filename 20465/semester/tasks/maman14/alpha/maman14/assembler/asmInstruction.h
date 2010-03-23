@@ -8,9 +8,9 @@
 #ifndef _INSTRUCTIONSTRUCTURE_H
 #define	_INSTRUCTIONSTRUCTURE_H
 
-typedef enum InstructionType { INST, DATA, ENTRY, EXTERN } InstructionType;
+typedef enum InstructionType { INST=1, DATA, ENTRY, EXTERN } InstructionType;
 
-typedef enum DataType { DataType_STRING, DataType_DATA } DataType;
+typedef enum DataType { DataType_STRING=1, DataType_DATA } DataType;
 typedef enum AddressingType { IMMIDIATE=1, DIRECT=2, INDIRECT=4, REGISTER=8, NO_OP=16 } AddressingType;
 
 typedef union InstructionUnion {
@@ -25,10 +25,16 @@ typedef union InstructionUnion {
 
     struct {
         /* Normal instructions (instructionType=DATA) */
-        char* command;
-        char* operand1;
-        char* operand2;
-    } DATA;   
+        char* decData;
+        DataType dataType;
+    } DATA;
+
+    struct {
+    } ENTRY;
+
+    struct {
+    } EXTERN;
+
 } *InstructionUnion;
 
 typedef struct AsmInstruction {

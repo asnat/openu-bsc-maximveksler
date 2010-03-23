@@ -14,6 +14,12 @@
 #include "errorHandler.h"
 #include "stringUtil.h"
 #include "constants.h"
+#include "hash.h"
+
+#define STRING_DEC "string"
+#define DATA_DEC "data"
+#define ENTRY_DEC "entry"
+#define EXTERN_DEC "extern"
 
 /*
  * Gets input line which is assembly code line and builds AsmInstruction struct from it.
@@ -25,6 +31,14 @@ static AsmInstruction allocAsmInstructionINST(
         const unsigned int cmdFrom, const unsigned int cmdTo,
         const unsigned int srcOPFrom, const unsigned int srcOPTo,
         const unsigned int dstOPFrom, const unsigned int dstOPTo
+        );
+
+/* Construct DEF AsmInstruction from parsed command line */
+static AsmInstruction allocAsmInstructionDEF(
+        const char* line,
+        const unsigned int labelFrom, const unsigned int labelTo,
+        const unsigned int declFrom, const unsigned int declTo,
+        const unsigned int declDataFrom, const unsigned int declDataTo
         );
 
 /*
@@ -93,7 +107,7 @@ AsmInstruction parseLine(const char* line) {
         if(!isalnum(line[index])) {
             /* Legal lable starts with alnum */
 
-            /* TODO: ERROR not valid declaration format */
+            handleError(INVALID_DECLARATION_FORMAT, line + declFrom);
             return NULL;
         }
         while(isalnum(line[++index])); /* consum all alnum legal chars */
@@ -101,7 +115,8 @@ AsmInstruction parseLine(const char* line) {
         declTo = index; /* Store where declaration instruction name ends */
 
         if(!isspace(line[index])) { /* After instruction name there should be space seperator */
-            /* TODO: ERROR not valid declaration format */
+
+            handleError(INVALID_DECLARATION_FORMAT, line + declTo);
             return NULL;
         } else {
             while(isspace(line[++index])); /* Good, valid label syntax - Consume all space chars */
@@ -109,20 +124,17 @@ AsmInstruction parseLine(const char* line) {
 
 
         if(!isgraph(line[index])) {
-            /* TODO: ERROR Missing declaration data  */
+            
+            handleError(MISSING_DECLARATION_DATA, line + index);
             return NULL;
         }
         declDataFrom = index;
 
-        while(isgraph(line[++index])); /* Consume all legal data chars */
+        while(line[++index] != '\0'); /* Consume all legal data chars */
 
-        if(line[index] != '\0') {
-            /* TODO: ERROR Too many parameters for declaration */
-            return NULL;
-        }
         declDataTo = index;
 
-        /* return allocDeclarationInstruction... */
+        return allocAsmInstructionDEF(line, labelFrom, labelTo, declFrom, declTo, declDataFrom, declDataTo);
     } else if (isalpha(line[index])){
         /* Command */
         cmdFrom = index;
@@ -133,14 +145,16 @@ AsmInstruction parseLine(const char* line) {
         if(line[index] == '\0') {
             return allocAsmInstructionINST(line, labelFrom, labelTo, cmdFrom, cmdTo, srcOPFrom, srcOPTo, dstOPFrom, dstOPTo);
         } else if(!isspace(line[index])) {
-            /* TODO: Error illigal char in command*/
+
+            handleError(ILEGAL_CHARACTER_IN_COMMAND, line + index);
             return NULL;
         }
 
         while(isspace(line[++index]));
 
         if(!isalpha(line[index]) && line[index] != '@' && line[index] != '#') {
-            /* TODO: Error illigal char in command*/
+
+            handleError(ILEGAL_CHARACTER_IN_COMMAND, line + index);
             return NULL;
         }
         srcOPFrom = index;
@@ -158,7 +172,8 @@ AsmInstruction parseLine(const char* line) {
             /* Skip, legal char */
             index++;
         } else {
-            /* TODO: Error illigal char in command*/
+            
+            handleError(ILEGAL_CHARACTER_IN_COMMAND, line + index);
             return NULL;
         }
 
@@ -167,23 +182,26 @@ AsmInstruction parseLine(const char* line) {
         }
 
         if(!isalpha(line[index]) && line[index] != '@' && line[index] != '#') {
-            /* TODO: Error illigal char in command*/
+            
+            handleError(ILEGAL_CHARACTER_IN_COMMAND, line + index);
             return NULL;
         }
         dstOPFrom = index;
 
         while (isalnum(line[++index]) || (line[index] == '-' || line[index] == '+'));
         
+        dstOPTo = index;
+
         if(!line[index] == '\0') {
-            /* TODO: Error illigal char in command*/
+            
+            handleError(ILEGAL_CHARACTER_IN_COMMAND, line + index);
             return NULL;
         }
         
-        dstOPTo = index;
-
         return allocAsmInstructionINST(line, labelFrom, labelTo, cmdFrom, cmdTo, srcOPFrom, srcOPTo, dstOPFrom, dstOPTo);
     } else {
-        /* TODO: ERROR Invalid assembly syntax */
+
+        handleError(INVALID_ASSEMBLY_SYNTAX, NULL);
         return NULL;
     }
 
@@ -198,11 +216,16 @@ static _bool parseOperand(const char* line, unsigned int opFrom, unsigned int op
 
     if(line[opFrom] == '#') {
         *op = substr(line, opFrom+1, opTo);
+
+        if(*op == NULL) {
+            handleError(OPERAND_IS_NOT_VALID_NUMBER, NULL);
+        }
+        
         *opType = IMMIDIATE;
 
         if(**op != '+' && **op != '-' && !isdigit(**op)) {
 
-            /* TODO: ERROR Source operand is not a valid number */
+            handleError(OPERAND_IS_NOT_VALID_NUMBER, *op);
             return FALSE;
         }
 
@@ -211,52 +234,67 @@ static _bool parseOperand(const char* line, unsigned int opFrom, unsigned int op
 
         if(*((*op) + helperI) != '\0') {
             
-            /* TODO: ERROR Source operand is not a valid number */
+            handleError(OPERAND_IS_NOT_VALID_NUMBER, (*op) + helperI);
             return FALSE;
         }
         /* Reaching here means we have a valid IMMIDIATE direction */
     } else if (line[opFrom] == '@') {
         *op = substr(line, opFrom+1, opTo);
+
+        if(*op == NULL) {
+            handleError(INVALID_INDIRECT_NOTATION, NULL);
+        }
+
         *opType = INDIRECT;
 
         if(!isalpha(**op)) {
-            
-            /* TODO: ERROR source operand is not a valid INDIRECT notation */
+
+            handleError(INVALID_INDIRECT_NOTATION, *op);
             return FALSE;
         }
 
         while(isalnum(*((*op) + ++helperI)));
         if(*((*op) + helperI) != '\0') {
 
-            /* TODO: ERROR source operand is not a valid INDIRECT notation */
+            handleError(INVALID_INDIRECT_NOTATION, ((*op) + ++helperI));
             return FALSE;
         }
         /* Reaching here means we have a valid INDIRECT direction */  
     } else if (line[opFrom] == 'r' && (opTo - opFrom) == 2) { /* Register is length 2 and starts with small "r" */
         *op = substr(line, opFrom, opTo);
+
+        if(*op == NULL) {
+            handleError(INVALID_REGISTER_NOTATION, NULL);
+        }
+
         *opType = REGISTER;
 
         if(*((*op) + 1) > '7' || *((*op) + 1) < '0') {
 
-            /* TODO: ERROR source operand is not a valid REGISTER notation */
+            handleError(INVALID_REGISTER_NOTATION, *op);
             return FALSE;
         }
 
          /* Reaching here means we have a valid REGISTER direction */
     } else {
         *op = substr(line, opFrom, opTo);
+
+        if(*op == NULL) {
+            handleError(INVALID_DIRECT_NOTATION, NULL);
+        }
+
         *opType = DIRECT;
 
         if(!isalpha(**op)) {
 
-            /* TODO: ERROR source operand is not a valid DIRECT notation */
+            handleError(INVALID_DIRECT_NOTATION, *op);
             return FALSE;
         }
 
         while(isalnum(*((*op) + ++helperI)));
         if(*((*op) + helperI) != '\0') {
 
-            /* TODO: ERROR source operand is not a valid DIRECT notation */
+            handleError(INVALID_DIRECT_NOTATION, ((*op) + ++helperI));
             return FALSE;
         }
 
@@ -292,14 +330,6 @@ static AsmInstruction allocAsmInstructionINST(
     asmInstruction->label = substr(line, labelFrom, labelTo);
     asmInstruction->instruction->INST.command = substr(line, cmdFrom, cmdTo);
 
-
-    asmInstruction->instruction->INST.dstOP = substr(line, dstOPFrom, dstOPTo);
-
-    /* Command addressing types */
-/*    asmInstruction->instruction->INST.srcOPType = srcOPType;
-    asmInstruction->instruction->INST.dstOPType = dstOPType;
- */
-
     if(!parseOperand(line, srcOPFrom, srcOPTo,
             &asmInstruction->instruction->INST.srcOP,
             &asmInstruction->instruction->INST.srcOPType)) {
@@ -319,18 +349,47 @@ static AsmInstruction allocAsmInstructionINST(
     return asmInstruction;
 }
 
-/*static AsmInstruction allocAsmInstructionDCRL(
+static AsmInstruction allocAsmInstructionDEF(
         const char* line,
         const unsigned int labelFrom, const unsigned int labelTo,
-        const unsigned int cmdFrom, const unsigned int cmdTo,
-        const unsigned int srcOPFrom, const unsigned int srcOPTo,
-        const unsigned int dstOPFrom, const unsigned int dstOPTo
-*/
+        const unsigned int declFrom, const unsigned int declTo,
+        const unsigned int declDataFrom, const unsigned int declDataTo
+        ) {
+    
+    AsmInstruction asmInstruction = (AsmInstruction) malloc(sizeof(struct AsmInstruction));
+    if(asmInstruction == NULL) {
+        fatalError(MEMORY_ALLOCATION_FAILURE, "Can't allocate memory for AsmInstruction");
+    }
+
+    asmInstruction->instruction = malloc(sizeof(union InstructionUnion));
+    if(asmInstruction->instruction == NULL) {
+        fatalError(MEMORY_ALLOCATION_FAILURE, "Can't allocate memory for InstructionUnion");
+    }
+
+    asmInstruction->label = substr(line, labelFrom, labelTo);
+
+    if(strncmp(line+declFrom, STRING_DEC, declTo - declFrom) == 0) {
+        asmInstruction->instructionType = DATA;
+        asmInstruction->instruction->DATA.decData = substr(line, declDataFrom, declDataTo);
+        asmInstruction->instruction->DATA.dataType = DataType_STRING;
+    } else if(strncmp(line+declFrom, DATA_DEC, declTo - declFrom) == 0) {
+        asmInstruction->instructionType = DATA;
+        asmInstruction->instruction->DATA.decData = substr(line, declDataFrom, declDataTo);
+        asmInstruction->instruction->DATA.dataType = DataType_DATA;
+    } else if(strncmp(line+declFrom, ENTRY_DEC, declTo - declFrom) == 0) {
+        asmInstruction->instructionType = ENTRY;
+    } else if(strncmp(line+declFrom, EXTERN_DEC, declTo - declFrom) == 0) {
+        asmInstruction->instructionType = EXTERN;
+    } else {
+        /* TODO: ERROR unknown declaration type */
+        return NULL;
+    }
+    
+    return asmInstruction;
+}
 
 
-
-
-void freeAsmInstruction(AsmInstruction asmInst) {
+void freeAsmInstruction(AsmInstruction asmInstruction) {
     /*
      * TODO: Free the whole asmInst memory model...
      * this means go into each and every sub struct, sub union,
@@ -338,5 +397,29 @@ void freeAsmInstruction(AsmInstruction asmInst) {
      * memory table, otherwise you have memory leaks, which has
      * direct corelation to the final grade.
      */
-    asmInst = asmInst;
+    if(asmInstruction != NULL) {
+        if(asmInstruction->instructionType == INST) {
+            if(asmInstruction->instruction->INST.command != NULL)
+                free((char*) asmInstruction->instruction->INST.command);
+            if(asmInstruction->instruction->INST.srcOP != NULL)
+                free(asmInstruction->instruction->INST.srcOP);
+            if(asmInstruction->instruction->INST.dstOP != NULL)
+                free(asmInstruction->instruction->INST.dstOP);
+
+            
+        } else if(asmInstruction->instructionType == DATA) {
+            if(asmInstruction->instruction->DATA.decData != NULL)
+                free(asmInstruction->instruction->DATA.decData);
+        }
+
+        if(asmInstruction->label != NULL)
+            free(asmInstruction->label);
+
+
+        if(asmInstruction->instruction != NULL)
+            free(asmInstruction->instruction);
+
+        if(asmInstruction != NULL)
+            free(asmInstruction);
+    }
 }
