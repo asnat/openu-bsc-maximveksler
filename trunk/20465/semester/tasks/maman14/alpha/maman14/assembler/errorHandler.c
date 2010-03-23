@@ -26,7 +26,15 @@ static const char* errorDescriptions[] = {
     "Label redefined", /* Error #8 LABEL_ALREADY_EXIST */
     "File name is too long", /* Error #9 FILENAME_TOO_LONG */
     "Assembly line is too long", /* Error #10 ASSEMBLY_LINE_TOO_LONG */
-    "At least 1 assembly file should be supplied" /* #11 NOT_ENOUGH_ARGUMENTS */
+    "At least 1 assembly file should be supplied", /* #11 NOT_ENOUGH_ARGUMENTS */
+    "Invalid declaration format", /* #12 INVALID_DECLARATION_FORMAT */
+    "Missing declaration data", /* 13 MISSING_DECLARATION_DATA */
+    "Iligal character in command", /* 14 ILEGAL_CHARACTER_IN_COMMAND */
+    "Invalid assembly syntax", /* 15 INVALID_ASSEMBLY_SYNTAX */
+    "Operand not valid number", /* 16 OPERAND_IS_NOT_VALID_NUMBER */
+    "Invalid indirect notation", /* 17 INVALID_INDIRECT_NOTATION */
+    "Invalid register notation", /* 18 INVALID_REGISTER_NOTATION */
+    "Invalid direct notation" /* 19 INVALID_DIRECT_NOTATION */
 };
 
 void initErrorHandler() {
