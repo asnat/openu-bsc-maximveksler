@@ -12,7 +12,7 @@
 
 void initLabelTable(void);
 _bool getLabelAddress(char*, unsigned*);
-_bool addLabel(char*, unsigned );
+_bool addLabel(char* labelName, unsigned data);
 
 #endif	/* _LABEL_H */
 

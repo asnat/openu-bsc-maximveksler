@@ -8,7 +8,8 @@
 #ifndef _CODESEGMENTMGR_H
 #define	_CODESEGMENTMGR_H
 
-int getIC();
+void resetCode();
+unsigned int getIC();
 unsigned short storeCode(unsigned short data);
 unsigned short* getCode();
 
