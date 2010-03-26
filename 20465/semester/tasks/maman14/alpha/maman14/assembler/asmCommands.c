@@ -162,16 +162,8 @@ static _bool processDataNumber(AsmInstruction asmInstruction) {
     char * pch;
     unsigned int i;
     int number;
+    _bool labelStored = FALSE;
     
-    /* We want to add label reference to the location where the assembly data
-     * will be written to.
-     */
-    if(asmInstruction->label != NULL) {
-        if (addLabel(asmInstruction->label, getDC()) == FALSE) {
-            handleError(LABEL_ADDING_FAILURE, asmInstruction->label);
-            return FALSE;
-        }
-    }
 
     pch = strtok (asmInstruction->instruction->DATA.decData,  NUMBER_DATA_TOKEN);
     if(pch == NULL) {
@@ -216,8 +208,22 @@ static _bool processDataNumber(AsmInstruction asmInstruction) {
             }
         }
 
+        if(!labelStored && asmInstruction->label != NULL) {
+            /* We want to add label reference to the location where the assembly data
+             * will be written to.
+             */
+            if (addLabel(asmInstruction->label, getDC()) == FALSE) {
+                handleError(LABEL_ADDING_FAILURE, asmInstruction->label);
+                return FALSE;
+            }
+
+            labelStored = TRUE;
+        }
+
+        /* Finnally store the data in the data segment */
         storeData(number);
 
+        /* And progress to next value */
         strtok(NULL, NUMBER_DATA_TOKEN);
     }
 
