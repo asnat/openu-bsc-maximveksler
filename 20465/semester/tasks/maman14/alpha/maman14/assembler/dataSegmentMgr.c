@@ -9,10 +9,19 @@
 #include <stdlib.h>
 #include "constants.h"
 
-unsigned DC = 0;
+static unsigned DC = 0;
 static unsigned short dataSegment[SEGMENT_MAXIMUM_SIZE];
 
-unsigned getDC() {
+void resetData() {
+    unsigned int i;
+    for(i = 0; i <= DC; i++) {
+        dataSegment[i] = (unsigned int) NULL;
+    }
+
+    DC = 0;
+}
+
+unsigned int getDC() {
     return DC;
 }
 

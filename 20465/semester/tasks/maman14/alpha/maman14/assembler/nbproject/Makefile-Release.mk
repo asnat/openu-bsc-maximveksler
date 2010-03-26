@@ -31,18 +31,18 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/codeSegmentMgr.o \
+	${OBJECTDIR}/labelTableMgr.o \
+	${OBJECTDIR}/phaseOne.o \
+	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/label.o \
+	${OBJECTDIR}/stringUtil.o \
 	${OBJECTDIR}/errorHandler.o \
 	${OBJECTDIR}/assembler.o \
-	${OBJECTDIR}/codeSegmentMgr.o \
 	${OBJECTDIR}/lineParser.o \
-	${OBJECTDIR}/labelTableMgr.o \
 	${OBJECTDIR}/dataSegmentMgr.o \
-	${OBJECTDIR}/phaseOne.o \
 	${OBJECTDIR}/hash.o \
-	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/asmCommands.o \
-	${OBJECTDIR}/label.o \
-	${OBJECTDIR}/stringUtil.o
+	${OBJECTDIR}/asmCommands.o
 
 # C Compiler Flags
 CFLAGS=
@@ -68,55 +68,25 @@ dist/Release/GNU-Linux-x86/assembler: ${OBJECTFILES}
 	${MKDIR} -p dist/Release/GNU-Linux-x86
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/assembler ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
-${OBJECTDIR}/errorHandler.o: nbproject/Makefile-${CND_CONF}.mk errorHandler.c 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/errorHandler.o errorHandler.c
-
-${OBJECTDIR}/assembler.o: nbproject/Makefile-${CND_CONF}.mk assembler.c 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/assembler.o assembler.c
-
 ${OBJECTDIR}/codeSegmentMgr.o: nbproject/Makefile-${CND_CONF}.mk codeSegmentMgr.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/codeSegmentMgr.o codeSegmentMgr.c
-
-${OBJECTDIR}/lineParser.o: nbproject/Makefile-${CND_CONF}.mk lineParser.c 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/lineParser.o lineParser.c
 
 ${OBJECTDIR}/labelTableMgr.o: nbproject/Makefile-${CND_CONF}.mk labelTableMgr.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/labelTableMgr.o labelTableMgr.c
 
-${OBJECTDIR}/dataSegmentMgr.o: nbproject/Makefile-${CND_CONF}.mk dataSegmentMgr.c 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/dataSegmentMgr.o dataSegmentMgr.c
-
 ${OBJECTDIR}/phaseOne.o: nbproject/Makefile-${CND_CONF}.mk phaseOne.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/phaseOne.o phaseOne.c
 
-${OBJECTDIR}/hash.o: nbproject/Makefile-${CND_CONF}.mk hash.c 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/hash.o hash.c
-
 ${OBJECTDIR}/main.o: nbproject/Makefile-${CND_CONF}.mk main.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.c
-
-${OBJECTDIR}/asmCommands.o: nbproject/Makefile-${CND_CONF}.mk asmCommands.c 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/asmCommands.o asmCommands.c
 
 ${OBJECTDIR}/label.o: nbproject/Makefile-${CND_CONF}.mk label.c 
 	${MKDIR} -p ${OBJECTDIR}
@@ -127,6 +97,36 @@ ${OBJECTDIR}/stringUtil.o: nbproject/Makefile-${CND_CONF}.mk stringUtil.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/stringUtil.o stringUtil.c
+
+${OBJECTDIR}/errorHandler.o: nbproject/Makefile-${CND_CONF}.mk errorHandler.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/errorHandler.o errorHandler.c
+
+${OBJECTDIR}/assembler.o: nbproject/Makefile-${CND_CONF}.mk assembler.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/assembler.o assembler.c
+
+${OBJECTDIR}/lineParser.o: nbproject/Makefile-${CND_CONF}.mk lineParser.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/lineParser.o lineParser.c
+
+${OBJECTDIR}/dataSegmentMgr.o: nbproject/Makefile-${CND_CONF}.mk dataSegmentMgr.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/dataSegmentMgr.o dataSegmentMgr.c
+
+${OBJECTDIR}/hash.o: nbproject/Makefile-${CND_CONF}.mk hash.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/hash.o hash.c
+
+${OBJECTDIR}/asmCommands.o: nbproject/Makefile-${CND_CONF}.mk asmCommands.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/asmCommands.o asmCommands.c
 
 # Subprojects
 .build-subprojects:

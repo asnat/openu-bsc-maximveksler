@@ -8,7 +8,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "errorHandler.h"
 
 #include "asmInstruction.h"
 #include "asmCommands.h"
@@ -16,6 +15,7 @@
 #include "label.h"
 #include "errorHandler.h"
 #include "assembler.h"
+#include "errorHandler.h"
 
 #define FILE_NAME_MAX_SIZE 512
 #define SUFFIX_SIZE 3

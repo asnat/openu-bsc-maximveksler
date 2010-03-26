@@ -368,7 +368,10 @@ static AsmInstruction allocAsmInstructionDEF(
 
     asmInstruction->label = substr(line, labelFrom, labelTo);
 
-    if(strncmp(line+declFrom, STRING_DEC, declTo - declFrom) == 0) {
+    if(strncmp(line+declFrom, STRING_DEC, declTo - declFrom) == 0) { /* Check
+                                                                        from the calculated start location
+                                                                        of declaration command to the end
+                                                                        for a match of required syntax */
         asmInstruction->instructionType = DATA;
         asmInstruction->instruction->DATA.decData = substr(line, declDataFrom, declDataTo);
         asmInstruction->instruction->DATA.dataType = DataType_STRING;
@@ -391,7 +394,7 @@ static AsmInstruction allocAsmInstructionDEF(
 
 void freeAsmInstruction(AsmInstruction asmInstruction) {
     /*
-     * TODO: Free the whole asmInst memory model...
+     * Free the whole asmInst memory model...
      * this means go into each and every sub struct, sub union,
      * see what was allocated on the heap and kick it from the
      * memory table, otherwise you have memory leaks, which has

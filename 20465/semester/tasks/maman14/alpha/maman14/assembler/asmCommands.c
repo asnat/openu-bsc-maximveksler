@@ -1,18 +1,26 @@
 #include <stdio.h>
 #include <string.h>
+#include <limits.h>
+#include <ctype.h>
+#include <stdlib.h>
 
 #include "assemblyLANG.h"
 #include "asmInstruction.h"
 #include "codeSegmentMgr.h"
+#include "dataSegmentMgr.h"
 #include "errorHandler.h"
 #include "asmCommands.h"
 #include "constants.h"
+#include "label.h"
+#include "hash.h"
 
 #define OP_SRC_CBIT(y) (y) /* Operand Source Check BIT macro */
 #define OP_DST_CBIT(y) ((y) << 8) /* Operand Destination Check BIT macro */
 
 #define OP_SRC_CBIT_EXTRACT(y) ((y) & (0xFF)) /* Operand Source Check BIT macro */
 #define OP_DST_CBIT_EXTRACT(y) ((y) & (0xFF << 8)) /* Operand Source Check BIT macro */
+
+#define NUMBER_DATA_TOKEN ", \t"
 
 #define DEBUG 1
 
@@ -60,6 +68,7 @@ static _bool processCommand(AsmInstruction asmInstruction,
     }
 
     if(! (OP_DST_CBIT_EXTRACT(supportedAddressing) & OP_DST_CBIT(asmInstruction->instruction->INST.dstOPType))) {
+        /* Check that the second operand type supplied is valid */
         handleError(WRONG_ADDRESSING_TYPE, "Destination operand is illigal for instruction");
         return FALSE;
     }
@@ -117,6 +126,17 @@ static _bool processCommand(AsmInstruction asmInstruction,
         /* at this stage dstOPType is ensured to be valid, so no need for error catching default */
     }
 
+    /* We want to add label reference to the location where the assembly code
+     * will be written to.
+     */
+    if(asmInstruction->label != NULL) {
+        if (addLabel(asmInstruction->label, getIC()) == FALSE) {
+            handleError(LABEL_ADDING_FAILURE, asmInstruction->label);
+            return FALSE;
+        }
+    }
+
+
     /* Finally after passing all check and translations we are ready to store the asm instruction */
     storeToCodeSegment(
         /*unsigned short dstRgstrCode*/     dstRgstrCode,
@@ -133,6 +153,72 @@ static _bool processCommand(AsmInstruction asmInstruction,
 
     if(__reserve_src_label_space) {
         storeToCodeSegment(0, 0, 0, 0, 0);
+    }
+
+    return TRUE;
+}
+
+static _bool processDataNumber(AsmInstruction asmInstruction) {
+    char * pch;
+    unsigned int i;
+    int number;
+    
+    /* We want to add label reference to the location where the assembly data
+     * will be written to.
+     */
+    if(asmInstruction->label != NULL) {
+        if (addLabel(asmInstruction->label, getDC()) == FALSE) {
+            handleError(LABEL_ADDING_FAILURE, asmInstruction->label);
+            return FALSE;
+        }
+    }
+
+    pch = strtok (asmInstruction->instruction->DATA.decData,  NUMBER_DATA_TOKEN);
+    if(pch == NULL) {
+        /* declaration data contained nothing but delimiters, this is obviously
+         a no-no*/
+
+        handleError(DATA_DECLARATION_EMPTY, NULL);
+        return FALSE;
+    }
+
+    while(pch != NULL) {
+        i = 0;
+
+        if(pch[i] != '+' && pch[i] != '-' && !isdigit(pch[i])) {
+            /* We have something that is not a number */
+            /* TODO: ERROR NOT_A_VALID_NUMBER */
+            return FALSE;
+        }
+
+        while(isdigit(pch[++i])) /* Consume all digits */
+            ;
+
+        if(pch[i] != '\0') { /* After we finished consuming digits there should be nothing left */
+            /* We have something that is not a number */
+            /* TODO: ERROR NOT_A_VALID_NUMBER */
+            return FALSE;
+        }
+
+        number = atoi(pch);
+
+        if(number >= 0) {
+            if(number > SHRT_MAX) {
+                /* We found a number that is too large to fit into 16bit space */
+                /* TODO: ERROR NUMBER TOO BIG */
+                return FALSE;
+            }
+        } else {
+            if(number < SHRT_MIN) {
+                /* We found a number that is too small to fit into 16bit space */
+                /* TODO: ERROR NUMBER TOO SMALL */
+                return FALSE;
+            }
+        }
+
+        storeData(number);
+
+        strtok(NULL, NUMBER_DATA_TOKEN);
     }
 
     return TRUE;
@@ -217,24 +303,30 @@ void process(AsmInstruction asmLineInstruction) {
 
     if(asmLineInstruction->instructionType == INST) {
         handlerName = asmLineInstruction->instruction->INST.command;
-    }
 
+        /* Dynamically seek (&find) correct fuction to call
+         * We stop either on dynaFuncHandler->function_name == NULL
+         * or on match strcmp(pch,  dynaFuncHandler->function_name) == 0
+         */
+        for(asm_cmd_struct_handler = cmdTable;  asm_cmd_struct_handler->function_name && strcmp(handlerName,  asm_cmd_struct_handler->function_name); asm_cmd_struct_handler++)
+            ;
 
-    /* Dynamically seek (&find) correct fuction to call
-     * We stop either on dynaFuncHandler->function_name == NULL
-     * or on match strcmp(pch,  dynaFuncHandler->function_name) == 0
-     */
-    for(asm_cmd_struct_handler = cmdTable;  asm_cmd_struct_handler->function_name && strcmp(handlerName,  asm_cmd_struct_handler->function_name); asm_cmd_struct_handler++);
+        /* If we have found a function at this name */
+        if(asm_cmd_struct_handler->function_name) {
+            #ifdef DEBUG
+                printf("asmCommands.process: function_name = %s\n", asm_cmd_struct_handler->function_name);
+            #endif
+            /* We want to pass the next location after the function name in the general user input string */
+            processCommand(asmLineInstruction, asm_cmd_struct_handler->commandCode, asm_cmd_struct_handler->supportedAddressingBitmap);
+        } else {
+            handleError(NO_SUCH_ASSEMBLY_COMMAND, handlerName);
 
-    /* If we have found a function at this name */
-    if(asm_cmd_struct_handler->function_name) {
-        #ifdef DEBUG
-            printf("asmCommands.process: function_name = %s\n", asm_cmd_struct_handler->function_name);
-        #endif
-        /* We want to pass the next location after the function name in the general user input string */
-        processCommand(asmLineInstruction, asm_cmd_struct_handler->commandCode, asm_cmd_struct_handler->supportedAddressingBitmap);
-    } else {
-        handleError(NO_SUCH_ASSEMBLY_COMMAND, handlerName);
-
+        }
+    } else if (asmLineInstruction->instructionType == DATA) {
+        if(asmLineInstruction->instruction->DATA.dataType == DataType_DATA) {
+            processDataNumber(asmLineInstruction);
+        } else if (asmLineInstruction->instruction->DATA.dataType == DataType_STRING) {
+            /* call data string handling */
+        }
     }
 }

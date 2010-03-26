@@ -9,10 +9,19 @@
 #include <stdlib.h>
 #include "constants.h"
 
-unsigned IC = 0;
+static unsigned IC = 0;
 static unsigned short codeSegment[SEGMENT_MAXIMUM_SIZE];
 
-unsigned getIC() {
+void resetCode() {
+    unsigned int i;
+    for(i = 0; i <= IC; i++) {
+        codeSegment[i] = (unsigned int) NULL;
+    }
+
+    IC = 0;
+}
+
+unsigned int getIC() {
     return IC;
 }
 
