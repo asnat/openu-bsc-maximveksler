@@ -5,8 +5,17 @@
 #include "phaseOne.h"
 #include "errorHandler.h"
 
-#define LINE_LENGTH 81
+#define LINE_LENGTH 81 /* 81 because we have 80 valid chars +1 for \0 */
 
+/*
+ * Wrapper function for phase1 & phase2.
+ * 
+ * Processes assembly lines contained in *fp and produces .o, .ent, .ext files
+ * as neccesary.
+ *
+ * @param fp valid, opened for read file descriptor which points to source file
+ * that contains assembly lines.
+ */
 void assemble(FILE *fp) {
     unsigned int assemblyLineCounter = 1;
     

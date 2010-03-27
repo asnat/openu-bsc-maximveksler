@@ -10,11 +10,14 @@
       <itemPath>assemblyLANG.h</itemPath>
       <itemPath>codeSegmentMgr.h</itemPath>
       <itemPath>constants.h</itemPath>
+      <itemPath>dataSegmentMgr.h</itemPath>
       <itemPath>errorHandler.h</itemPath>
       <itemPath>hash.h</itemPath>
       <itemPath>label.h</itemPath>
       <itemPath>lineParser.h</itemPath>
+      <itemPath>outputFilesHandler.h</itemPath>
       <itemPath>phaseOne.h</itemPath>
+      <itemPath>phaseTwo.h</itemPath>
       <itemPath>stringUtil.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -35,6 +38,7 @@
       <itemPath>lineParser.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>phaseOne.c</itemPath>
+      <itemPath>phaseTwo.c</itemPath>
       <itemPath>stringUtil.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
