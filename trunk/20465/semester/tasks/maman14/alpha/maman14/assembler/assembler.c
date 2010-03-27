@@ -29,8 +29,7 @@ void assemble(FILE *fp) {
     int lineIndex = 0;
 
     int c;
-    unsigned short index,codeSegmentAmount, dataSegmentAmount;
-    char linkerType;
+    unsigned short codeSegmentAmount, dataSegmentAmount;
 
     /* Stop for the line */
     line[MAXIMUM_LINE_LENGTH] = '\0';
@@ -140,20 +139,6 @@ void assemble(FILE *fp) {
        phase2processAssemlby(line);
     }
     if (c == EOF ){
-        for(index = 0; index<=codeSegmentAmount;index++){
-            switch (getCodeLinkerType(index)){
-                case RELOCATBLE:
-                    linkerType = 'r';
-                    break;
-                case EXTERNAL:
-                    linkerType = 'e';
-                    break;
-                case ABSOLUTE:
-                    linkerType = 'a';
-                default:
-                    handleError(CANT_WRITE_TO_OBJ_FILE,"no such linker address type");
-            }
-            writeToObjFile(index, getCode(index), linkerType);
-        }
+            writeToObjFile(codeSegmentAmount, dataSegmentAmount);
     }
 }

@@ -21,6 +21,13 @@ void resetData() {
     DC = 0;
 }
 
+void forwardDC(){
+    DC++;
+}
+
+void resetDC(){
+    DC = 0;
+}
 unsigned int getDC() {
     return DC;
 }

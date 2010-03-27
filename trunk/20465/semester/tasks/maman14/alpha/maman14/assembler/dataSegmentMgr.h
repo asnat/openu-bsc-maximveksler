@@ -12,6 +12,8 @@ void resetData();
 unsigned int getDC();
 unsigned short storeData(unsigned short data);
 unsigned short* getData();
+void resetDC();
+void forwardDC();
 
 #endif	/* _DATASEGMENTMGR_H */
 
