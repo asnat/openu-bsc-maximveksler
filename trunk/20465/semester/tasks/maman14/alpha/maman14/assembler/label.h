@@ -19,7 +19,7 @@
 void freeLabelTable(void);
 void initLabelTable(void);
 _bool getLabelAddress(char*, unsigned short*);
-_bool addLabel(char* labelName, unsigned short data);
+_bool addLabel(char* labelName, LinkerAddress type, unsigned short data);
 
 #endif	/* _LABEL_H */
 
