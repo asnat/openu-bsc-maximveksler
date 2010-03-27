@@ -17,6 +17,7 @@
 #define ENT_FILE 2
 
 void initOutputFiles(char*);
+_bool writeObjectFileFirstRow();
 
 
 #endif	/* _OUTPUFILESHANDLER_H */
