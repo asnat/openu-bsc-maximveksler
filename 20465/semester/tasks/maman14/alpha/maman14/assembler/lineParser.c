@@ -418,6 +418,12 @@ void freeAsmInstruction(AsmInstruction asmInstruction) {
         } else if(asmInstruction->instructionType == DATA) {
             if(asmInstruction->instruction->DATA.decData != NULL)
                 free(asmInstruction->instruction->DATA.decData);
+        } else if(asmInstruction->instructionType == ENTRY) {
+            if(asmInstruction->instruction->ENTRY.referenceName != NULL)
+                free(asmInstruction->instruction->ENTRY.referenceName);
+        } else if(asmInstruction->instructionType == EXTERN) {
+            if(asmInstruction->instruction->EXTERN.referenceName != NULL)
+                free(asmInstruction->instruction->EXTERN.referenceName);
         }
 
         if(asmInstruction->label != NULL)
