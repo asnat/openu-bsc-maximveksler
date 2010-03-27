@@ -277,7 +277,7 @@ _bool processExternal(AsmInstruction asmInstruction) {
         return FALSE;
     }
 
-    if (addLabel(asmInstruction->label, EXTERNAL, getDC()) == FALSE) {
+    if (addLabel(asmInstruction->label, EXTERNAL, /*meaning less, external */ 0) == FALSE) {
         handleError(LABEL_ADDING_FAILURE, asmInstruction->label);
         return FALSE;
     }
