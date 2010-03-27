@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+
 #include "errorHandler.h"
 #include "constants.h"
-#include "outpuFilesHandler.h"
+#include "outputFilesHandler.h"
 #include "codeSegmentMgr.h"
 /* #include dataSegmentMgr.h */
 
@@ -17,7 +19,7 @@ static char* currentExtFile;
 static char* currentEntFile;
 
 
-static char* createFilePath(char* filePrefix,char* suffix,unsigned suffixSize, unsigned pathSize){
+static char* createFilePath(char* filePrefix, char* suffix,unsigned suffixSize, unsigned pathSize){
 
     char* filePathPointer;
 
@@ -34,7 +36,7 @@ static char* createFilePath(char* filePrefix,char* suffix,unsigned suffixSize, u
 _bool writeToOutputFile(char* fileType, char* labelName, unsigned address){
     FILE* fh;
     
-    switch (fileType){
+    switch ((int) fileType){
         case EXT_FILE:
             if ((fh = fopen(currentExtFile,"w+")) != NULL)
                 if ((fprintf(fh,"%s\t0%u", labelName, address)) < 0){
@@ -77,7 +79,7 @@ _bool writeToOutputFile(char* fileType, char* labelName, unsigned address){
          perror(currentObjFile);
          return FALSE;
      }
-     fprintf(obFile,"\t\t0%u 0%u",getIC,getID);
+     fprintf(obFile,"\t\t0%u 0%u",getIC,getID());
      fclose(currentObjFile);
      return TRUE;
  }
