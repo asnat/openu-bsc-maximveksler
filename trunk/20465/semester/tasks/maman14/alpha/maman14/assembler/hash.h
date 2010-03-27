@@ -14,13 +14,13 @@
 
 typedef struct node{
     char* name;
-    unsigned data;
+    unsigned short data;
     struct node* next;
 }hashNode;
 
 unsigned hashVal(const char*);
-_bool addHashNode(hashNode**, char*, unsigned);
-_bool getHashNodeData(hashNode**,const char*, unsigned*);
+_bool addHashNode(hashNode**, char*, unsigned short);
+_bool getHashNodeData(hashNode**,const char*, unsigned short*);
 
 #endif	/* _HASH_H */
 

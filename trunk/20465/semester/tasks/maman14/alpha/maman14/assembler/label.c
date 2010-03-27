@@ -13,10 +13,10 @@ void initLabelTable(void){
         *(labelHashTable+i)=NULL;
 }
 
-_bool getLabelAddress(char* labelName, unsigned* data){
+_bool getLabelAddress(char* labelName, unsigned short* data){
     return getHashNodeData(labelHashTable, labelName, data);
 }
 
-_bool addLabel(char* labelName, unsigned data){
+_bool addLabel(char* labelName, unsigned short data){
     return addHashNode(labelHashTable, labelName, data);
 }
