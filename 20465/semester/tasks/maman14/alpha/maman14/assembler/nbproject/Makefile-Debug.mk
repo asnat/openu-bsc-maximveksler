@@ -13,8 +13,8 @@ CP=cp
 CCADMIN=CCadmin
 RANLIB=ranlib
 CC=gcc
-CCC=g++
-CXX=g++
+CCC=
+CXX=
 FC=
 AS=as
 
@@ -34,6 +34,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/codeSegmentMgr.o \
 	${OBJECTDIR}/labelTableMgr.o \
 	${OBJECTDIR}/phaseOne.o \
+	${OBJECTDIR}/phaseTwo.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/label.o \
 	${OBJECTDIR}/stringUtil.o \
@@ -83,6 +84,11 @@ ${OBJECTDIR}/phaseOne.o: nbproject/Makefile-${CND_CONF}.mk phaseOne.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -g -Werror -MMD -MP -MF $@.d -o ${OBJECTDIR}/phaseOne.o phaseOne.c
+
+${OBJECTDIR}/phaseTwo.o: nbproject/Makefile-${CND_CONF}.mk phaseTwo.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -g -Werror -MMD -MP -MF $@.d -o ${OBJECTDIR}/phaseTwo.o phaseTwo.c
 
 ${OBJECTDIR}/main.o: nbproject/Makefile-${CND_CONF}.mk main.c 
 	${MKDIR} -p ${OBJECTDIR}

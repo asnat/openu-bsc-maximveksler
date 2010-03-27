@@ -46,7 +46,7 @@ _bool getHashNodeData(hashNode** hashArray, const char* nodeName,unsigned short*
 }
 
 /* Add a new node to the hash table */
-_bool addHashNode(hashNode** hashArray, char* nodeName, unsigned short data){
+_bool addHashNode(hashNode** hashArray, char* nodeName, LinkerAddress type, unsigned short data){
     hashNode* node;
     unsigned hashValue;
 
@@ -60,6 +60,7 @@ _bool addHashNode(hashNode** hashArray, char* nodeName, unsigned short data){
     if (!(lookup(hashArray, nodeName))){
         node->name = (char*) malloc (strlen(nodeName)*sizeof(char));
         node->name = nodeName;
+        node->linkeType = type;
         node->data = data;
         hashValue = hashVal(node->name);
         node->next = *(hashArray + hashValue);
