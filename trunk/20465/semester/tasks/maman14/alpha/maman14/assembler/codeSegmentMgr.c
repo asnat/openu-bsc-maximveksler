@@ -32,6 +32,6 @@ unsigned short storeCode(unsigned short data) {
     return codeSegment[IC-1];
 }
 
-unsigned short* getCode() {
-    return codeSegment;
+unsigned short* getCode(unsigned index) {
+    return codeSegment[index];
 }

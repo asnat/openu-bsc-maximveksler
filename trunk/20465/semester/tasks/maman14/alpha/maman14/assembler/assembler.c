@@ -118,7 +118,7 @@ void assemble(FILE *fp) {
             /* Good, we've found a valid line */
             line[lineIndex] = '\0';
 
-/*            phase2processAssemlby(line);*/
+            phase2processAssemlby(line);
 
             lineIndex = 0;
             assemblyLineCounter++;
@@ -130,7 +130,7 @@ void assemble(FILE *fp) {
     /* catch last line, which might not be terminated by a \n */
     if(lineIndex > 0) {
         line[lineIndex] = '\0';
-       /* phase2processAssemlby(line);*/
+       phase2processAssemlby(line);
     }
 
 }
