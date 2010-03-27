@@ -45,6 +45,7 @@ static const char* errorDescriptions[] = {
     "Cant write to extern file: ", /* 27 CANT_WRITE_TO_EXT_FILE */
     "Cant write to entry file: ", /* 28 CANT_WRITE_TO_ENT_FILE */
     "Missing reference for external declaration", /* 29 MISSING_EXTERN_REFERENCE */
+    "Too much input chars for text buffer", /* 30 TEXT_INPUT_OVERFLOW */
 };
 
 void initErrorHandler() {

@@ -21,6 +21,8 @@
 #define ENTRY_DEC "entry"
 #define EXTERN_DEC "extern"
 
+#define PERMITTED_LINE_LENGTH 81 /* 81 because we have 80 valid chars +1 for \0 */
+
 /*
  * Gets input line which is assembly code line and builds AsmInstruction struct from it.
  * strings that go into each field should be pre calculated.
@@ -97,9 +99,13 @@ AsmInstruction parseLine(const char* line) {
     /* Clear any white space */
     if(isspace(line[index])) {
         while(isspace(line[++index]));
+    }
+    if(line[index] == '\0')
+        return NULL; /* It was a line full of white space */
 
-        if(line[index] == '\0')
-            return NULL; /* It was a line full of white space */
+    if(strlen(line) >= PERMITTED_LINE_LENGTH) {
+        handleError(ASSEMBLY_LINE_TOO_LONG, NULL);
+        return NULL;
     }
 
     if(line[index] == '.') {
@@ -137,17 +143,17 @@ AsmInstruction parseLine(const char* line) {
         declDataTo = index;
 
         return allocAsmInstructionDEF(line, labelFrom, labelTo, declFrom, declTo, declDataFrom, declDataTo);
-    } else if (isalpha(line[index])){
+    } else if (isalpha(line[index])) {
         /* Command */
         cmdFrom = index;
 
         while(isalpha(line[++index])); /* Consume cmd chars */
         cmdTo = index;
         
-        if(line[index] == '\0') {
-            return allocAsmInstructionINST(line, labelFrom, labelTo, cmdFrom, cmdTo, srcOPFrom, srcOPTo, dstOPFrom, dstOPTo);
+        if(line[index] == '\0') { /* Command has not operands */
+            return allocAsmInstructionINST(line, labelFrom, labelTo, cmdFrom, cmdTo, 0, 0, 0, 0);
         } else if(!isspace(line[index])) {
-
+            /* after command we require white space seperator */
             handleError(ILEGAL_CHARACTER_IN_COMMAND, line + index);
             return NULL;
         }
@@ -168,8 +174,8 @@ AsmInstruction parseLine(const char* line) {
             while(isspace(line[++index])); /* after first operand it's possible that we will have whitespace */
         }
 
-        if(line[index] == '\0') {
-            return allocAsmInstructionINST(line, labelFrom, labelTo, cmdFrom, cmdTo, srcOPFrom, srcOPTo, dstOPFrom, dstOPTo);
+        if(line[index] == '\0') { /* Command has just 1 operand, pass src operand as dst operand */
+            return allocAsmInstructionINST(line, labelFrom, labelTo, cmdFrom, cmdTo, 0, 0, srcOPFrom, srcOPTo);
         } else if(line[index] == ',') {
             /* Skip, legal char */
             index++;
@@ -199,7 +205,8 @@ AsmInstruction parseLine(const char* line) {
             handleError(ILEGAL_CHARACTER_IN_COMMAND, line + index);
             return NULL;
         }
-        
+
+        /* Command has 2 operands */
         return allocAsmInstructionINST(line, labelFrom, labelTo, cmdFrom, cmdTo, srcOPFrom, srcOPTo, dstOPFrom, dstOPTo);
     } else {
 
@@ -211,20 +218,25 @@ AsmInstruction parseLine(const char* line) {
     return NULL; /* We should never reach here */
 }
 
+/* Parse operand string into API readable format, on failure method will
+ * return FALSE */
 static _bool parseOperand(const char* line, unsigned int opFrom, unsigned int opTo,
         char **op, AddressingType* opType) {
 
     unsigned int helperI = 0;
 
-    if(line[opFrom] == '#') {
+    if(line[opFrom] == '#') { /* Number, not label, takes direct value */
+        /* Numbers start from second character until the end of the operand */
         *op = substr(line, opFrom+1, opTo);
 
+        /* Empty number string is an error */
         if(*op == NULL) {
             handleError(OPERAND_IS_NOT_VALID_NUMBER, NULL);
         }
         
         *opType = IMMIDIATE;
 
+        /* First char of number must be either +, - or digit */
         if(**op != '+' && **op != '-' && !isdigit(**op)) {
 
             handleError(OPERAND_IS_NOT_VALID_NUMBER, *op);
@@ -232,6 +244,7 @@ static _bool parseOperand(const char* line, unsigned int opFrom, unsigned int op
         }
 
         helperI = 0;
+        /* Verify that from second to end all digits are numbers */
         while(isdigit(*((*op) + ++helperI)));
 
         if(*((*op) + helperI) != '\0') {
@@ -240,21 +253,26 @@ static _bool parseOperand(const char* line, unsigned int opFrom, unsigned int op
             return FALSE;
         }
         /* Reaching here means we have a valid IMMIDIATE direction */
-    } else if (line[opFrom] == '@') {
+    } else if (line[opFrom] == '@') { /* Indirect references start with @ */
+        /* Actual label code starts from second char until end of string */
         *op = substr(line, opFrom+1, opTo);
 
+        /* Empty operand label name is an error */
         if(*op == NULL) {
             handleError(INVALID_INDIRECT_NOTATION, NULL);
+            return FALSE;
         }
 
         *opType = INDIRECT;
 
+        /* First label char must be alpha */
         if(!isalpha(**op)) {
 
             handleError(INVALID_INDIRECT_NOTATION, *op);
             return FALSE;
         }
 
+        /* From second to last char valid chars are either alpha or numeric */
         while(isalnum(*((*op) + ++helperI)));
         if(*((*op) + helperI) != '\0') {
 
@@ -265,12 +283,15 @@ static _bool parseOperand(const char* line, unsigned int opFrom, unsigned int op
     } else if (line[opFrom] == 'r' && (opTo - opFrom) == 2) { /* Register is length 2 and starts with small "r" */
         *op = substr(line, opFrom, opTo);
 
+        /* Empty operand is an error, should not happen in this case */
         if(*op == NULL) {
             handleError(INVALID_REGISTER_NOTATION, NULL);
+            return FALSE;
         }
 
         *opType = REGISTER;
 
+        /* Valid register syntax contains proper range for second char */
         if(*((*op) + 1) > '7' || *((*op) + 1) < '0') {
 
             handleError(INVALID_REGISTER_NOTATION, *op);
@@ -279,20 +300,25 @@ static _bool parseOperand(const char* line, unsigned int opFrom, unsigned int op
 
          /* Reaching here means we have a valid REGISTER direction */
     } else {
+        /* Reaching here means we probably have a plain label */
         *op = substr(line, opFrom, opTo);
 
+        /* Operand should not be null */
         if(*op == NULL) {
             handleError(INVALID_DIRECT_NOTATION, NULL);
+            return FALSE;
         }
 
         *opType = DIRECT;
 
+        /* Label contains alpha for first character */
         if(!isalpha(**op)) {
 
             handleError(INVALID_DIRECT_NOTATION, *op);
             return FALSE;
         }
 
+        /* Label contains alnum from second char to end of line */
         while(isalnum(*((*op) + ++helperI)));
         if(*((*op) + helperI) != '\0') {
 
@@ -332,20 +358,30 @@ static AsmInstruction allocAsmInstructionINST(
     asmInstruction->label = substr(line, labelFrom, labelTo);
     asmInstruction->instruction->INST.command = substr(line, cmdFrom, cmdTo);
 
-    if(!parseOperand(line, srcOPFrom, srcOPTo,
-            &asmInstruction->instruction->INST.srcOP,
-            &asmInstruction->instruction->INST.srcOPType)) {
+    if(srcOPTo - srcOPFrom > 0) {
+        if(!parseOperand(line, srcOPFrom, srcOPTo,
+                &asmInstruction->instruction->INST.srcOP,
+                &asmInstruction->instruction->INST.srcOPType)) {
 
-        freeAsmInstruction(asmInstruction);
-        return NULL;
+            freeAsmInstruction(asmInstruction);
+            return NULL;
+        }
+    } else {
+        asmInstruction->instruction->INST.srcOP = NULL;
+        asmInstruction->instruction->INST.srcOPType = NO_OP;
     }
 
-    if(!parseOperand(line, dstOPFrom, dstOPTo,
-            &asmInstruction->instruction->INST.dstOP,
-            &asmInstruction->instruction->INST.dstOPType)) {
+    if(dstOPTo - dstOPFrom > 0) {
+        if(!parseOperand(line, dstOPFrom, dstOPTo,
+                &asmInstruction->instruction->INST.dstOP,
+                &asmInstruction->instruction->INST.dstOPType)) {
 
-        freeAsmInstruction(asmInstruction);
-        return NULL;
+            freeAsmInstruction(asmInstruction);
+            return NULL;
+        }
+    } else {
+        asmInstruction->instruction->INST.dstOP = NULL;
+        asmInstruction->instruction->INST.dstOPType = NO_OP;
     }
 
     return asmInstruction;
