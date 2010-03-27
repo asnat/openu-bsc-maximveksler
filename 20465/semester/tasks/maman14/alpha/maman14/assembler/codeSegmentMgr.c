@@ -9,16 +9,22 @@
 #include <stdlib.h>
 #include "constants.h"
 #include "codeSegmentMgr.h"
+#include "asmInstruction.h"
 
 static unsigned IC = 0;
 
 static unsigned short codeSegment[SEGMENT_MAXIMUM_SIZE];
+static LinkerAddress codeLinkertype[SEGMENT_MAXIMUM_SIZE];
 
 void resetCode() {
     unsigned int i;
-    for(i = 0; i <= IC; i++) {
+    for(i = 0; i <= SEGMENT_MAXIMUM_SIZE; i++) {
         codeSegment[i] = (unsigned int) NULL;
     }
+    for(i = 0; i <= SEGMENT_MAXIMUM_SIZE; i++) {
+        codeLinkertype[i] = UNKNOWN_TYPE;
+    }
+
 
     resetIC();
 }
@@ -42,6 +48,14 @@ unsigned short storeCode(unsigned short data) {
     return codeSegment[IC-1];
 }
 
-unsigned short getCode(unsigned index) {
+unsigned short getCode(unsigned short index) {
     return codeSegment[index];
+}
+
+LinkerAddress getCodeLinkerType(unsigned short index){
+    return codeLinkertype[index];
+}
+
+void setCodeLinkerType(LinkerAddress type){
+    codeLinkertype[IC] = type;
 }

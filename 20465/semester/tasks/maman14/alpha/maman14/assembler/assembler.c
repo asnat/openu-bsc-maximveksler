@@ -8,6 +8,7 @@
 #include "outputFilesHandler.h"
 #include "label.h"
 #include "codeSegmentMgr.h"
+#include "dataSegmentMgr.h"
 
 #define MAXIMUM_LINE_LENGTH 1024
 
@@ -28,11 +29,14 @@ void assemble(FILE *fp) {
     int lineIndex = 0;
 
     int c;
+    unsigned short index,codeSegmentAmount, dataSegmentAmount;
+    char linkerType;
 
     /* Stop for the line */
     line[MAXIMUM_LINE_LENGTH] = '\0';
 
     initLabelTable();
+    resetCode();
     
     /* Set static pointer to the line array which will be holding
      * the current line */
@@ -89,6 +93,8 @@ void assemble(FILE *fp) {
 
 
     lineIndex = 0;
+    codeSegmentAmount = getIC() - (unsigned short)1;
+    dataSegmentAmount = getDC() - (unsigned short)1;
     writeObjectFileFirstRow();
     resetIC();
 
@@ -106,8 +112,8 @@ void assemble(FILE *fp) {
             line[lineIndex] = '\0';
             handleError(TEXT_INPUT_OVERFLOW, NULL);
 
-            /* Consume until EOL */
-            while((c = fgetc(fp)) != EOF) {
+           /* Consume until EOL */
+           while((c = fgetc(fp)) != EOF) {
                 if(c == '\r' || c == '\n') {
                     break;
                 }
@@ -133,5 +139,21 @@ void assemble(FILE *fp) {
         line[lineIndex] = '\0';
        phase2processAssemlby(line);
     }
-
+    if (c == EOF ){
+        for(index = 0; index<=codeSegmentAmount;index++){
+            switch (getCodeLinkerType(index)){
+                case RELOCATBLE:
+                    linkerType = 'r';
+                    break;
+                case EXTERNAL:
+                    linkerType = 'e';
+                    break;
+                case ABSOLUTE:
+                    linkerType = 'a';
+                default:
+                    handleError(CANT_WRITE_TO_OBJ_FILE,"no such linker address type");
+            }
+            writeToObjFile(index, getCode(index), linkerType);
+        }
+    }
 }
