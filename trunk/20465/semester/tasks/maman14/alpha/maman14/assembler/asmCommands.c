@@ -224,7 +224,7 @@ static _bool processDataNumber(AsmInstruction asmInstruction) {
         storeData((unsigned short) number);
 
         /* And progress to next value */
-        strtok(NULL, NUMBER_DATA_TOKEN);
+        pch = strtok(NULL, NUMBER_DATA_TOKEN);
     }
 
     return TRUE;
