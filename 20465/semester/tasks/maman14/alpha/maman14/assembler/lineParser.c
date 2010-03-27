@@ -72,13 +72,15 @@ AsmInstruction parseLine(const char* line) {
         return NULL;
     }
 
-    /* First seek to see if we have a lable */
+    /* First seek to see if we have a label */
     if(!isspace(line[index])) {
         /* First char is not space, can be label */
         if(isalpha(line[index])) {
             /* First char is alpha, goot */
             
-            while(isalnum(line[++index])); /* Forward all legal lable chars */
+            while(isalnum(line[++index])) /* Consume all legal label chars */
+                ;
+            
             if(line[index] == ':') {
                 /* Yay, it really is a label */
                 labelFrom = 0;
@@ -104,8 +106,8 @@ AsmInstruction parseLine(const char* line) {
         /* Declaration */
         declFrom = ++index;
 
-        if(!isalnum(line[index])) {
-            /* Legal lable starts with alnum */
+        if(!isalpha(line[index])) {
+            /* Legal declaration starts with isalpha */
 
             handleError(INVALID_DECLARATION_FORMAT, line + declFrom);
             return NULL;
@@ -122,7 +124,7 @@ AsmInstruction parseLine(const char* line) {
             while(isspace(line[++index])); /* Good, valid label syntax - Consume all space chars */
         }
 
-
+        /* as for declaration data it can be pretty much any character... */
         if(!isgraph(line[index])) {
             
             handleError(MISSING_DECLARATION_DATA, line + index);
@@ -305,7 +307,7 @@ static _bool parseOperand(const char* line, unsigned int opFrom, unsigned int op
     return TRUE;
 }
 
-/* Construct and AsmInstruction which represents an assmebly instruction line. */
+/* Construct an AsmInstruction which represents an assmebly instruction line. */
 static AsmInstruction allocAsmInstructionINST(
         const char* line,
         const unsigned int labelFrom, const unsigned int labelTo,
@@ -349,6 +351,7 @@ static AsmInstruction allocAsmInstructionINST(
     return asmInstruction;
 }
 
+/* Construct an AsmInstruction which represents an assmebly declaration line. */
 static AsmInstruction allocAsmInstructionDEF(
         const char* line,
         const unsigned int labelFrom, const unsigned int labelTo,
