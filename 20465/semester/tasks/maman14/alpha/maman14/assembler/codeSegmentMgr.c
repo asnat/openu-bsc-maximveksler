@@ -8,8 +8,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "constants.h"
+#include "codeSegmentMgr.h"
 
 static unsigned IC = 0;
+
 static unsigned short codeSegment[SEGMENT_MAXIMUM_SIZE];
 
 void resetCode() {
@@ -18,11 +20,19 @@ void resetCode() {
         codeSegment[i] = (unsigned int) NULL;
     }
 
+    resetIC();
+}
+
+void resetIC(void){
     IC = 0;
 }
 
 unsigned int getIC() {
     return IC;
+}
+
+void forward() {
+    IC++;
 }
 
 unsigned short storeCode(unsigned short data) {
@@ -32,6 +42,6 @@ unsigned short storeCode(unsigned short data) {
     return codeSegment[IC-1];
 }
 
-unsigned short* getCode(unsigned index) {
+unsigned short getCode(unsigned index) {
     return codeSegment[index];
 }
