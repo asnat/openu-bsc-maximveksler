@@ -270,15 +270,13 @@ static _bool processDataString(AsmInstruction asmInstruction) {
     return TRUE;
 }
 
+/* Add reference for an external label */
 _bool processExternal(AsmInstruction asmInstruction) {
     if(asmInstruction->instruction->EXTERN.referenceName == NULL) {
         handleError(MISSING_EXTERN_REFERENCE, NULL);
         return FALSE;
     }
 
-    /* We want to add label reference to the location where the assembly data
-     * will be written to.
-     */
     if (addLabel(asmInstruction->label, EXTERNAL, getDC()) == FALSE) {
         handleError(LABEL_ADDING_FAILURE, asmInstruction->label);
         return FALSE;
@@ -286,6 +284,8 @@ _bool processExternal(AsmInstruction asmInstruction) {
 
     return TRUE;
 }
+
+
 /* #############################################################
  * ###### Assembly language implementation #####################
  * #############################################################
