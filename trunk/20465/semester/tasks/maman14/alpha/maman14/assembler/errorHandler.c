@@ -36,8 +36,14 @@ static const char* errorDescriptions[] = {
     "Invalid register notation", /* 18 INVALID_REGISTER_NOTATION */
     "Invalid direct notation", /* 19 INVALID_DIRECT_NOTATION */
     "Failed adding label for phase two processing", /* 20 LABEL_ADDING_FAILURE */
-    "Data declaration is empty" /* 21 DATA_DECLARATION_EMPTY */
-    "String declaration is empty" /* 22 STRING_DECLARATION_EMPTY */
+    "Data declaration is empty", /* 21 DATA_DECLARATION_EMPTY */
+    "String declaration is empty", /* 22 STRING_DECLARATION_EMPTY */
+    "Cant Open object file: ", /* 23 CANT_OPEN_OBJECT_FILE */
+    "Cant Open entry file: ", /* 24 CANT_OPEN_ENT_FILE */
+    "Cant open extern file: ", /* 25 CANT_OPEN_EXT_FILE */
+    "Cant write to object file: ", /* 26 CANT_WRITE_TO_OBJ_FILE */
+    "Cant write to extern file: ", /* 27 CANT_WRITE_TO_EXT_FILE */
+    "Cant write to extern file: ", /* 28 CANT_WRITE_TO_EXT_FILE */
 };
 
 void initErrorHandler() {
