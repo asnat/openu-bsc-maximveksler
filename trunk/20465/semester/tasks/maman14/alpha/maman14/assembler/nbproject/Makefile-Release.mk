@@ -13,8 +13,8 @@ CP=cp
 CCADMIN=CCadmin
 RANLIB=ranlib
 CC=gcc
-CCC=g++
-CXX=g++
+CCC=
+CXX=
 FC=
 AS=as
 
@@ -34,12 +34,12 @@ OBJECTFILES= \
 	${OBJECTDIR}/codeSegmentMgr.o \
 	${OBJECTDIR}/labelTableMgr.o \
 	${OBJECTDIR}/phaseOne.o \
-	${OBJECTDIR}/phaseTwo.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/label.o \
 	${OBJECTDIR}/stringUtil.o \
 	${OBJECTDIR}/errorHandler.o \
 	${OBJECTDIR}/assembler.o \
+	${OBJECTDIR}/outputFilesHandler.o \
 	${OBJECTDIR}/lineParser.o \
 	${OBJECTDIR}/dataSegmentMgr.o \
 	${OBJECTDIR}/hash.o \
@@ -84,11 +84,6 @@ ${OBJECTDIR}/phaseOne.o: nbproject/Makefile-${CND_CONF}.mk phaseOne.c
 	${RM} $@.d
 	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/phaseOne.o phaseOne.c
 
-${OBJECTDIR}/phaseTwo.o: nbproject/Makefile-${CND_CONF}.mk phaseTwo.c 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/phaseTwo.o phaseTwo.c
-
 ${OBJECTDIR}/main.o: nbproject/Makefile-${CND_CONF}.mk main.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -113,6 +108,11 @@ ${OBJECTDIR}/assembler.o: nbproject/Makefile-${CND_CONF}.mk assembler.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/assembler.o assembler.c
+
+${OBJECTDIR}/outputFilesHandler.o: nbproject/Makefile-${CND_CONF}.mk outputFilesHandler.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/outputFilesHandler.o outputFilesHandler.c
 
 ${OBJECTDIR}/lineParser.o: nbproject/Makefile-${CND_CONF}.mk lineParser.c 
 	${MKDIR} -p ${OBJECTDIR}
