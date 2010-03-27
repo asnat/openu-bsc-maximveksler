@@ -22,7 +22,7 @@
 
 #define NUMBER_DATA_TOKEN ", \t"
 
-#define DEBUG 1
+#define ASM_COMMANDS_DEBUG 0
 
 
 _bool storeToCodeSegment(
@@ -40,7 +40,7 @@ _bool storeToCodeSegment(
     instruction |= (unsigned short) (srcAddrTypeCode << 9);
     instruction |= (unsigned short) (instCode << 12);
 
-    #if DEBUG
+    #if ASM_COMMANDS_DEBUG
         printf("Storing: %X into data segment\n", instruction);
     #endif
         
@@ -377,7 +377,7 @@ void process(AsmInstruction asmLineInstruction) {
 
         /* If we have found a function at this name */
         if(asm_cmd_struct_handler->function_name) {
-            #ifdef DEBUG
+            #if ASM_COMMANDS_DEBUG
                 printf("asmCommands.process: function_name = %s\n", asm_cmd_struct_handler->function_name);
             #endif
             /* We want to pass the next location after the function name in the general user input string */

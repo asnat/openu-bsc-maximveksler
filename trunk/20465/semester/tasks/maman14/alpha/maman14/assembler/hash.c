@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 #include "hash.h"
 #include "constants.h"
 #include "errorHandler.h"
@@ -14,15 +15,18 @@ unsigned hashVal(const char*  nodeName){
     const char* cp = nodeName; /* pointer to current charcter in the name */
 
     for (val = 1; *cp != '\0'; cp++)
-        val *= HASH_MAGIC_NUMBER + (unsigned int) *cp;
-
-    return val % HASHSIZE;
+        val = (val*(HASH_MAGIC_NUMBER + (unsigned int) *cp)) % INT_MAX;
+    printf("%u\n",val);
+    printf("%u\n", val%HASHSIZE);
+    return val % HASHSIZE ;
 }
 
 /* Find a node in the table, return NULL if not found */
 static hashNode* lookup(hashNode** hashArray,const char* nodeName){
-    hashNode* np = *(hashArray + hashVal(nodeName)); /* point to the current node */
-    
+    hashNode* np;
+
+    hashVal(nodeName)
+    np = *(hashArray + hashVal(nodeName)); /* point to the current node */
     /* look for the node in the specific index */
     while ( np != NULL && strcmp(np->name,nodeName))
         
