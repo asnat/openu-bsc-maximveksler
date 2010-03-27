@@ -28,7 +28,9 @@
 #define INVALID_INDIRECT_NOTATION 17
 #define INVALID_REGISTER_NOTATION 18
 #define INVALID_DIRECT_NOTATION 19
-
+#define LABEL_ADDING_FAILURE 20
+#define DATA_DECLARATION_EMPTY 21
+#define STRING_DECLARATION_EMPTY 22
 
 /* Initialize error handler, should be called for each processed line */
 void initErrorHandler();
