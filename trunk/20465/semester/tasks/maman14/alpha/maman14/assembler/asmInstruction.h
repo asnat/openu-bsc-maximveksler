@@ -30,9 +30,11 @@ typedef union InstructionUnion {
     } DATA;
 
     struct {
+        char* referenceName;
     } ENTRY;
 
     struct {
+        char* referenceName;
     } EXTERN;
 
 } *InstructionUnion;
