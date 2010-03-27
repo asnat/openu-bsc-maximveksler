@@ -5,6 +5,7 @@
 #include "phaseOne.h"
 #include "phaseTwo.h"
 #include "errorHandler.h"
+#include "label.h"
 
 #define LINE_LENGTH 81 /* 81 because we have 80 valid chars +1 for \0 */
 
@@ -29,6 +30,8 @@ void assemble(FILE *fp) {
     /* Stop for the line */
     line[LINE_LENGTH] = '\0';
 
+    initLabelTable();
+    
     /* Set static pointer to the line array which will be holding
      * the current line */
     setUnparsedAssemblyLine(line);
@@ -40,10 +43,10 @@ void assemble(FILE *fp) {
             line[lineIndex] = '\0';
             handleError(ASSEMBLY_LINE_TOO_LONG, NULL);
 
-            /* Consume until EOL */
+            /* Consume until new line or until EOL */
             while((c = fgetc(fp)) != EOF) {
                 if(c == '\r' || c == '\n') {
-                    break;
+                    break; /* reached valid stop character which notifies new line */
                 }
             }
 
