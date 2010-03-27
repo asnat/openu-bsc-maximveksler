@@ -29,21 +29,31 @@ static char* createFilePath(char* filePrefix,char* suffix,unsigned suffixSize, u
     return filePathPointer;
 }
 
+
+
 _bool writeToOutputFile(char* fileType, char* labelName, unsigned address){
-    FILE* fileName;
+    FILE* fh;
     
     switch (fileType){
         case EXT_FILE:
-            if ((fileName = fopen(currentExtFile,"w+")) != NULL)
-                fprintf(currentExtFile,"%s\t0%u", labelName, address);
+            if ((fh = fopen(currentExtFile,"w+")) != NULL)
+                if ((fprintf(fh,"%s\t0%u", labelName, address)) < 0){
+                    handleError(CANT_WRITE_TO_EXT_FILE, currentExtFile);
+                    fclose(currentExtFile);
+                    return FALSE;
+                }
             else {
                 perror(currentExtFile);
                 return FALSE;
             }
             break;
         case ENT_FILE:
-            if ((fileName = fopen(currentEntFile,"w+")) != NULL)
-                fprintf(currentEntFile,"%s\t0%u", labelName, address);
+            if ((fh = fopen(currentEntFile,"w+")) != NULL)
+                if((fprintf(fh,"%s\t0%u", labelName, address)) < 0 ){
+                    handleError(CANT_WRITE_TO_ENT_FILE, currentEntFile);
+                    fclopse(fh);
+                    return FALSE;
+                }
             else {
                 perror(currentEntFile);
                 return FALSE;
@@ -53,11 +63,12 @@ _bool writeToOutputFile(char* fileType, char* labelName, unsigned address){
             return FALSE;
     }
     if (fileType == EXT_FILE)
-        fclose(currentExtFile);
+        fclose(fh);
     else
-        fclose(currentEntFile);
+        fclose(fh);
     return TRUE;
 }
+
 
  _bool writeObjectFileFirstRow(){
      FILE* obFile;
@@ -66,14 +77,27 @@ _bool writeToOutputFile(char* fileType, char* labelName, unsigned address){
          perror(currentObjFile);
          return FALSE;
      }
-     fprintf(currentObjFile,"\t\t0%u 0%u",getIC,getID);
+     fprintf(obFile,"\t\t0%u 0%u",getIC,getID);
      fclose(currentObjFile);
      return TRUE;
  }
 
 
+
 _bool writeToObjFile(unsigned address, unsigned short data, char linkerData){
-    fprintf
+    FILE* obfile;
+
+    if ((obfile = fopen(currentObjFile,"w+")) == NULL){
+        handleError(CANT_OPEN_OBJECT_FILE, currentObjFile);
+        return FALSE;
+    }
+    if((fprintf(obfile,"0%2ou 0%2ohu %2c", address, data, linkerData)) < 0){
+        handleError(CANT_WRITE_TO_OBJ_FILE, currentObjFile);
+        fclose(obfile);
+        return FALSE;
+    }
+    fclose(obfile);
+    return TRUE;
 }
 
 

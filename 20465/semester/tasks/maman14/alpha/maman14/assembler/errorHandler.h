@@ -31,6 +31,13 @@
 #define LABEL_ADDING_FAILURE 20
 #define DATA_DECLARATION_EMPTY 21
 #define STRING_DECLARATION_EMPTY 22
+#define CANT_OPEN_OBJECT_FILE 23
+#define CANT_OPEN_ENT_FILE 24
+#define CANT_OPEN_EXT_FILE 25
+#define CANT_WRITE_TO_OBJ_FILE 26
+#define CANT_WRITE_TO_EXT_FILE 27
+#define CANT_WRITE_TO_ENT_FILE 28
+
 
 /* Initialize error handler, should be called for each processed line */
 void initErrorHandler();
