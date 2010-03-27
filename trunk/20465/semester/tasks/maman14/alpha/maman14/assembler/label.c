@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include "hash.h"
 #include "errorHandler.h"
-#include "constants.h"
+
+
 
 static hashNode** labelHashTable;
 
@@ -21,6 +22,6 @@ _bool getLabelAddress(char* labelName, unsigned short* data){
     return getHashNodeData(labelHashTable, labelName, data);
 }
 
-_bool addLabel(char* labelName, unsigned short data){
-    return addHashNode(labelHashTable, labelName, data);
+_bool addLabel(char* labelName,LinkerAddress type, unsigned short data){
+    return addHashNode(labelHashTable, labelName, type, data);
 }

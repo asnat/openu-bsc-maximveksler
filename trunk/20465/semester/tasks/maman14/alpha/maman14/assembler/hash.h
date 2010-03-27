@@ -12,17 +12,22 @@
 #include "constants.h"
 #endif
 
+#ifndef _INSTRUCTIONSTRUCTURE_H
+#include "asmInstruction.h"
+#endif
+
 #define HASHSIZE 100
 
 typedef struct node{
     char* name;
+    LinkerAddress linkeType;
     unsigned short data;
     struct node* prev;
     struct node* next;
 }hashNode;
 
 unsigned hashVal(const char*);
-_bool addHashNode(hashNode**, char*, unsigned short);
+_bool addHashNode(hashNode**, char*,LinkerAddress, unsigned short);
 _bool getHashNodeData(hashNode**,const char*, unsigned short*);
 void freeHashArray(hashNode**);
 

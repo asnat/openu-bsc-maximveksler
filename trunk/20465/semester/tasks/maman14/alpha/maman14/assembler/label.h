@@ -12,6 +12,10 @@
 #include "constants.h"
 #endif
 
+#ifndef _INSTRUCTIONSTRUCTURE_H
+#include "asmInstruction.h"
+#endif
+
 void freeLabelTable(void);
 void initLabelTable(void);
 _bool getLabelAddress(char*, unsigned short*);
