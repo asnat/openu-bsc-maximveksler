@@ -43,7 +43,8 @@ static const char* errorDescriptions[] = {
     "Cant open extern file: ", /* 25 CANT_OPEN_EXT_FILE */
     "Cant write to object file: ", /* 26 CANT_WRITE_TO_OBJ_FILE */
     "Cant write to extern file: ", /* 27 CANT_WRITE_TO_EXT_FILE */
-    "Cant write to extern file: ", /* 28 CANT_WRITE_TO_EXT_FILE */
+    "Cant write to entry file: ", /* 28 CANT_WRITE_TO_ENT_FILE */
+    "Missing reference for external declaration", /* 29 MISSING_EXTERN_REFERENCE */
 };
 
 void initErrorHandler() {

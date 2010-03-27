@@ -130,7 +130,7 @@ static _bool processCommand(AsmInstruction asmInstruction,
      * will be written to.
      */
     if(asmInstruction->label != NULL) {
-        if (addLabel(asmInstruction->label, getIC()) == FALSE) {
+        if (addLabel(asmInstruction->label, RELOCATBLE, getIC()) == FALSE) {
             handleError(LABEL_ADDING_FAILURE, asmInstruction->label);
             return FALSE;
         }
@@ -212,7 +212,7 @@ static _bool processDataNumber(AsmInstruction asmInstruction) {
             /* We want to add label reference to the location where the assembly data
              * will be written to.
              */
-            if (addLabel(asmInstruction->label, getDC()) == FALSE) {
+            if (addLabel(asmInstruction->label, RELOCATBLE, getDC()) == FALSE) {
                 handleError(LABEL_ADDING_FAILURE, asmInstruction->label);
                 return FALSE;
             }
@@ -255,7 +255,7 @@ static _bool processDataString(AsmInstruction asmInstruction) {
         /* We want to add label reference to the location where the assembly data
          * will be written to.
          */
-        if (addLabel(asmInstruction->label, getDC()) == FALSE) {
+        if (addLabel(asmInstruction->label, RELOCATBLE, getDC()) == FALSE) {
             handleError(LABEL_ADDING_FAILURE, asmInstruction->label);
             return FALSE;
         }
@@ -270,6 +270,22 @@ static _bool processDataString(AsmInstruction asmInstruction) {
     return TRUE;
 }
 
+_bool processExternal(AsmInstruction asmInstruction) {
+    if(asmInstruction->instruction->EXTERN.referenceName == NULL) {
+        handleError(MISSING_EXTERN_REFERENCE, NULL);
+        return FALSE;
+    }
+
+    /* We want to add label reference to the location where the assembly data
+     * will be written to.
+     */
+    if (addLabel(asmInstruction->label, EXTERNAL, getDC()) == FALSE) {
+        handleError(LABEL_ADDING_FAILURE, asmInstruction->label);
+        return FALSE;
+    }
+
+    return TRUE;
+}
 /* #############################################################
  * ###### Assembly language implementation #####################
  * #############################################################
@@ -374,5 +390,7 @@ void process(AsmInstruction asmLineInstruction) {
         } else if (asmLineInstruction->instruction->DATA.dataType == DataType_STRING) {
             processDataString(asmLineInstruction);
         }
+    } else if(asmLineInstruction->instructionType == EXTERN) {
+        
     }
 }

@@ -11,3 +11,8 @@ AA: .string a"bce
 AA: .string "abc"e
 AA: .string abc"e"
 
+; Failure because of empty declarations
+.entry
+.extern
+.string
+.data
