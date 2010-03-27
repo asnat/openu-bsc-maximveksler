@@ -1,7 +1,0 @@
-daskljdlaskjdla
---This line, and those below, will be ignored--
-
-M    codeSegmentMgr.c
-M    codeSegmentMgr.h
-M    assembler.c
-M    asmInstruction.h
