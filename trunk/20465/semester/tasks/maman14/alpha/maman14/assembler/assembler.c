@@ -27,10 +27,13 @@ void assemble(FILE *fp) {
 
     /* Stop for the line */
     line[LINE_LENGTH] = '\0';
-    
+
+    /* Set static pointer to the line array which will be holding
+     * the current line */
+    setUnparsedAssemblyLine(line);
+
     while((c = fgetc(fp)) != EOF) {
         setLineNumber(assemblyLineCounter);
-        setUnparsedAssemblyLine(line);
 
         if(lineIndex >= LINE_LENGTH-1) {
             line[lineIndex] = '\0';
@@ -45,11 +48,7 @@ void assemble(FILE *fp) {
 
             lineIndex = 0;
             assemblyLineCounter++;
-
-            continue;
-        } else
-
-        if(c == '\r' || c == '\n') {
+        } else if(c == '\r' || c == '\n') {
             /* Good, we've found a valid line */
             line[lineIndex] = '\0';
             
@@ -57,11 +56,9 @@ void assemble(FILE *fp) {
             
             lineIndex = 0;
             assemblyLineCounter++;
-
-            continue;
+        } else {
+            line[lineIndex++] = (char) c;
         }
-
-        line[lineIndex++] = (char) c;        
     }
 
     /* catch last line, which might not be terminated by a \n */
