@@ -11,7 +11,9 @@
 void resetCode();
 unsigned int getIC();
 unsigned short storeCode(unsigned short data);
-unsigned short* getCode();
+unsigned short getCode();
+void forward();
+void resetIC();
 
 #endif	/* _CODESEGMENTMGR_H */
 
