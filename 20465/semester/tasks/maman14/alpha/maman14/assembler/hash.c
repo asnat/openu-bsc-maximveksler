@@ -31,7 +31,7 @@ static hashNode* lookup(hashNode** hashArray,const char* nodeName){
 }
 
 /* Return the value on the data variable */
-_bool getHashNodeData(hashNode** hashArray, const char* nodeName,unsigned* data) {
+_bool getHashNodeData(hashNode** hashArray, const char* nodeName,unsigned short* data) {
     hashNode* np = lookup(hashArray, nodeName); /* look for the label in the table */
     _bool rc = FALSE; /* return code */
     /* if label exist, data point to the node data */
@@ -46,7 +46,7 @@ _bool getHashNodeData(hashNode** hashArray, const char* nodeName,unsigned* data)
 }
 
 /* Add a new node to the hash table */
-_bool addHashNode(hashNode** hashArray, char* nodeName, unsigned data){
+_bool addHashNode(hashNode** hashArray, char* nodeName, unsigned short data){
     hashNode* node;
     unsigned hashValue;
 

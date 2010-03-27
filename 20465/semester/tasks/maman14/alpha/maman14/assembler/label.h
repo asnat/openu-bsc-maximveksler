@@ -11,8 +11,8 @@
 #include "constants.h"
 
 void initLabelTable(void);
-_bool getLabelAddress(char*, unsigned*);
-_bool addLabel(char* labelName, unsigned data);
+_bool getLabelAddress(char*, unsigned short*);
+_bool addLabel(char* labelName, unsigned short data);
 
 #endif	/* _LABEL_H */
 
