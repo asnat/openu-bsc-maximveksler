@@ -9,7 +9,7 @@
 #include "label.h"
 #include "codeSegmentMgr.h"
 
-#define LINE_LENGTH 81 /* 81 because we have 80 valid chars +1 for \0 */
+#define MAXIMUM_LINE_LENGTH 1024
 
 /*
  * Wrapper function for phase1 & phase2.
@@ -24,13 +24,13 @@ void assemble(FILE *fp) {
     unsigned int assemblyLineCounter = 1;
     
     /* read lines from fp */
-    char line[LINE_LENGTH];
+    char line[MAXIMUM_LINE_LENGTH];
     int lineIndex = 0;
 
     int c;
 
     /* Stop for the line */
-    line[LINE_LENGTH] = '\0';
+    line[MAXIMUM_LINE_LENGTH] = '\0';
 
     initLabelTable();
     
@@ -41,7 +41,7 @@ void assemble(FILE *fp) {
     while((c = fgetc(fp)) != EOF) {
         setLineNumber(assemblyLineCounter);
 
-        if(lineIndex >= LINE_LENGTH-1) {
+        if(lineIndex >= MAXIMUM_LINE_LENGTH) {
             line[lineIndex] = '\0';
             handleError(ASSEMBLY_LINE_TOO_LONG, NULL);
 
@@ -93,7 +93,7 @@ void assemble(FILE *fp) {
     resetIC();
 
     /* Stop for the line */
-    line[LINE_LENGTH] = '\0';
+    line[MAXIMUM_LINE_LENGTH] = '\0';
 
     /* Set static pointer to the line array which will be holding
      * the current line */
@@ -102,9 +102,9 @@ void assemble(FILE *fp) {
     while((c = fgetc(fp)) != EOF) {
         setLineNumber(assemblyLineCounter);
 
-        if(lineIndex >= LINE_LENGTH-1) {
+        if(lineIndex >= MAXIMUM_LINE_LENGTH-1) {
             line[lineIndex] = '\0';
-            handleError(ASSEMBLY_LINE_TOO_LONG, NULL);
+            handleError(TEXT_INPUT_OVERFLOW, NULL);
 
             /* Consume until EOL */
             while((c = fgetc(fp)) != EOF) {

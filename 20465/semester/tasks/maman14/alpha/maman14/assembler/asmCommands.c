@@ -267,6 +267,8 @@ static _bool processDataString(AsmInstruction asmInstruction) {
         storeData((unsigned short) pos[i]);
     }
 
+    storeData((unsigned short) '\0'); /* Store the line terminaltion char */
+
     return TRUE;
 }
 
