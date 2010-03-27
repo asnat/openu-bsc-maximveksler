@@ -12,6 +12,7 @@ typedef enum InstructionType { INST=1, DATA, ENTRY, EXTERN } InstructionType;
 
 typedef enum DataType { DataType_STRING=1, DataType_DATA } DataType;
 typedef enum AddressingType { IMMIDIATE=1, DIRECT=2, INDIRECT=4, REGISTER=8, NO_OP=16 } AddressingType;
+typedef enum { RELOCATBLE=1, EXTERNAL } LinkerAddress;
 
 typedef union InstructionUnion {
     struct {
