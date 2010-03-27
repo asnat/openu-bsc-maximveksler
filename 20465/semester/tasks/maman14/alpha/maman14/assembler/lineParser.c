@@ -384,8 +384,10 @@ static AsmInstruction allocAsmInstructionDEF(
         asmInstruction->instruction->DATA.dataType = DataType_DATA;
     } else if(strncmp(line+declFrom, ENTRY_DEC, declTo - declFrom) == 0) {
         asmInstruction->instructionType = ENTRY;
+        asmInstruction->instruction->ENTRY.referenceName = substr(line, declDataFrom, declDataTo);
     } else if(strncmp(line+declFrom, EXTERN_DEC, declTo - declFrom) == 0) {
         asmInstruction->instructionType = EXTERN;
+        asmInstruction->instruction->EXTERN.referenceName = substr(line, declDataFrom, declDataTo);
     } else {
         /* TODO: ERROR unknown declaration type */
         return NULL;
