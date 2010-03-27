@@ -14,6 +14,10 @@ void initLabelTable(){
         *(labelHashTable+i)=NULL;
 }
 
+LinkerAddress getLabelType(char* labelName){
+    return getHashType(labelHashTable, labelName);
+}
+
 void freeLabelTable(){
     freeHashArray(labelHashTable);
 }

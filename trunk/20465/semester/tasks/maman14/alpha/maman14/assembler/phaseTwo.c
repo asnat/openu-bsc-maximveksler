@@ -1,30 +1,55 @@
 #include <stdio.h>
 #include "constants.h"
 #include "codeSegmentMgr.h"
-/* #include dataSegmentMgr.h */
+#include "dataSegmentMgr.h"
 #include "asmInstruction.h"
 #include "lineParser.h"
 #include "errorHandler.h"
 #include "outputFilesHandler.h"
+#include "label.h"
 
-#define LINE_LENGTH 81
+#define MAXARG 2
 
-/* _bool phaseTwo(FILE* currentFileHamdler){
-    char fc, line[LINE_LENGTH], linkerLineType[SEGMENT_MAXIMUM_SIZE];
-    int lineIndex=0;
-    AsmInstruction instructionLine;
 
-    
-    if(!writeObjectFileFirstRow())
-        fatalError(2,"moreInfo");
-     setIC(0);
-     setDC(0);
+static void addRelocateable(char* operand, AddressingType type){
+    unsigned short* address = NULL;
 
-    while ((fc = fgetc(currentFileHamdler)) != EOF){
-        if (fc != '\n'){
-            line[lineIndex++] = fc;
+    if ( type == INDIRECT || type == DIRECT) {
+        if (getLabelType(operand) == EXTERNAL){
+            writeToOutputFile(EXT_FILE, operand, getIC()-(unsigned short) 1);
         }
-        instructionLine = parseLine(line);
-        if (InstructionLine)
+        else{
+            getLabelAddress(operand, address);
+            storeCode(*address);
+        }
+        forward();
     }
-} */
+    else {
+        if ( type == IMMIDIATE )
+        forward();
+    }
+}
+
+_bool phase2processAssemlby(char* asmCodeLine){
+    AsmInstruction asmIns = parseLine(asmCodeLine);
+    int arg;
+    unsigned short* address = NULL;
+
+    switch (asmIns->instructionType){
+        case ENTRY:
+            if (writeToOutputFile(ENT_FILE, asmIns->instruction->ENTRY.referenceName, getLabelAddress(asmIns->instruction->ENTRY.referenceName, address))){
+                return TRUE;
+            }
+            return FALSE;
+            break;
+        case INST:
+            for (arg=1; arg <= MAXARG; arg++){
+                addRelocateable(asmIns->instruction->INST.srcOP, asmIns->instruction->INST.srcOPType);
+                addRelocateable(asmIns->instruction->INST.dstOP, asmIns->instruction->INST.dstOPType);
+            }
+            return TRUE;
+            break;
+        default:
+            return TRUE;
+    }
+}

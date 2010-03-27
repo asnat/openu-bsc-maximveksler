@@ -60,7 +60,7 @@ _bool addHashNode(hashNode** hashArray, char* nodeName, LinkerAddress type, unsi
     if (!(lookup(hashArray, nodeName))){
         node->name = (char*) malloc (strlen(nodeName)*sizeof(char));
         node->name = nodeName;
-        node->linkeType = type;
+        node->linkerType = type;
         node->data = data;
         hashValue = hashVal(node->name);
         node->next = *(hashArray + hashValue);
@@ -91,4 +91,9 @@ void freeHashArray(hashNode** hashArray){
         free(currentNode);
     }
 
+}
+
+LinkerAddress getHashType(hashNode** hashArray, char* nodeName){
+    hashNode* node = lookup(hashArray, nodeName);
+    return node->linkerType;
 }

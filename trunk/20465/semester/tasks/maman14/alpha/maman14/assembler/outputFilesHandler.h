@@ -18,8 +18,8 @@
 
 void initOutputFiles(char*);
 _bool writeObjectFileFirstRow();
-_bool writeToObjFile(unsigned, unsigned short, char);
-_bool writeToOutputFile(char*, char*, unsigned);
+_bool writeToObjFile(unsigned short, unsigned short, char);
+_bool writeToOutputFile(int , char*, unsigned short);
 
 
 #endif	/* _OUTPUFILESHANDLER_H */

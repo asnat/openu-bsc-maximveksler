@@ -7,6 +7,7 @@
 #include "errorHandler.h"
 #include "outputFilesHandler.h"
 #include "label.h"
+#include "codeSegmentMgr.h"
 
 #define LINE_LENGTH 81 /* 81 because we have 80 valid chars +1 for \0 */
 
@@ -87,9 +88,9 @@ void assemble(FILE *fp) {
  */
 
 
-     lineIndex = 0;
-     writeObjectFileFirstRow();
-    
+    lineIndex = 0;
+    writeObjectFileFirstRow();
+    resetIC();
 
     /* Stop for the line */
     line[LINE_LENGTH] = '\0';

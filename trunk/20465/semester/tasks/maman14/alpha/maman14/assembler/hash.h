@@ -20,7 +20,7 @@
 
 typedef struct node{
     char* name;
-    LinkerAddress linkeType;
+    LinkerAddress linkerType;
     unsigned short data;
     struct node* prev;
     struct node* next;
@@ -30,6 +30,7 @@ unsigned hashVal(const char*);
 _bool addHashNode(hashNode**, char*,LinkerAddress, unsigned short);
 _bool getHashNodeData(hashNode**,const char*, unsigned short*);
 void freeHashArray(hashNode**);
+LinkerAddress getHashType(hashNode** hashArray, char* nodeName);
 
 #endif	/* _HASH_H */
 
