@@ -58,15 +58,36 @@ _bool addHashNode(hashNode** hashArray, char* nodeName, unsigned short data){
 
     /* if the node not exist create a new node */
     if (!(lookup(hashArray, nodeName))){
+        node->name = (char*) malloc (strlen(nodeName)*sizeof(char));
         node->name = nodeName;
         node->data = data;
         hashValue = hashVal(node->name);
         node->next = *(hashArray + hashValue);
         *(hashArray + hashValue) = node;
+        (*(hashArray + hashValue))->prev = NULL;
+        node->prev = *(hashArray + hashValue);
         return TRUE;
     }
     else {
         setErrorCode(LABEL_ALREADY_EXIST);
         return FALSE;
     }
+}
+
+void freeHashArray(hashNode** hashArray){
+    hashNode* currentNode;
+    int hashIndex;
+    for (hashIndex = 0;hashIndex<=HASHSIZE;hashIndex++){
+        currentNode = *(hashArray+hashIndex);
+        while (currentNode->next != NULL)
+            currentNode = currentNode->next;
+        while (currentNode->prev != NULL){
+            free(currentNode->name);
+            currentNode = currentNode->prev;
+            free(currentNode->next);
+        }
+        free(currentNode->name);
+        free(currentNode);
+    }
+
 }

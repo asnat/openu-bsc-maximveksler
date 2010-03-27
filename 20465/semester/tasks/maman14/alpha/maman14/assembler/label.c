@@ -6,11 +6,15 @@
 
 static hashNode** labelHashTable;
 
-void initLabelTable(void){
+void initLabelTable(){
     register int i;
     labelHashTable = (hashNode**) malloc(HASHSIZE*sizeof(hashNode*));
     for(i=0;i<HASHSIZE;i++)
         *(labelHashTable+i)=NULL;
+}
+
+void freeLabelTable(){
+    freeHashArray(labelHashTable);
 }
 
 _bool getLabelAddress(char* labelName, unsigned short* data){
