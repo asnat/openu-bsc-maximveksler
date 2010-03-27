@@ -221,10 +221,50 @@ static _bool processDataNumber(AsmInstruction asmInstruction) {
         }
 
         /* Finnally store the data in the data segment */
-        storeData(number);
+        storeData((unsigned short) number);
 
         /* And progress to next value */
         strtok(NULL, NUMBER_DATA_TOKEN);
+    }
+
+    return TRUE;
+}
+
+static _bool processDataString(AsmInstruction asmInstruction) {
+    unsigned int i = 0;
+    unsigned int to;
+    char* pos;
+
+    pos = asmInstruction->instruction->DATA.decData;
+
+    /* Input validation */
+    if(pos[i] != '"') { /* Check that the first char is " */
+        /* TODO: Error not valid string definition */
+        return FALSE;
+    }
+
+    while((pos[++i])) /* Consume all chars up to null */
+        ;
+
+    if((pos[i-1]) != '"') { /* Check that the last char is " */
+        /* TODO: Error not valid string definition */
+        return FALSE;
+    }
+
+    if(asmInstruction->label != NULL) {
+        /* We want to add label reference to the location where the assembly data
+         * will be written to.
+         */
+        if (addLabel(asmInstruction->label, getDC()) == FALSE) {
+            handleError(LABEL_ADDING_FAILURE, asmInstruction->label);
+            return FALSE;
+        }
+    }
+
+    /* Store each char in it's own line in data segment */
+    to = i - 1;
+    for(i = 1; i < to; i++) {
+        storeData((unsigned short) pos[i]);
     }
 
     return TRUE;
@@ -332,7 +372,7 @@ void process(AsmInstruction asmLineInstruction) {
         if(asmLineInstruction->instruction->DATA.dataType == DataType_DATA) {
             processDataNumber(asmLineInstruction);
         } else if (asmLineInstruction->instruction->DATA.dataType == DataType_STRING) {
-            /* call data string handling */
+            processDataString(asmLineInstruction);
         }
     }
 }
