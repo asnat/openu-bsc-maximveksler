@@ -6,7 +6,7 @@
 #include "constants.h"
 #include "outputFilesHandler.h"
 #include "codeSegmentMgr.h"
-/* #include dataSegmentMgr.h */
+#include "dataSegmentMgr.h"
 
 #define OBJ_FILE_SUFFIX ".ob"
 #define EXT_FILE_SUFFIX ".ext"
@@ -19,7 +19,7 @@ static char* currentExtFile;
 static char* currentEntFile;
 
 
-static char* createFilePath(char* filePrefix, char* suffix,unsigned suffixSize, unsigned pathSize){
+static char* createFilePath(char* filePrefix, const char* suffix,unsigned suffixSize, unsigned pathSize){
 
     char* filePathPointer;
 
@@ -38,24 +38,26 @@ _bool writeToOutputFile(char* fileType, char* labelName, unsigned address){
     
     switch ((int) fileType){
         case EXT_FILE:
-            if ((fh = fopen(currentExtFile,"w+")) != NULL)
+            if ((fh = fopen(currentExtFile,"w+")) != NULL){
                 if ((fprintf(fh,"%s\t0%u", labelName, address)) < 0){
                     handleError(CANT_WRITE_TO_EXT_FILE, currentExtFile);
-                    fclose(currentExtFile);
+                    fclose(fh);
                     return FALSE;
                 }
+            }
             else {
                 perror(currentExtFile);
                 return FALSE;
             }
             break;
         case ENT_FILE:
-            if ((fh = fopen(currentEntFile,"w+")) != NULL)
+            if ((fh = fopen(currentEntFile,"w+")) != NULL){
                 if((fprintf(fh,"%s\t0%u", labelName, address)) < 0 ){
                     handleError(CANT_WRITE_TO_ENT_FILE, currentEntFile);
-                    fclopse(fh);
+                    fclose(fh);
                     return FALSE;
                 }
+            }
             else {
                 perror(currentEntFile);
                 return FALSE;
@@ -64,10 +66,7 @@ _bool writeToOutputFile(char* fileType, char* labelName, unsigned address){
         default:
             return FALSE;
     }
-    if (fileType == EXT_FILE)
-        fclose(fh);
-    else
-        fclose(fh);
+    fclose(fh);
     return TRUE;
 }
 
@@ -79,8 +78,8 @@ _bool writeToOutputFile(char* fileType, char* labelName, unsigned address){
          perror(currentObjFile);
          return FALSE;
      }
-     fprintf(obFile,"\t\t0%u 0%u",getIC,getID());
-     fclose(currentObjFile);
+     fprintf(obFile,"\t\t %ou %ou",getIC(),getDC());
+     fclose(obFile);
      return TRUE;
  }
 
@@ -93,7 +92,7 @@ _bool writeToObjFile(unsigned address, unsigned short data, char linkerData){
         handleError(CANT_OPEN_OBJECT_FILE, currentObjFile);
         return FALSE;
     }
-    if((fprintf(obfile,"0%2ou 0%2ohu %2c", address, data, linkerData)) < 0){
+    if((fprintf(obfile,"0%2ou 0%2ou %2c", address, data, linkerData)) < 0){
         handleError(CANT_WRITE_TO_OBJ_FILE, currentObjFile);
         fclose(obfile);
         return FALSE;
