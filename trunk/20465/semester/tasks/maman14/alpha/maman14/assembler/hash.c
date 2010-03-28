@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <limits.h>
 #include "hash.h"
 #include "constants.h"
 #include "errorHandler.h"
@@ -15,22 +14,20 @@ unsigned hashVal(const char*  nodeName){
     const char* cp = nodeName; /* pointer to current charcter in the name */
 
     for (val = 1; *cp != '\0'; cp++)
-        val = (val*(HASH_MAGIC_NUMBER + (unsigned int) *cp)) % INT_MAX;
-    printf("%u\n",val);
-    printf("%u\n", val%HASHSIZE);
-    return val % HASHSIZE ;
+        val *= HASH_MAGIC_NUMBER + (unsigned int) *cp;
+
+    return val % HASHSIZE;
 }
 
 /* Find a node in the table, return NULL if not found */
-static hashNode* lookup(hashNode** hashArray,const char* nodeName){
-    hashNode* np;
-
-    hashVal(nodeName)
-    np = *(hashArray + hashVal(nodeName)); /* point to the current node */
+static hashNode* lookup(hashNode** hashArray, const char* nodeName){
+    hashNode* np = *(hashArray + hashVal(nodeName)); /* point to the current node */
+    
     /* look for the node in the specific index */
-    while ( np != NULL && strcmp(np->name,nodeName))
-        
+    while ( np != NULL && strcmp(np->name, nodeName)) {
         np = np->next;
+    }
+    
     return np;
 }
 
@@ -54,26 +51,27 @@ _bool addHashNode(hashNode** hashArray, char* nodeName, LinkerAddress type, unsi
     hashNode* node;
     unsigned hashValue;
 
-    node = (hashNode*) malloc(sizeof(hashNode));
-    if (!node) {
-        setErrorCode(MEMORY_ALLOCATION_FAILURE);
-        return FALSE;
-    }
+    if (!(lookup(hashArray, nodeName))) {
+        node = (hashNode*) malloc(sizeof(hashNode));
+        if (!node) {
+            setErrorCode(MEMORY_ALLOCATION_FAILURE);
+            return FALSE;
+        }
 
-    /* if the node not exist create a new node */
-    if (!(lookup(hashArray, nodeName))){
-        node->name = (char*) malloc (strlen(nodeName)*sizeof(char));
-        node->name = nodeName;
+        /* if the node not exist create a new node */
+        node->name = (char*) malloc(strlen(nodeName)*sizeof(char));
+        strcpy(node->name, nodeName);
         node->linkerType = type;
         node->data = data;
         hashValue = hashVal(node->name);
+
+        node->prev = NULL;
+        (*(hashArray + hashValue))->prev = node;
         node->next = *(hashArray + hashValue);
         *(hashArray + hashValue) = node;
-        (*(hashArray + hashValue))->prev = NULL;
-        node->prev = *(hashArray + hashValue);
+
         return TRUE;
-    }
-    else {
+    } else {
         setErrorCode(LABEL_ALREADY_EXIST);
         return FALSE;
     }
