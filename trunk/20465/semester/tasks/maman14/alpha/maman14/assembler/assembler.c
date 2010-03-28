@@ -85,9 +85,9 @@ void assemble(FILE *fp) {
 
 
 
-    #if ASSEMBLER_DEBUG
-        printf("Kicking off phase 2 !!!");
-    #endif
+    
+    printf("Kicking off phase 2 !!!\n");
+    
 
 
 /* PHASE TWO
