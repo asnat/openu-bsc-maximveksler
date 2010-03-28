@@ -11,6 +11,7 @@
 #include "dataSegmentMgr.h"
 
 #define MAXIMUM_LINE_LENGTH 1024
+#define ASSEMBLER_DEBUG 1
 
 /*
  * Wrapper function for phase1 & phase2.
@@ -84,7 +85,9 @@ void assemble(FILE *fp) {
 
 
 
-
+    #if ASSEMBLER_DEBUG
+        printf("Kicking off phase 2 !!!");
+    #endif
 
 
 /* PHASE TWO
