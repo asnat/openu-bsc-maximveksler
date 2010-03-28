@@ -59,14 +59,18 @@ _bool addHashNode(hashNode** hashArray, char* nodeName, LinkerAddress type, unsi
         }
 
         /* if the node not exist create a new node */
-        node->name = (char*) malloc(strlen(nodeName)*sizeof(char));
+        node->name = (char*) malloc(strlen(nodeName)*sizeof(char) + 1);
         strcpy(node->name, nodeName);
         node->linkerType = type;
         node->data = data;
         hashValue = hashVal(node->name);
 
         node->prev = NULL;
-        (*(hashArray + hashValue))->prev = node;
+        
+        if(*(hashArray + hashValue) != NULL) {
+            (*(hashArray + hashValue))->prev = node;
+        }
+        
         node->next = *(hashArray + hashValue);
         *(hashArray + hashValue) = node;
 
