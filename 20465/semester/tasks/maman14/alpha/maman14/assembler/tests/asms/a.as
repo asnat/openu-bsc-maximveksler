@@ -1,3 +1,4 @@
+		bne		LOOP
 ; file a.as - includes routine PTRSTR. This routine prints a string
 
 		.entry		PTRSTR

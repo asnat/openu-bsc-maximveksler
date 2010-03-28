@@ -28,7 +28,9 @@ _bool getLabelAddress(char* labelName, unsigned short* data){
     return getHashNodeData(labelHashTable, labelName, data);
 }
 
-_bool addLabel(char* labelName, LinkerAddress type, unsigned short data){
+_bool addLabel(char* labelName, LinkerAddress type, unsigned short data) {
+    printf("**** label.c addLabel labelName=%s data=%hu\n", labelName, data);
+    
     return addHashNode(labelHashTable, labelName, type, data);
 }
 

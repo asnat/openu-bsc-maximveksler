@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <limits.h>
 
 #include "errorHandler.h"
 #include "constants.h"
@@ -19,12 +20,16 @@ static char* currentExtFile;
 static char* currentEntFile;
 
 
-static char* createFilePath(char* filePrefix, const char* suffix,unsigned suffixSize, unsigned pathSize){
+static char* createFilePath(char* filePrefix, const char* suffix){
 
     char* filePathPointer;
 
-    if ((  filePathPointer = (char*) malloc (pathSize*sizeof(char)+suffixSize)) == NULL)
+    filePathPointer = malloc(strlen(filePrefix) * sizeof(char) + strlen(suffix) * sizeof(char) + 1);
+/*
+    if ((  filePathPointer = (char*) malloc (pathSize*sizeof(char)+suffixSize)+1000) == NULL)
         fatalError(MEMORY_ALLOCATION_FAILURE, "failed allocate memory for outputs file");
+ */
+
     strcpy(filePathPointer,filePrefix);
     strcat(filePathPointer,suffix);
 
@@ -78,7 +83,7 @@ _bool writeToOutputFile(int fileType, char* labelName, unsigned short address){
          perror(currentObjFile);
          return FALSE;
      }
-     fprintf(obFile," %ou %2ou",getIC(),getDC());
+     fprintf(obFile," %o %2o",getIC(),getDC());
      fclose(obFile);
      return TRUE;
  }
@@ -134,9 +139,9 @@ void initOutputFiles(char* filePath){
 
     fileNameSize = strlen(filePath);
 
-    currentObjFile = createFilePath(filePath, OBJ_FILE_SUFFIX, OBJ_SUFFIX_SIZE, fileNameSize);
-    currentEntFile = createFilePath(filePath, ENT_FILE_SUFFIX, OTHER_SUFFIX_SIZE, fileNameSize);
-    currentExtFile = createFilePath(filePath, EXT_FILE_SUFFIX, OTHER_SUFFIX_SIZE, fileNameSize);
+    currentObjFile = createFilePath(filePath, OBJ_FILE_SUFFIX);
+    currentEntFile = createFilePath(filePath, ENT_FILE_SUFFIX);
+    currentExtFile = createFilePath(filePath, EXT_FILE_SUFFIX);
  
 }
 

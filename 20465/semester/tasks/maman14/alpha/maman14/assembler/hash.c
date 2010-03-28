@@ -24,7 +24,9 @@ static hashNode* lookup(hashNode** hashArray, const char* nodeName){
     hashNode* np = *(hashArray + hashVal(nodeName)); /* point to the current node */
     
     /* look for the node in the specific index */
-    while ( np != NULL && strcmp(np->name, nodeName)) {
+
+    while (np != NULL && strcmp(np->name, nodeName)) {
+        /* printf("++++++++++++++++++++++ np = %d, np->name=%d\n", (int)np, (int)np->name); */
         np = np->next;
     }
     
