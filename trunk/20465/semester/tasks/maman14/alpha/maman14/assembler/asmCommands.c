@@ -279,8 +279,8 @@ _bool processExternal(AsmInstruction asmInstruction) {
         return FALSE;
     }
 
-    if (addLabel(asmInstruction->label, EXTERNAL, /*meaning less, external */ 0) == FALSE) {
-        handleError(LABEL_ADDING_FAILURE, asmInstruction->label);
+    if (addLabel(asmInstruction->instruction->EXTERN.referenceName, EXTERNAL, /*meaning less, external */ 0) == FALSE) {
+        handleError(LABEL_ADDING_FAILURE, asmInstruction->instruction->EXTERN.referenceName);
         return FALSE;
     }
 
@@ -393,6 +393,6 @@ void process(AsmInstruction asmLineInstruction) {
             processDataString(asmLineInstruction);
         }
     } else if(asmLineInstruction->instructionType == EXTERN) {
-        
+        processExternal(asmLineInstruction);
     }
 }

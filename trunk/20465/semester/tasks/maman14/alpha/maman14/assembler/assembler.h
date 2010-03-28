@@ -8,7 +8,7 @@
 #ifndef _ASSEMBLER_H
 #define	_ASSEMBLER_H
 
-void assemble(FILE *fp);
+void assemble(char* currentFilePath);
 
 #endif	/* _ASSEMBLER_H */
 

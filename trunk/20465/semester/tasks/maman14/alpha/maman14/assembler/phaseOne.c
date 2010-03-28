@@ -5,10 +5,13 @@
 #include "asmCommands.h"
 #include "lineParser.h"
 #include "phaseOne.h"
+#include "label.h"
 
 #define PHASE_ONE_DEBUG 1
 
 void processAssemblyLine(const char *asmCodeLine) {
+    unsigned short address;
+    
     #if PHASE_ONE_DEBUG
         printf("phaseOne.processAssemblyLine [%s]\n", asmCodeLine);
     #endif
@@ -25,6 +28,11 @@ void processAssemblyLine(const char *asmCodeLine) {
         process(asmInst);
         freeAsmInstruction(asmInst);
     }
+
+    printf("processAssemblyLine GETTING DEBUG LABEL\n");
+    getLabelAddress((char*) "LOOP", &address);
+    printf("processAssemblyLine GOT DEBUG LABEL %d\n", address);
+
     #if PHASE_ONE_DEBUG
         printf("phaseOne.processAssemblyLine - after process\n");
     #endif

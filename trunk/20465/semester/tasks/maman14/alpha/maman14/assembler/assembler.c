@@ -22,7 +22,8 @@
  * @param fp valid, opened for read file descriptor which points to source file
  * that contains assembly lines.
  */
-void assemble(FILE *fp) {
+void assemble(char* currentFilePath) {
+    FILE *fp;
     unsigned int assemblyLineCounter = 1;
     
     /* read lines from fp */
@@ -32,12 +33,16 @@ void assemble(FILE *fp) {
     int c;
     unsigned short codeSegmentAmount, dataSegmentAmount;
 
+    if ((fp = fopen(currentFilePath, "r")) == NULL) {
+        
+    }
+
     /* Stop for the line */
     line[MAXIMUM_LINE_LENGTH] = '\0';
 
     initLabelTable();
     resetCode();
-    
+
     /* Set static pointer to the line array which will be holding
      * the current line */
     setUnparsedAssemblyLine(line);
@@ -84,7 +89,7 @@ void assemble(FILE *fp) {
     /* phase2()... */
 
 
-
+    fclose(fp);
     
     printf("Kicking off phase 2 !!!\n");
     
@@ -92,6 +97,9 @@ void assemble(FILE *fp) {
 
 /* PHASE TWO
  */
+    if ((fp = fopen(currentFilePath, "r")) == NULL) {
+
+    }
 
 
     lineIndex = 0;

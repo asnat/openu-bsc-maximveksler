@@ -16,6 +16,7 @@
 #include "errorHandler.h"
 #include "assembler.h"
 #include "errorHandler.h"
+#include "outputFilesHandler.h"
 
 #define FILE_NAME_MAX_SIZE 512
 #define SUFFIX_SIZE 3
@@ -48,7 +49,8 @@ int main(int argc, char** argv) {
                 perror(currentFilePath);
             else {
                 setFileName(currentFilePath);
-                assemble(currentFileHandle);
+                initOutputFiles(argv[currentArg]);
+                assemble(currentFilePath);
                 fclose(currentFileHandle);
             }
             free(currentFilePath);

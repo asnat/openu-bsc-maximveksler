@@ -12,15 +12,15 @@
 
 
 static void addRelocateable(char* operand, AddressingType type){
-    unsigned short* address = NULL;
+    unsigned short address;
 
     if ( type == INDIRECT || type == DIRECT) {
         if (getLabelType(operand) == EXTERNAL){
             writeToOutputFile(EXT_FILE, operand, getIC()-(unsigned short) 1);
         }
         else{
-            getLabelAddress(operand, address);
-            storeCode(*address);
+            getLabelAddress(operand, &address);
+            storeCode(address);
         }
         forward();
     }
@@ -32,24 +32,33 @@ static void addRelocateable(char* operand, AddressingType type){
 
 _bool phase2processAssemlby(char* asmCodeLine){
     AsmInstruction asmIns = parseLine(asmCodeLine);
-    int arg;
-    unsigned short* address = NULL;
+    unsigned short address;
 
-    switch (asmIns->instructionType){
-        case ENTRY:
-            if (writeToOutputFile(ENT_FILE, asmIns->instruction->ENTRY.referenceName, getLabelAddress(asmIns->instruction->ENTRY.referenceName, address))){
-                return TRUE;
-            }
-            return FALSE;
-            break;
-        case INST:
-            for (arg=1; arg <= MAXARG; arg++){
+    printf("phaseTwo.c phase2processAssemlby [%s]\n", asmCodeLine);
+
+    printf("GETTING DEBUG LABEL\n");
+    getLabelAddress((char*) "LOOP", &address);
+    printf("GOT DEBUG LABEL %d\n", address);
+
+    if(asmIns != NULL) {
+        switch (asmIns->instructionType){
+            case ENTRY:
+                if (writeToOutputFile(ENT_FILE, asmIns->instruction->ENTRY.referenceName,
+                        getLabelAddress(asmIns->instruction->ENTRY.referenceName, &address))){
+                    return TRUE;
+                }
+                return FALSE;
+                break;
+            case INST:
                 addRelocateable(asmIns->instruction->INST.srcOP, asmIns->instruction->INST.srcOPType);
                 addRelocateable(asmIns->instruction->INST.dstOP, asmIns->instruction->INST.dstOPType);
-            }
-            return TRUE;
-            break;
-        default:
-            return TRUE;
+                
+                return TRUE;
+                break;
+            default:
+                return TRUE;
+        }
     }
+
+    return TRUE;
 }
