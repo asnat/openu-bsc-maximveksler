@@ -40,8 +40,10 @@ void forward() {
     IC++;
 }
 
-unsigned short storeCode(unsigned short data) {
+unsigned short storeCode(unsigned short data, LinkerAddress linkType) {
     codeSegment[IC] = data;
+    if ( linkType != UNKNOWN_TYPE)
+        setCodeLinkerType(linkType);
     IC += 1;
     
     return codeSegment[IC-1];
