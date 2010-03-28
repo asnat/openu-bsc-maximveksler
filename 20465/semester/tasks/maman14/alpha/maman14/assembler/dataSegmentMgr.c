@@ -14,7 +14,7 @@ static unsigned short dataSegment[SEGMENT_MAXIMUM_SIZE];
 
 void resetData() {
     unsigned int i;
-    for(i = 0; i <= DC; i++) {
+    for(i = 0; i < SEGMENT_MAXIMUM_SIZE; i++) {
         dataSegment[i] = (unsigned int) NULL;
     }
 
