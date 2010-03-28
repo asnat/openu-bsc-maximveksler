@@ -44,7 +44,7 @@ _bool writeToOutputFile(int fileType, char* labelName, unsigned short address){
     switch (fileType){
         case EXT_FILE:
             if ((fh = fopen(currentExtFile,"w+")) != NULL){
-                if ((fprintf(fh,"%s\t0%o", labelName, address)) < 0){
+                if ((fprintf(fh,"%s\t0%o\n", labelName, address)) < 0){
                     handleError(CANT_WRITE_TO_EXT_FILE, currentExtFile);
                     fclose(fh);
                     return FALSE;
@@ -57,7 +57,7 @@ _bool writeToOutputFile(int fileType, char* labelName, unsigned short address){
             break;
         case ENT_FILE:
             if ((fh = fopen(currentEntFile,"w+")) != NULL){
-                if((fprintf(fh,"%s\t0%o", labelName, address)) < 0 ){
+                if((fprintf(fh,"%s\t0%o\n", labelName, address)) < 0 ){
                     handleError(CANT_WRITE_TO_ENT_FILE, currentEntFile);
                     fclose(fh);
                     return FALSE;
@@ -83,7 +83,7 @@ _bool writeToOutputFile(int fileType, char* labelName, unsigned short address){
          perror(currentObjFile);
          return FALSE;
      }
-     fprintf(obFile," %o %2o",getIC(),getDC());
+     fprintf(obFile," %o %2o\n",getIC(),getDC());
      fclose(obFile);
      return TRUE;
  }
@@ -94,40 +94,48 @@ _bool writeToObjFile(unsigned short endCode, unsigned short endData){
     FILE* obfile;
     char linkerType;
     register unsigned short index;
+    unsigned code,data, dataLineNum;
 
     if ((obfile = fopen(currentObjFile,"w+")) == NULL){
         handleError(CANT_OPEN_OBJECT_FILE, currentObjFile);
         return FALSE;
     }
-    resetIC();
-    for(index = 0; index <= endCode;index++){
-        switch (getCodeLinkerType(index)){
-            case RELOCATBLE:
-                linkerType = 'r';
-                break;
-            case EXTERNAL:
-                linkerType = 'e';
-                break;
-            case ABSOLUTE:
-                linkerType = 'a';
-            default:
-                handleError(CANT_WRITE_TO_OBJ_FILE,"no such linker address type");
+    if (endCode > 0){
+        for(index = 0; index < endCode;index++){
+            switch (getCodeLinkerType(index)){
+                case RELOCATBLE:
+                    linkerType = 'r';
+                    break;
+                case EXTERNAL:
+                    linkerType = 'e';
+                    break;
+                case ABSOLUTE:
+                    linkerType = 'a';
+                    break;
+                default:
+                    handleError(CANT_WRITE_TO_OBJ_FILE,"no such linker address type");
+            }
+            code = getCode(index);
+            if((fprintf(obfile,"0%2o 0%2o %2c\n", index, getCode(index), linkerType)) < 0){
+                handleError(CANT_WRITE_TO_OBJ_FILE, currentObjFile);
+                fclose(obfile);
+                return FALSE;
+            }
+            forward();
         }
-        if((fprintf(obfile,"0%2o 0%2o %2c", getIC(), getCode(index), linkerType)) < 0){
-            handleError(CANT_WRITE_TO_OBJ_FILE, currentObjFile);
-            fclose(obfile);
-            return FALSE;
-        }
-        forward();
+        endCode--;
     }
-    for (index = 0; index <= endData; index++){
-        resetDC();
-        if(fprintf(obfile,"0%2ohu 0%2ou", getDC() + getIC() - (unsigned short)1, *(getData())) < 0){
-            handleError(CANT_WRITE_TO_OBJ_FILE, currentObjFile);
-            fclose(obfile);
-            return FALSE;
+    if(endData > 0){
+        for (index = 0; index <= endData; index++){
+            dataLineNum = (index + endCode );
+            data = getData(dataLineNum);
+            if(fprintf(obfile,"0%2o 0%2o\n", dataLineNum  , getData(dataLineNum)) < 0){
+                handleError(CANT_WRITE_TO_OBJ_FILE, currentObjFile);
+                fclose(obfile);
+                return FALSE;
+            }
+            forwardDC();
         }
-        forwardDC();
     }
     fclose(obfile);
     return TRUE;

@@ -21,7 +21,9 @@ unsigned hashVal(const char*  nodeName){
 
 /* Find a node in the table, return NULL if not found */
 static hashNode* lookup(hashNode** hashArray, const char* nodeName){
-    hashNode* np = *(hashArray + hashVal(nodeName)); /* point to the current node */
+    hashNode* np;
+    unsigned val = hashVal(nodeName);
+    np = *(hashArray + val); /* point to the current node */
     
     /* look for the node in the specific index */
 
@@ -44,7 +46,7 @@ _bool getHashNodeData(hashNode** hashArray, const char* nodeName,unsigned short*
     }
     else
         setErrorCode(NO_SUCH_LABEL);
-    free(np);
+
     return rc;
 }
 
