@@ -18,13 +18,12 @@ static LinkerAddress codeLinkertype[SEGMENT_MAXIMUM_SIZE];
 
 void resetCode() {
     unsigned int i;
-    for(i = 0; i <= SEGMENT_MAXIMUM_SIZE; i++) {
+    for(i = 0; i < SEGMENT_MAXIMUM_SIZE; i++) {
         codeSegment[i] = (unsigned int) NULL;
     }
-    for(i = 0; i <= SEGMENT_MAXIMUM_SIZE; i++) {
+    for(i = 0; i < SEGMENT_MAXIMUM_SIZE; i++) {
         codeLinkertype[i] = UNKNOWN_TYPE;
     }
-
 
     resetIC();
 }

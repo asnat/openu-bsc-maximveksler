@@ -35,7 +35,7 @@ static const char* errorDescriptions[] = {
     "Invalid indirect notation", /* 17 INVALID_INDIRECT_NOTATION */
     "Invalid register notation", /* 18 INVALID_REGISTER_NOTATION */
     "Invalid direct notation", /* 19 INVALID_DIRECT_NOTATION */
-    "Failed adding label for phase two processing", /* 20 LABEL_ADDING_FAILURE */
+    "Label exists", /* 20 LABEL_ADDING_FAILURE */
     "Data declaration is empty", /* 21 DATA_DECLARATION_EMPTY */
     "String declaration is empty", /* 22 STRING_DECLARATION_EMPTY */
     "Cant Open object file: ", /* 23 CANT_OPEN_OBJECT_FILE */

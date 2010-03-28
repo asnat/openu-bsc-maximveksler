@@ -14,8 +14,6 @@ void initLabelTable(){
         labelHashTable[i] = NULL;
     }
 /*        *(labelHashTable+i)=NULL; */
-
-
 }
 
 LinkerAddress getLabelType(char* labelName){
@@ -32,4 +30,8 @@ _bool getLabelAddress(char* labelName, unsigned short* data){
 
 _bool addLabel(char* labelName, LinkerAddress type, unsigned short data){
     return addHashNode(labelHashTable, labelName, type, data);
+}
+
+int getDebug() {
+    return (int)  labelHashTable;
 }
