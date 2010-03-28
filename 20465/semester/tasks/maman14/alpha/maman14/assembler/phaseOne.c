@@ -10,7 +10,7 @@
 #define PHASE_ONE_DEBUG 1
 
 void processAssemblyLine(const char *asmCodeLine) {
-    unsigned short address;
+    /*unsigned short address = NULL; */
     
     #if PHASE_ONE_DEBUG
         printf("phaseOne.processAssemblyLine [%s]\n", asmCodeLine);
@@ -29,9 +29,9 @@ void processAssemblyLine(const char *asmCodeLine) {
         freeAsmInstruction(asmInst);
     }
 
-    printf("processAssemblyLine GETTING DEBUG LABEL\n");
+    /*printf("processAssemblyLine GETTING DEBUG LABEL\n");
     getLabelAddress((char*) "LOOP", &address);
-    printf("processAssemblyLine GOT DEBUG LABEL %d\n", address);
+    printf("processAssemblyLine GOT DEBUG LABEL %d\n", address);*/
 
     #if PHASE_ONE_DEBUG
         printf("phaseOne.processAssemblyLine - after process\n");

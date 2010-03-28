@@ -13,7 +13,7 @@
       </gizmo_options>
       <runprofile version="6">
         <args>a</args>
-        <rundir>/home/hq4ever/sources/20465_maman14/alpha/maman14/assembler/tests/asms</rundir>
+        <rundir>/home/dorons/NetBeansProjects/assembler/tests/asms</rundir>
         <buildfirst>true</buildfirst>
         <console-type>0</console-type>
         <terminal-type>0</terminal-type>

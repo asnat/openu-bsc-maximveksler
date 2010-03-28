@@ -101,7 +101,7 @@ void assemble(char* currentFilePath) {
 
     }
 
-
+    fseek(fp,0,SEEK_SET);
     lineIndex = 0;
     codeSegmentAmount = getIC() - (unsigned short)1;
     dataSegmentAmount = getDC() - (unsigned short)1;

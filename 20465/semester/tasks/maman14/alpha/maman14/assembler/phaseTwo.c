@@ -36,9 +36,9 @@ _bool phase2processAssemlby(char* asmCodeLine){
 
     printf("phaseTwo.c phase2processAssemlby [%s]\n", asmCodeLine);
 
-    printf("GETTING DEBUG LABEL\n");
+    /*printf("GETTING DEBUG LABEL\n");
     getLabelAddress((char*) "LOOP", &address);
-    printf("GOT DEBUG LABEL %d\n", address);
+    printf("GOT DEBUG LABEL %d\n", address);*/
 
     if(asmIns != NULL) {
         switch (asmIns->instructionType){
