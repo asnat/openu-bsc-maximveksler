@@ -16,11 +16,12 @@ static void addRelocateable(char* operand, AddressingType type){
 
     if ( type == INDIRECT || type == DIRECT) {
         if (getLabelType(operand) == EXTERNAL){
+            storeCode(0,EXTERNAL);
             writeToOutputFile(EXT_FILE, operand, getIC()-(unsigned short) 1);
         }
         else{
             getLabelAddress(operand, &address);
-            storeCode(address);
+            storeCode(address, UNKNOWN_TYPE);
         }
         forward();
     }

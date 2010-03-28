@@ -43,8 +43,11 @@ _bool storeToCodeSegment(
     #if ASM_COMMANDS_DEBUG
         printf("Storing: %X into data segment\n", instruction);
     #endif
-        
-    storeCode(instruction);
+
+    if (instruction == 0)
+        storeCode(instruction, RELOCATBLE);
+    else
+        storeCode(instruction, ABSOLUTE);
 
     return TRUE;
 }
