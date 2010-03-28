@@ -39,6 +39,6 @@ unsigned short storeData(unsigned short data) {
     return dataSegment[DC-1];
 }
 
-unsigned short* getData() {
-    return dataSegment;
+unsigned getData(unsigned index) {
+    return dataSegment[index];
 }
