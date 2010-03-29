@@ -9,6 +9,7 @@
 #include "label.h"
 #include "codeSegmentMgr.h"
 #include "dataSegmentMgr.h"
+#include "hash.h"
 
 #define MAXIMUM_LINE_LENGTH 1024
 #define ASSEMBLER_DEBUG 1
@@ -153,4 +154,5 @@ void assemble(char* currentFilePath) {
     if (c == EOF ){
             writeToObjFile();
     }
+    freeLabelTable();
 }
