@@ -88,19 +88,19 @@ _bool addHashNode(hashNode** hashArray, char* nodeName, LinkerAddress type, unsi
 void freeHashArray(hashNode** hashArray){
     hashNode* currentNode;
     int hashIndex;
-    for (hashIndex = 0;hashIndex<=HASHSIZE;hashIndex++){
-        currentNode = *(hashArray+hashIndex);
-        while (currentNode->next != NULL)
-            currentNode = currentNode->next;
-        while (currentNode->prev != NULL){
-            free(currentNode->name);
-            currentNode = currentNode->prev;
-            free(currentNode->next);
+    for (hashIndex = 0;hashIndex<HASHSIZE;hashIndex++){
+        currentNode = hashArray[hashIndex];
+        if(currentNode != NULL){
+           while (currentNode->next != NULL)
+                currentNode = currentNode->next;
+            while (currentNode->prev != NULL){
+                free(currentNode->name);
+                currentNode = currentNode->prev;
+                free(currentNode->next);
+            }
+            free(currentNode);
         }
-        free(currentNode->name);
-        free(currentNode);
     }
-
 }
 
 LinkerAddress getHashType(hashNode** hashArray, char* nodeName){
