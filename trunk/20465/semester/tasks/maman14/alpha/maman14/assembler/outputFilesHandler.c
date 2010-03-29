@@ -24,7 +24,7 @@ static char* createFilePath(char* filePrefix, const char* suffix){
 
     char* filePathPointer;
 
-    filePathPointer = malloc(strlen(filePrefix) * sizeof(char) + strlen(suffix) * sizeof(char) + 1);
+    filePathPointer = malloc(strlen(filePrefix) * sizeof(char) + strlen(suffix) * sizeof(char));
 /*
     if ((  filePathPointer = (char*) malloc (pathSize*sizeof(char)+suffixSize)+1000) == NULL)
         fatalError(MEMORY_ALLOCATION_FAILURE, "failed allocate memory for outputs file");
@@ -90,16 +90,24 @@ _bool writeToOutputFile(int fileType, char* labelName, unsigned short address){
 
 
 
-_bool writeToObjFile(unsigned short endCode, unsigned short endData){
+_bool writeToObjFile(){
     FILE* obfile;
     char linkerType;
     register unsigned short index;
     unsigned code,data, dataLineNum;
+    unsigned short endCode, endData;
 
     if ((obfile = fopen(currentObjFile,"w+")) == NULL){
         handleError(CANT_OPEN_OBJECT_FILE, currentObjFile);
         return FALSE;
     }
+
+    endCode = getIC();
+    endData =getDC();
+    fprintf(obfile,"%5o", endCode);
+    fprintf(obfile,"%2o\n", endData);
+
+
     if (endCode > 0){
         for(index = 0; index < endCode;index++){
             switch (getCodeLinkerType(index)){
@@ -116,7 +124,7 @@ _bool writeToObjFile(unsigned short endCode, unsigned short endData){
                     handleError(CANT_WRITE_TO_OBJ_FILE,"no such linker address type");
             }
             code = getCode(index);
-            if((fprintf(obfile,"0%2o 0%2o %2c\n", index, getCode(index), linkerType)) < 0){
+            if((fprintf(obfile,"0%o 0%o %c\n", index, getCode(index), linkerType)) < 0){
                 handleError(CANT_WRITE_TO_OBJ_FILE, currentObjFile);
                 fclose(obfile);
                 return FALSE;
@@ -129,7 +137,7 @@ _bool writeToObjFile(unsigned short endCode, unsigned short endData){
         for (index = 0; index <= endData; index++){
             dataLineNum = (index + endCode );
             data = getData(dataLineNum);
-            if(fprintf(obfile,"0%2o 0%2o\n", dataLineNum  , getData(dataLineNum)) < 0){
+            if(fprintf(obfile,"0%o 0%o\n", dataLineNum  , getData(dataLineNum)) < 0){
                 handleError(CANT_WRITE_TO_OBJ_FILE, currentObjFile);
                 fclose(obfile);
                 return FALSE;

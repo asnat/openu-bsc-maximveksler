@@ -29,9 +29,8 @@ void assemble(char* currentFilePath) {
     /* read lines from fp */
     char line[MAXIMUM_LINE_LENGTH];
     int lineIndex = 0;
-
     int c;
-    unsigned short codeSegmentAmount, dataSegmentAmount;
+    
 
     if ((fp = fopen(currentFilePath, "r")) == NULL) {
         
@@ -97,15 +96,16 @@ void assemble(char* currentFilePath) {
 
 /* PHASE TWO
  */
+
+
     if ((fp = fopen(currentFilePath, "r")) == NULL) {
 
     }
 
     fseek(fp,0,SEEK_SET);
     lineIndex = 0;
-    codeSegmentAmount = getIC();
-    dataSegmentAmount = getDC();
-    writeObjectFileFirstRow();
+
+
     resetIC();
 
     /* Stop for the line */
@@ -149,7 +149,8 @@ void assemble(char* currentFilePath) {
         line[lineIndex] = '\0';
        phase2processAssemlby(line);
     }
+    printf("%o\n",getIC());
     if (c == EOF ){
-            writeToObjFile(codeSegmentAmount, dataSegmentAmount);
+            writeToObjFile();
     }
 }

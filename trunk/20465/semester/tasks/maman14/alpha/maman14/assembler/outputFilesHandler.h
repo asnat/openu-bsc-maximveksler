@@ -17,8 +17,7 @@
 #define ENT_FILE 2
 
 void initOutputFiles(char*);
-_bool writeObjectFileFirstRow();
-_bool writeToObjFile(unsigned short, unsigned short);
+_bool writeToObjFile();
 _bool writeToOutputFile(int , char*, unsigned short);
 
 

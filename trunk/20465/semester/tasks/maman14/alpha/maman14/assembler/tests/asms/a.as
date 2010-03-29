@@ -1,8 +1,3 @@
-		bne		LOOP
-; file a.as - includes routine PTRSTR. This routine prints a string
-
-		.entry		PTRSTR
-
 PTRSTR:		mov		STRADD, r2
 
 LOOP:		cmp		#0, r2
