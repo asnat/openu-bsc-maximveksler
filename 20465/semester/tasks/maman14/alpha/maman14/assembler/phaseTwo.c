@@ -23,7 +23,6 @@ static void addRelocateable(char* operand, AddressingType type){
             getLabelAddress(operand, &address);
             storeCode(address, UNKNOWN_TYPE);
         }
-        forward();
     }
     else {
         if ( type == IMMIDIATE )
@@ -37,10 +36,6 @@ _bool phase2processAssemlby(char* asmCodeLine){
 
     printf("phaseTwo.c phase2processAssemlby [%s]\n", asmCodeLine);
 
-    /*printf("GETTING DEBUG LABEL\n");
-    getLabelAddress((char*) "LOOP", &address);
-    printf("GOT DEBUG LABEL %d\n", address);*/
-
     if(asmIns != NULL) {
         switch (asmIns->instructionType){
             case ENTRY:
@@ -51,6 +46,7 @@ _bool phase2processAssemlby(char* asmCodeLine){
                 return FALSE;
                 break;
             case INST:
+                forward();
                 addRelocateable(asmIns->instruction->INST.srcOP, asmIns->instruction->INST.srcOPType);
                 addRelocateable(asmIns->instruction->INST.dstOP, asmIns->instruction->INST.dstOPType);
                 
@@ -60,6 +56,5 @@ _bool phase2processAssemlby(char* asmCodeLine){
                 return TRUE;
         }
     }
-
     return TRUE;
 }
