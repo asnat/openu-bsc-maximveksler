@@ -34,24 +34,27 @@ int main(int argc, char** argv) {
 
     for(currentArg=1;currentArg < argc;currentArg++){
         fileNameSize = (int) strlen(argv[currentArg])+1;
-        
+
+        /* check if file name is to long */
         if ( fileNameSize > FILE_NAME_MAX_SIZE - SUFFIX_SIZE) {
            handleError(FILENAME_TOO_LONG, argv[currentArg]);
         }
         else {
 
+            /* find the name o f the source file include the suffix */
             if ((currentFilePath = (char*) malloc(fileNameSize*sizeof(char)+SUFFIX_SIZE)) == NULL)
                 fatalError(MEMORY_ALLOCATION_FAILURE, argv[currentArg]);
-
             strcpy(currentFilePath,argv[currentArg]);
             strcat(currentFilePath,ASM_FILE_SUFFIX);
+
+            /* open the source file to read */
             if ((currentFileHandle = fopen(currentFilePath, "r")) == NULL)
                 perror(currentFilePath);
             else {
-                setFileName(currentFilePath);
-                initOutputFiles(argv[currentArg]);
-                assemble(currentFilePath);
-                fclose(currentFileHandle);
+                setFileName(currentFilePath); /* set file name  for error handling */
+                initOutputFiles(argv[currentArg]); /* set output files path names */
+                assemble(currentFilePath); /* process the source file */
+                fclose(currentFileHandle); /* close the file */
             }
             free(currentFilePath);
          }

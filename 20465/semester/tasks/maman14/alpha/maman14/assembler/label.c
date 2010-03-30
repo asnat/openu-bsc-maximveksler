@@ -7,33 +7,33 @@
 
 static hashNode* labelHashTable[HASHSIZE];
 
+/* init the label table */
 void initLabelTable(){
     register int i;
-/*    labelHashTable = (hashNode**) malloc(HASHSIZE*sizeof(hashNode*)); */
+
+    /* all indexes point to NULL */
     for(i=0; i<HASHSIZE; i++) {
         labelHashTable[i] = NULL;
     }
-/*        *(labelHashTable+i)=NULL; */
 }
 
+/* return the label linker type */
 LinkerAddress getLabelType(char* labelName){
     return getHashType(labelHashTable, labelName);
 }
 
+/* free the label table */
 void freeLabelTable(){
     freeHashArray(labelHashTable);
 }
 
+/* return the label address */
 _bool getLabelAddress(char* labelName, unsigned short* data){
     return getHashNodeData(labelHashTable, labelName, data);
 }
 
-_bool addLabel(char* labelName, LinkerAddress type, unsigned short data) {
-    printf("**** label.c addLabel labelName=%s data=%hu\n", labelName, data);
-    
+/* add alabel to label table */
+_bool addLabel(char* labelName, LinkerAddress type, unsigned short data) { 
     return addHashNode(labelHashTable, labelName, type, data);
 }
 
-int getDebug() {
-    return (int)  labelHashTable;
-}
