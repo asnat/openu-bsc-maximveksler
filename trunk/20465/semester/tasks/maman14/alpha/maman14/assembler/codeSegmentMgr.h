@@ -15,7 +15,7 @@
 #include "asmInstruction.h"
 #endif
 
-void resetCode();
+void initCodeSegmentMgr();
 unsigned int getIC();
 void storeCode(unsigned short data, LinkerAddress linkType);
 unsigned short getCode(unsigned short);

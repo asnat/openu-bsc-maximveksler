@@ -17,7 +17,7 @@ static unsigned IC = 0;
 static unsigned short codeSegment[SEGMENT_MAXIMUM_SIZE];
 static LinkerAddress codeLinkertype[SEGMENT_MAXIMUM_SIZE];
 
-void resetCode() {
+void initCodeSegmentMgr() {
     unsigned int i;
     for(i = 0; i < SEGMENT_MAXIMUM_SIZE; i++) {
         codeSegment[i] = (unsigned int) NULL;
