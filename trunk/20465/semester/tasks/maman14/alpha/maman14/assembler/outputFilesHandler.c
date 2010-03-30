@@ -124,6 +124,7 @@ void writeToObjFile(){
 
     if ((obfile = fopen(currentObjFile,"w+")) == NULL){
         handleError(CANT_OPEN_OBJECT_FILE, currentObjFile);
+        return;
     }
 
     /* init the end point for printind code segment */
@@ -223,10 +224,15 @@ void writeToObjFile(){
 }
 
 /* this function free the output files pointers of the current file */
-void freeFilesPathPointers(){
-    free(currentEntFile);
-    free(currentExtFile);
-    free(currentObjFile);
+void freeOutputFiles(){
+    if(currentEntFile != NULL)
+        free(currentEntFile);
+
+    if(currentExtFile != NULL)
+        free(currentExtFile);
+
+    if(currentObjFile != NULL)
+        free(currentObjFile);
 }
 
 /* the function set the output files pointers of the current file */

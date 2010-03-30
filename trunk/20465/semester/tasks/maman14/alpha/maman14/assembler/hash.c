@@ -32,7 +32,7 @@ static hashNode* lookup(hashNode** hashArray, const char* nodeName){
 }
 
 /* Return the value on the data variable */
-_bool getHashNodeData(hashNode** hashArray, const char* nodeName,unsigned short* data) {
+_bool getHashNodeData(hashNode** hashArray, const char* nodeName, unsigned short* data) {
     hashNode* np = lookup(hashArray, nodeName); /* look for the label in the table */
     _bool rc = FALSE; /* return code */
 
@@ -85,26 +85,27 @@ _bool addHashNode(hashNode** hashArray, char* nodeName, LinkerAddress type, unsi
 /* free the Hash table*/
 void freeHashArray(hashNode** hashArray){
     hashNode* currentNode;
+    hashNode* next;
+
     int hashIndex;
 
 
-    for (hashIndex = 0;hashIndex<HASHSIZE;hashIndex++){
+    for (hashIndex = 0; hashIndex<HASHSIZE; hashIndex++){
         currentNode = hashArray[hashIndex];
 
-        /* if linked list attach to this index*/
-        if(currentNode != NULL){
+        while(currentNode != NULL) {
+            /* Store the next node */
+            next = currentNode->next;
 
-            /* go till the end of the linked list*/
-           while (currentNode->next != NULL)
-                currentNode = currentNode->next;
-
-           /* free all nodes from the last to the first*/
-            while (currentNode->prev != NULL){
+            /* Free current node name */
+            if(currentNode->name != NULL)
                 free(currentNode->name);
-                currentNode = currentNode->prev;
-                free(currentNode->next);
-            }
+
+            /* Free current node */
             free(currentNode);
+
+            /* Update pointer to the next node */
+            currentNode = next;
         }
     }
 }

@@ -10,7 +10,7 @@
 
 void resetData();
 unsigned int getDC();
-unsigned short storeData(unsigned short data);
+void storeData(unsigned short data);
 unsigned getData(unsigned);
 void resetDC();
 void forwardDC();
