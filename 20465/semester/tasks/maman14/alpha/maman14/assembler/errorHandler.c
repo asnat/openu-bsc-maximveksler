@@ -48,6 +48,9 @@ static const char* errorDescriptions[] = {
     "Too much input chars for text buffer", /* 30 TEXT_INPUT_OVERFLOW */
     "Label too long", /* 31 LABEL_TOO_LONG */
     "Reserved work" /* 32 RESERVED_WORD */
+    "code segment out of bound",
+    "data segment out of bound"
+
 };
 
 void initErrorHandler() {
