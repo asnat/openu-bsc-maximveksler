@@ -90,6 +90,8 @@ void assemble(char* currentFilePath) {
 /* PHASE TWO
  */
 
+    initErrorHandler();
+
     /* open the file for read */
     if ((fp = fopen(currentFilePath, "r")) == NULL) {
         perror(currentFilePath);
@@ -148,7 +150,7 @@ void assemble(char* currentFilePath) {
     }
 
     /* print the object file */
-    if (c == EOF ){
+    if (c == EOF && getErrorCode() == SUCCESS ){
             writeToObjFile();
     }
 
