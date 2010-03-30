@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "constants.h"
+#include "errorHandler.h"
 
 static unsigned DC = 0;
 static unsigned short dataSegment[SEGMENT_MAXIMUM_SIZE];
@@ -33,10 +34,19 @@ unsigned int getDC() {
 }
 
 unsigned short storeData(unsigned short data) {
-    dataSegment[DC] = data;
-    DC += 1;
-
-    return dataSegment[DC-1];
+        if (DC < SEGMENT_MAXIMUM_SIZE ){
+        dataSegment[DC] = data;
+        DC += 1;
+        return dataSegment[DC-1];
+    }
+    else if (DC == SEGMENT_MAXIMUM_SIZE ){
+        dataSegment[DC] = data;
+        return dataSegment[DC];
+    }
+    else {
+        fatalError(DATA_SEGMENT_OUT_OF_BOUND,NULL);
+        return 0;
+    }
 }
 
 unsigned getData(unsigned index) {

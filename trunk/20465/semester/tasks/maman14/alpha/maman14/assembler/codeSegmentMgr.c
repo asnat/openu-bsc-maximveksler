@@ -10,6 +10,7 @@
 #include "constants.h"
 #include "codeSegmentMgr.h"
 #include "asmInstruction.h"
+#include "errorHandler.h"
 
 static unsigned IC = 0;
 
@@ -41,12 +42,23 @@ void forward() {
 }
 
 unsigned short storeCode(unsigned short data, LinkerAddress linkType) {
-    codeSegment[IC] = data;
-    if ( linkType != UNKNOWN_TYPE)
-        setCodeLinkerType(linkType);
-    IC += 1;
-    
-    return codeSegment[IC-1];
+    if (IC < SEGMENT_MAXIMUM_SIZE ){
+        codeSegment[IC] = data;
+        if ( linkType != UNKNOWN_TYPE)
+            setCodeLinkerType(linkType);
+        IC += 1;
+        return codeSegment[IC-1];
+    }
+    else if (IC == SEGMENT_MAXIMUM_SIZE ){
+        codeSegment[IC] = data;
+        if ( linkType != UNKNOWN_TYPE)
+            setCodeLinkerType(linkType);
+        return codeSegment[IC];
+    }
+    else {
+        fatalError(CODE_SEGMENT_OUT_OF_BOUND,NULL);
+        return 0;
+    }
 }
 
 unsigned short getCode(unsigned short index) {

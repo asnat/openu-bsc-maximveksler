@@ -41,6 +41,8 @@
 #define TEXT_INPUT_OVERFLOW 30
 #define LABEL_TOO_LONG 31
 #define RESERVED_WORD 32
+#define CODE_SEGMENT_OUT_OF_BOUND 33
+#define DATA_SEGMENT_OUT_OF_BOUND 34
 
 /* Initialize error handler, should be called for each processed line */
 void initErrorHandler();
