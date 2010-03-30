@@ -17,8 +17,9 @@
 #define ENT_FILE 2
 
 void initOutputFiles(char*);
-_bool writeToObjFile();
+void writeToObjFile();
 _bool writeToOutputFile(int , char*, unsigned short);
+void freeFilesPathPointers();
 
 
 #endif	/* _OUTPUFILESHANDLER_H */
