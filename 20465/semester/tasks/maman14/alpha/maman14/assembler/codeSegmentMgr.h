@@ -17,7 +17,7 @@
 
 void resetCode();
 unsigned int getIC();
-unsigned short storeCode(unsigned short data, LinkerAddress linkType);
+void storeCode(unsigned short data, LinkerAddress linkType);
 unsigned short getCode(unsigned short);
 LinkerAddress getCodeLinkerType(unsigned short index);
 void setCodeLinkerType(LinkerAddress type);

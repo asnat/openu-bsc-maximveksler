@@ -34,13 +34,18 @@ void assemble(char* currentFilePath) {
 
     if ((fp = fopen(currentFilePath, "r")) == NULL) {
         perror(currentFilePath);
+        return;
     }
 
     /* Stop for the line */
-    line[MAXIMUM_LINE_LENGTH] = '\0';
+    line[MAXIMUM_LINE_LENGTH-1] = '\0';
 
+    /* Init holders for each file */
+    initErrorHandler();
     initLabelTable();
     resetCode();
+    resetData();
+
 
     /* Set static pointer to the line array which will be holding
      * the current line */
@@ -50,7 +55,7 @@ void assemble(char* currentFilePath) {
         setLineNumber(assemblyLineCounter);
 
         if(lineIndex >= MAXIMUM_LINE_LENGTH) {
-            line[lineIndex] = '\0';
+            line[MAXIMUM_LINE_LENGTH-1] = '\0';
             handleError(ASSEMBLY_LINE_TOO_LONG, NULL);
 
             /* Consume until new line or until EOL */
@@ -80,7 +85,8 @@ void assemble(char* currentFilePath) {
         line[lineIndex] = '\0';
         processAssemblyLine(line);
     }
-    
+
+    /* Close file descripter after phase 1 processing */
     fclose(fp);
     
     
@@ -89,11 +95,12 @@ void assemble(char* currentFilePath) {
 /* PHASE TWO
  */
 
-    initErrorHandler();
-
+    assemblyLineCounter = 1;
+    
     /* open the file for read */
     if ((fp = fopen(currentFilePath, "r")) == NULL) {
         perror(currentFilePath);
+        return;
     }
 
     /* read the file from the begining*/
@@ -105,7 +112,7 @@ void assemble(char* currentFilePath) {
     resetIC();
 
     /* Stop for the line */
-    line[MAXIMUM_LINE_LENGTH] = '\0';
+    line[MAXIMUM_LINE_LENGTH-1] = '\0';
 
     /* Set static pointer to the line array which will be holding
      * the current line */
@@ -114,9 +121,9 @@ void assemble(char* currentFilePath) {
     while((c = fgetc(fp)) != EOF) {
         setLineNumber(assemblyLineCounter);
 
-        if(lineIndex >= MAXIMUM_LINE_LENGTH-1) {
-            line[lineIndex] = '\0';
-            handleError(TEXT_INPUT_OVERFLOW, NULL);
+        if(lineIndex >= MAXIMUM_LINE_LENGTH) {
+            line[MAXIMUM_LINE_LENGTH-1] = '\0';
+            handleError(ASSEMBLY_LINE_TOO_LONG, NULL);
 
            /* Consume until EOL */
            while((c = fgetc(fp)) != EOF) {
@@ -157,5 +164,5 @@ void assemble(char* currentFilePath) {
 
     freeLabelTable();
     /* free the output files pointers of the current file */
-    freeFilesPathPointers();
+
 }

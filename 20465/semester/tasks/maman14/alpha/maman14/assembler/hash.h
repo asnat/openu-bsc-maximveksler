@@ -24,7 +24,7 @@ typedef struct node{
     unsigned short data;
     struct node* prev;
     struct node* next;
-}hashNode;
+} hashNode;
 
 unsigned hashVal(const char*);
 _bool addHashNode(hashNode**, char*,LinkerAddress, unsigned short);

@@ -41,23 +41,14 @@ void forward() {
     IC++;
 }
 
-unsigned short storeCode(unsigned short data, LinkerAddress linkType) {
+void storeCode(unsigned short data, LinkerAddress linkType) {
     if (IC < SEGMENT_MAXIMUM_SIZE ){
         codeSegment[IC] = data;
         if ( linkType != UNKNOWN_TYPE)
             setCodeLinkerType(linkType);
         IC += 1;
-        return codeSegment[IC-1];
-    }
-    else if (IC == SEGMENT_MAXIMUM_SIZE ){
-        codeSegment[IC] = data;
-        if ( linkType != UNKNOWN_TYPE)
-            setCodeLinkerType(linkType);
-        return codeSegment[IC];
-    }
-    else {
-        fatalError(CODE_SEGMENT_OUT_OF_BOUND,NULL);
-        return 0;
+    } else {
+        handleError(CODE_SEGMENT_OUT_OF_BOUND,NULL);
     }
 }
 

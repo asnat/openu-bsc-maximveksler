@@ -19,7 +19,7 @@
 void initOutputFiles(char*);
 void writeToObjFile();
 _bool writeToOutputFile(int , char*, unsigned short);
-void freeFilesPathPointers();
+void freeOutputFiles();
 
 
 #endif	/* _OUTPUFILESHANDLER_H */

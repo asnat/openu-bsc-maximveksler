@@ -1,3 +1,5 @@
+mot r1,r2
+
 ; test the label does not start with a number
 1ABC: mov r1,r2
 1ABCD: .string "Hi"

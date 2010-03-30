@@ -31,7 +31,7 @@ static void addRelocateable(char* operand, AddressingType type){
     else {
         /* if IMMIDIATE, phase one handled it already */
         if ( type == IMMIDIATE )
-        forward();
+            forward();
     }
 }
 

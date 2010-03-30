@@ -7,8 +7,9 @@
 #include "phaseOne.h"
 #include "label.h"
 
-#define PHASE_ONE_DEBUG 1
+#define PHASE_ONE_DEBUG 0
 
+/* Takes 1 line of assembly code, process it and stores to proper segment for phase2 */
 void processAssemblyLine(const char *asmCodeLine) {
     /*unsigned short address = NULL; */
     
