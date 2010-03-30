@@ -22,41 +22,43 @@ static char* currentObjFile;
 static char* currentExtFile;
 static char* currentEntFile;
 
-
+/* create the output file path pointer */
 static char* createFilePath(char* filePrefix, const char* suffix){
 
     char* filePathPointer;
 
+    /* create the file path poiinter */
     filePathPointer = malloc(strlen(filePrefix) * sizeof(char) + strlen(suffix) * sizeof(char));
-/*
-    if ((  filePathPointer = (char*) malloc (pathSize*sizeof(char)+suffixSize)+1000) == NULL)
-        fatalError(MEMORY_ALLOCATION_FAILURE, "failed allocate memory for outputs file");
- */
-
     strcpy(filePathPointer,filePrefix);
     strcat(filePathPointer,suffix);
 
     return filePathPointer;
 }
 
+/* recursive function to convert decimal to octal, and store a counter of needed zero to print before the number */
 static unsigned octal(unsigned number,unsigned* counter){
         unsigned result;
 
+        /* if decimal is 0, return the number with less 1 one zero before */
         if(number==0){
             (*counter)--;
             return number;
         }
-        
+
+        /* the end recursive condition, if number/8 is 0 */
         if(number/8 == 0){
             (*counter)--;
             result=number%8;
             return result;
         }
+
+        /* store the reminder in result but oposite, from last to first */
         result=(10*octal(number/8,counter))+number%8;
         (*counter)--;
         return result;
 }
 
+/* print zero to object file */
 static void writeZeroToFile(unsigned zero,FILE* fh){
     unsigned i;
 
@@ -69,10 +71,13 @@ static void writeZeroToFile(unsigned zero,FILE* fh){
     }
 }
 
+/* write the to EXT and ENT output files */
 _bool writeToOutputFile(int fileType, char* labelName, unsigned short address){
     FILE* fh;
-    
+
+    /* check the file type*/
     switch (fileType){
+        /* if file type EXT, print to the .ext file */
         case EXT_FILE:
             if ((fh = fopen(currentExtFile,"w+")) != NULL){
                 if ((fprintf(fh,"%s %6o\n", labelName, address)) < 0){
@@ -86,6 +91,8 @@ _bool writeToOutputFile(int fileType, char* labelName, unsigned short address){
                 return FALSE;
             }
             break;
+
+        /* if file type ENT, print to .ent file */
         case ENT_FILE:
             if ((fh = fopen(currentEntFile,"w+")) != NULL){
                 if((fprintf(fh,"%s %6o\n", labelName, address)) < 0 ){
@@ -99,6 +106,7 @@ _bool writeToOutputFile(int fileType, char* labelName, unsigned short address){
                 return FALSE;
             }
             break;
+        /* if unknown file type return error */
         default:
             return FALSE;
     }
@@ -106,26 +114,33 @@ _bool writeToOutputFile(int fileType, char* labelName, unsigned short address){
     return TRUE;
 }
 
-
+/* write code and dat segment to .ob file */
 void writeToObjFile(){
     FILE* obfile;
-    char linkerType;
-    register unsigned short index;
+    char linkerType; /* the linker type for printing */
+    register unsigned short index; /* index to current line in the code/data segment to priint */
     unsigned dataLineNum,octalNum,zeroCounter;
-    unsigned short endCode, endData;
+    unsigned short endCode, endData; /* the first empty line in the code/data segment */
 
     if ((obfile = fopen(currentObjFile,"w+")) == NULL){
         handleError(CANT_OPEN_OBJECT_FILE, currentObjFile);
     }
 
+    /* init the end point for printind code segment */
     endCode = getIC();
+    /* init the end point for printind code segment */
     endData =getDC();
+
+    /* print the first row of the object file, the sum of code segment rows and the sum of data segment rows */
     fprintf(obfile,"%7o", endCode);
     fprintf(obfile,"%4o\n", endData);
 
-
+    /* write to object file from the code segment only if there is something to write */
     if (endCode > 0){
+
+        /* print each line*/
         for(index = 0; index < endCode;index++){
+            /* identify the linker type to print */
             switch (getCodeLinkerType(index)){
                 case RELOCATBLE:
                     linkerType = 'r';
@@ -140,22 +155,31 @@ void writeToObjFile(){
                     handleError(CANT_WRITE_TO_OBJ_FILE,"no such linker address type");
             }
 
+            /* set the fix size of address number */
             zeroCounter = ADDRESS_OCT_FIXED_SIZE;
+            /* convert the address to octal and find how many zero to add in the begining */
             octalNum = octal(index, &zeroCounter);
+            /* write the begining zero */
             writeZeroToFile(zeroCounter, obfile);
+            /* print the address*/
             if((fprintf(obfile,"%u",octalNum))<0){
                 handleError(CANT_WRITE_TO_OBJ_FILE, currentObjFile);
                 fclose(obfile);
             }
 
+            /* set the fix size of command */
             zeroCounter = DATA_OCT_FIXED_SIZE;
+            /* convert the command to octal and find how many zero to add in the begining */
             octalNum = octal(getCode(index),&zeroCounter);
+            /* write the begining zero */
             writeZeroToFile(zeroCounter, obfile);
+            /* print the command in octal */
             if((fprintf(obfile,"%u",octalNum))<0){
                 handleError(CANT_WRITE_TO_OBJ_FILE, currentObjFile);
                 fclose(obfile);
             }
 
+            /* print the linker type of the row */
             if((fprintf(obfile,"%2c\n",linkerType))<0){
                 handleError(CANT_WRITE_TO_OBJ_FILE, currentObjFile);
                 fclose(obfile);
@@ -163,21 +187,31 @@ void writeToObjFile(){
         }
     }
 
+    /* print the data segment to the object file only if there is any data lines */
     if(endData > 0){
         for (index = 0; index < endData; index++){
+            /* set the address in the data lines */
             dataLineNum = (index + endCode );
 
+            /* set the fix size of address */
             zeroCounter = ADDRESS_OCT_FIXED_SIZE;
+            /* convert the address to octal and find how many zero to add in the begining */
             octalNum = octal(dataLineNum, &zeroCounter);
+            /* write the begining zero */
             writeZeroToFile(zeroCounter, obfile);
+            /* print the address in octal */
             if((fprintf(obfile,"%u",octalNum))<0){
                 handleError(CANT_WRITE_TO_OBJ_FILE, currentObjFile);
                 fclose(obfile);
             }
 
+            /* set the fix size of data */
             zeroCounter = DATA_OCT_FIXED_SIZE;
+            /* convert the data to octal and find how many zero to add in the begining */
             octalNum = octal(getData(index),&zeroCounter);
+            /* write the begining zero */
             writeZeroToFile(zeroCounter, obfile);
+            /* print the data in octal */
             if((fprintf(obfile,"%u\n",octalNum))<0){
                 handleError(CANT_WRITE_TO_OBJ_FILE, currentObjFile);
                 fclose(obfile);
@@ -188,13 +222,14 @@ void writeToObjFile(){
     fclose(obfile);
 }
 
+/* this function free the output files pointers of the current file */
 void freeFilesPathPointers(){
     free(currentEntFile);
     free(currentExtFile);
     free(currentObjFile);
 }
 
-
+/* the function set the output files pointers of the current file */
 void initOutputFiles(char* filePath){
     unsigned fileNameSize;
 

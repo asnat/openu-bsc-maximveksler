@@ -34,7 +34,7 @@ void assemble(char* currentFilePath) {
     
 
     if ((fp = fopen(currentFilePath, "r")) == NULL) {
-        
+        perror(currentFilePath);
     }
 
     /* Stop for the line */
@@ -82,31 +82,25 @@ void assemble(char* currentFilePath) {
         processAssemblyLine(line);
     }
     
-    /* for each line in lines: */
-    /* phase1()... */
-
-    /* for each line in lines: */
-    /* phase2()... */
-
-
     fclose(fp);
     
-    printf("Kicking off phase 2 !!!\n");
     
 
 
 /* PHASE TWO
  */
 
-
+    /* open the file for read */
     if ((fp = fopen(currentFilePath, "r")) == NULL) {
-
+        perror(currentFilePath);
     }
 
+    /* read the file from the begining*/
     fseek(fp,0,SEEK_SET);
+
+    /* reset the line index */
     lineIndex = 0;
-
-
+    /* reset the code segment index*/
     resetIC();
 
     /* Stop for the line */
@@ -136,6 +130,7 @@ void assemble(char* currentFilePath) {
             /* Good, we've found a valid line */
             line[lineIndex] = '\0';
 
+            /* phase 2 processing of the line we found*/
             phase2processAssemlby(line);
 
             lineIndex = 0;
@@ -148,12 +143,17 @@ void assemble(char* currentFilePath) {
     /* catch last line, which might not be terminated by a \n */
     if(lineIndex > 0) {
         line[lineIndex] = '\0';
+        /* phase 2 processing of the last line we found*/
        phase2processAssemlby(line);
     }
-    printf("%o\n",getIC());
+
+    /* print the object file */
     if (c == EOF ){
             writeToObjFile();
     }
+
+    /* free the current file label table */
     freeLabelTable();
+    /* free the output files pointers of the current file */
     freeFilesPathPointers();
 }

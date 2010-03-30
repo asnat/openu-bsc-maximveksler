@@ -21,14 +21,10 @@ unsigned hashVal(const char*  nodeName){
 
 /* Find a node in the table, return NULL if not found */
 static hashNode* lookup(hashNode** hashArray, const char* nodeName){
-    hashNode* np;
-    unsigned val = hashVal(nodeName);
-    np = *(hashArray + val); /* point to the current node */
-    
-    /* look for the node in the specific index */
+    hashNode* np = *(hashArray + hashVal(nodeName)); /* point to the current node */
 
+    /* look for the node in the specific index */
     while (np != NULL && strcmp(np->name, nodeName)) {
-        /* printf("++++++++++++++++++++++ np = %d, np->name=%d\n", (int)np, (int)np->name); */
         np = np->next;
     }
     
@@ -39,6 +35,7 @@ static hashNode* lookup(hashNode** hashArray, const char* nodeName){
 _bool getHashNodeData(hashNode** hashArray, const char* nodeName,unsigned short* data) {
     hashNode* np = lookup(hashArray, nodeName); /* look for the label in the table */
     _bool rc = FALSE; /* return code */
+
     /* if label exist, data point to the node data */
     if (np) {
         *data = np->data;
@@ -55,22 +52,22 @@ _bool addHashNode(hashNode** hashArray, char* nodeName, LinkerAddress type, unsi
     hashNode* node;
     unsigned hashValue;
 
+    /* see if node with the same name exist */
     if (!(lookup(hashArray, nodeName))) {
+
+        /* if the node doesnt exist create a new node */
         node = (hashNode*) malloc(sizeof(hashNode));
         if (!node) {
             setErrorCode(MEMORY_ALLOCATION_FAILURE);
             return FALSE;
         }
-
-        /* if the node not exist create a new node */
         node->name = (char*) malloc(strlen(nodeName)*sizeof(char) + 1);
         strcpy(node->name, nodeName);
         node->linkerType = type;
         node->data = data;
         hashValue = hashVal(node->name);
-
         node->prev = NULL;
-        
+  
         if(*(hashArray + hashValue) != NULL) {
             (*(hashArray + hashValue))->prev = node;
         }
@@ -85,14 +82,23 @@ _bool addHashNode(hashNode** hashArray, char* nodeName, LinkerAddress type, unsi
     }
 }
 
+/* free the Hash table*/
 void freeHashArray(hashNode** hashArray){
     hashNode* currentNode;
     int hashIndex;
+
+
     for (hashIndex = 0;hashIndex<HASHSIZE;hashIndex++){
         currentNode = hashArray[hashIndex];
+
+        /* if linked list attach to this index*/
         if(currentNode != NULL){
+
+            /* go till the end of the linked list*/
            while (currentNode->next != NULL)
                 currentNode = currentNode->next;
+
+           /* free all nodes from the last to the first*/
             while (currentNode->prev != NULL){
                 free(currentNode->name);
                 currentNode = currentNode->prev;
@@ -103,6 +109,7 @@ void freeHashArray(hashNode** hashArray){
     }
 }
 
+/* get the node linker type */
 LinkerAddress getHashType(hashNode** hashArray, char* nodeName){
     hashNode* node = lookup(hashArray, nodeName);
     return node->linkerType;
