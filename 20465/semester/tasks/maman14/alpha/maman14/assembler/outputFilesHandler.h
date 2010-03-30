@@ -20,6 +20,7 @@ void initOutputFiles(char*);
 void writeToObjFile();
 _bool writeToOutputFile(int , char*, unsigned short);
 void freeOutputFiles();
+void removeOutputFiles();
 
 
 #endif	/* _OUTPUFILESHANDLER_H */
