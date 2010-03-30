@@ -35,7 +35,6 @@
       <itemPath>errorHandler.c</itemPath>
       <itemPath>hash.c</itemPath>
       <itemPath>label.c</itemPath>
-      <itemPath>labelTableMgr.c</itemPath>
       <itemPath>lineParser.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>outputFilesHandler.c</itemPath>

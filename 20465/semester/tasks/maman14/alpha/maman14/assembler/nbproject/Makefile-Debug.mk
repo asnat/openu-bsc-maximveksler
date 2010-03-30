@@ -13,8 +13,8 @@ CP=cp
 CCADMIN=CCadmin
 RANLIB=ranlib
 CC=gcc
-CCC=
-CXX=
+CCC=g++
+CXX=g++
 FC=
 AS=as
 
@@ -32,7 +32,6 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/codeSegmentMgr.o \
-	${OBJECTDIR}/labelTableMgr.o \
 	${OBJECTDIR}/phaseOne.o \
 	${OBJECTDIR}/phaseTwo.o \
 	${OBJECTDIR}/main.o \
@@ -74,11 +73,6 @@ ${OBJECTDIR}/codeSegmentMgr.o: nbproject/Makefile-${CND_CONF}.mk codeSegmentMgr.
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -g -Werror -MMD -MP -MF $@.d -o ${OBJECTDIR}/codeSegmentMgr.o codeSegmentMgr.c
-
-${OBJECTDIR}/labelTableMgr.o: nbproject/Makefile-${CND_CONF}.mk labelTableMgr.c 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.c) -g -Werror -MMD -MP -MF $@.d -o ${OBJECTDIR}/labelTableMgr.o labelTableMgr.c
 
 ${OBJECTDIR}/phaseOne.o: nbproject/Makefile-${CND_CONF}.mk phaseOne.c 
 	${MKDIR} -p ${OBJECTDIR}

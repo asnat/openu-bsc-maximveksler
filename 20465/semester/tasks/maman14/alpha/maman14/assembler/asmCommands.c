@@ -25,7 +25,82 @@
 #define ASM_COMMANDS_DEBUG 0
 
 
-_bool storeToCodeSegment(
+/* #############################################################
+ * ###### Assembly language implementation #####################
+ * #############################################################
+ */
+
+/* This array holds for each command whata addressing types are allowed for what openrand */
+static asm_cmd_struct cmdTable[] = {
+    {"mov", ASM_LANG_CMD_MOV_CODE,
+            OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
+            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
+    },
+    {"cmp", ASM_LANG_CMD_CMP_CODE,
+            OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
+            | OP_DST_CBIT(IMMIDIATE) | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
+    },
+    {"add", ASM_LANG_CMD_ADD_CODE,
+            OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
+            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
+    },
+    {"sub", ASM_LANG_CMD_SUB_CODE,
+            OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
+            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
+    },
+    {"mul", ASM_LANG_CMD_MUL_CODE,
+            OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
+            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
+    },
+    {"div", ASM_LANG_CMD_DIV_CODE,
+            OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
+            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
+    },
+    {"lea", ASM_LANG_CMD_LEA_CODE,
+            OP_SRC_CBIT(DIRECT)
+            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
+    },
+    {"inc", ASM_LANG_CMD_INC_CODE,
+            OP_SRC_CBIT(NO_OP)
+            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
+    },
+    {"dec", ASM_LANG_CMD_DEC_CODE,
+            OP_SRC_CBIT(NO_OP)
+            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
+    },
+    {"jmp", ASM_LANG_CMD_JMP_CODE,
+            OP_SRC_CBIT(NO_OP)
+            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT)
+    },
+    {"bne", ASM_LANG_CMD_BNE_CODE,
+            OP_SRC_CBIT(NO_OP)
+            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT)
+    },
+    {"red", ASM_LANG_CMD_RED_CODE,
+            OP_SRC_CBIT(NO_OP)
+            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
+    },
+    {"prn", ASM_LANG_CMD_PRN_CODE,
+            OP_SRC_CBIT(NO_OP)
+            | OP_DST_CBIT(IMMIDIATE) | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
+    },
+    {"jsr", ASM_LANG_CMD_JSR_CODE,
+            OP_SRC_CBIT(NO_OP)
+            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT)
+    },
+    {"rts", ASM_LANG_CMD_RTS_CODE,
+            OP_SRC_CBIT(NO_OP)
+            | OP_DST_CBIT(NO_OP)
+    },
+    {"hlt", ASM_LANG_CMD_HLT_CODE,
+            OP_SRC_CBIT(NO_OP)
+            | OP_DST_CBIT(NO_OP)
+    },
+    {NULL, (unsigned short)((unsigned int)NULL), (unsigned int)NULL}
+};
+
+
+static _bool storeToCodeSegment(
         unsigned short dstRgstrCode,
         unsigned short dstAddrTypeCode,
         unsigned short srcRgstrCode,
@@ -44,13 +119,40 @@ _bool storeToCodeSegment(
         printf("Storing: %X into data segment\n", instruction);
     #endif
 
-    if (instruction == 0)
-        storeCode(instruction, RELOCATBLE);
-    else
-        storeCode(instruction, ABSOLUTE);
+    storeCode(instruction, ABSOLUTE);
 
     return TRUE;
 }
+
+static _bool addCodeSegmentLabelBuffer() {
+    storeCode(0, RELOCATBLE);
+    return TRUE;
+}
+
+static _bool addLabelToHash(char* label, LinkerAddress linkerAddress, unsigned int offset) {
+    asm_cmd_struct *asm_cmd_struct_handler;
+    for(asm_cmd_struct_handler = cmdTable;  asm_cmd_struct_handler->function_name && strcmp(label,  asm_cmd_struct_handler->function_name); asm_cmd_struct_handler++)
+        ;
+
+    /* Check that label name is not a reserved commmand name */
+    if(asm_cmd_struct_handler->function_name) {
+        /* We found a command by this label, this is an error! */
+        handleError(RESERVED_WORD, label);
+        return FALSE;
+    }
+
+    /* Check that label name is not a reserved register name */
+    if(*label == 'r' && (*(label+1) >= '0' || *(label+1) <= '7') &&  *(label+2) == '\0') {
+        /* We found a command by this label, this is an error! */
+        handleError(RESERVED_WORD, label);
+        return FALSE;
+    }
+
+    addLabel(label, linkerAddress, offset);
+
+    return TRUE;
+}
+
 
 static _bool processCommand(AsmInstruction asmInstruction,
         unsigned short commandCode,
@@ -133,7 +235,7 @@ static _bool processCommand(AsmInstruction asmInstruction,
      * will be written to.
      */
     if(asmInstruction->label != NULL) {
-        if (addLabel(asmInstruction->label, RELOCATBLE, getIC()) == FALSE) {
+        if (addLabelToHash(asmInstruction->label, RELOCATBLE, getIC()) == FALSE) {
             handleError(LABEL_ADDING_FAILURE, asmInstruction->label);
             return FALSE;
         }
@@ -151,11 +253,11 @@ static _bool processCommand(AsmInstruction asmInstruction,
     
     /* Possibly make some more calls, to reservce space for later label filling logic... */
     if(__reserve_dst_label_space) {
-        storeToCodeSegment(0, 0, 0, 0, 0);
+        addCodeSegmentLabelBuffer();
     }
 
     if(__reserve_src_label_space) {
-        storeToCodeSegment(0, 0, 0, 0, 0);
+        addCodeSegmentLabelBuffer();
     }
 
     return TRUE;
@@ -215,7 +317,7 @@ static _bool processDataNumber(AsmInstruction asmInstruction) {
             /* We want to add label reference to the location where the assembly data
              * will be written to.
              */
-            if (addLabel(asmInstruction->label, RELOCATBLE, getDC()) == FALSE) {
+            if (addLabelToHash(asmInstruction->label, RELOCATBLE, getDC()) == FALSE) {
                 handleError(LABEL_ADDING_FAILURE, asmInstruction->label);
                 return FALSE;
             }
@@ -258,7 +360,7 @@ static _bool processDataString(AsmInstruction asmInstruction) {
         /* We want to add label reference to the location where the assembly data
          * will be written to.
          */
-        if (addLabel(asmInstruction->label, RELOCATBLE, getDC()) == FALSE) {
+        if (addLabelToHash(asmInstruction->label, RELOCATBLE, getDC()) == FALSE) {
             handleError(LABEL_ADDING_FAILURE, asmInstruction->label);
             return FALSE;
         }
@@ -282,7 +384,7 @@ _bool processExternal(AsmInstruction asmInstruction) {
         return FALSE;
     }
 
-    if (addLabel(asmInstruction->instruction->EXTERN.referenceName, EXTERNAL, /*meaning less, external */ 0) == FALSE) {
+    if (addLabelToHash(asmInstruction->instruction->EXTERN.referenceName, EXTERNAL, /*meaningless because label is external */ 0) == FALSE) {
         handleError(LABEL_ADDING_FAILURE, asmInstruction->instruction->EXTERN.referenceName);
         return FALSE;
     }
@@ -291,78 +393,6 @@ _bool processExternal(AsmInstruction asmInstruction) {
 }
 
 
-/* #############################################################
- * ###### Assembly language implementation #####################
- * #############################################################
- */
-
-static asm_cmd_struct cmdTable[] = {
-    {"mov", ASM_LANG_CMD_MOV_CODE,
-            OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
-            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
-    },
-    {"cmp", ASM_LANG_CMD_CMP_CODE,
-            OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
-            | OP_DST_CBIT(IMMIDIATE) | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
-    },
-    {"add", ASM_LANG_CMD_ADD_CODE,
-            OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
-            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
-    },
-    {"sub", ASM_LANG_CMD_SUB_CODE,
-            OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
-            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
-    },
-    {"mul", ASM_LANG_CMD_MUL_CODE,
-            OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
-            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
-    },
-    {"div", ASM_LANG_CMD_DIV_CODE,
-            OP_SRC_CBIT(IMMIDIATE) | OP_SRC_CBIT(DIRECT) | OP_SRC_CBIT(INDIRECT) | OP_SRC_CBIT(REGISTER)
-            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
-    },
-    {"lea", ASM_LANG_CMD_LEA_CODE,
-            OP_SRC_CBIT(DIRECT)
-            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
-    },
-    {"inc", ASM_LANG_CMD_INC_CODE,
-            OP_SRC_CBIT(NO_OP)
-            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
-    },
-    {"dec", ASM_LANG_CMD_DEC_CODE,
-            OP_SRC_CBIT(NO_OP)
-            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
-    },
-    {"jmp", ASM_LANG_CMD_JMP_CODE,
-            OP_SRC_CBIT(NO_OP)
-            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT)
-    },
-    {"bne", ASM_LANG_CMD_BNE_CODE,
-            OP_SRC_CBIT(NO_OP)
-            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT)
-    },
-    {"red", ASM_LANG_CMD_RED_CODE,
-            OP_SRC_CBIT(NO_OP)
-            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
-    },
-    {"prn", ASM_LANG_CMD_PRN_CODE,
-            OP_SRC_CBIT(NO_OP)
-            | OP_DST_CBIT(IMMIDIATE) | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT) | OP_DST_CBIT(REGISTER)
-    },
-    {"jsr", ASM_LANG_CMD_JSR_CODE,
-            OP_SRC_CBIT(NO_OP)
-            | OP_DST_CBIT(DIRECT) | OP_DST_CBIT(INDIRECT)
-    },
-    {"rts", ASM_LANG_CMD_RTS_CODE,
-            OP_SRC_CBIT(NO_OP)
-            | OP_DST_CBIT(NO_OP)
-    },
-    {"hlt", ASM_LANG_CMD_HLT_CODE,
-            OP_SRC_CBIT(NO_OP)
-            | OP_DST_CBIT(NO_OP)
-    },
-    {NULL, (unsigned short)((unsigned int)NULL), (unsigned int)NULL}
-};
 
 void process(AsmInstruction asmLineInstruction) {
     asm_cmd_struct *asm_cmd_struct_handler;
