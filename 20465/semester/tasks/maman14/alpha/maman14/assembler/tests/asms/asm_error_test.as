@@ -1,4 +1,4 @@
-; test the lable does not start with a number
+; test the label does not start with a number
 1ABC: mov r1,r2
 1ABCD: .string "Hi"
 1ABCDE: .data 12
@@ -20,3 +20,5 @@ AA: .string abc"e"
 ; Too long assembly line
 .data "1234567891234567891234567891234567891234567891234567891234567891234567891"
 mov "123456789123456789123456789123456789123456789123456789123456789123456789",r1
+
+label12345012345678901234567891: mov r1,r2
