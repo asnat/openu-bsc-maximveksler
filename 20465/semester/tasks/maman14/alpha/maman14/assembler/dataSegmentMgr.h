@@ -8,7 +8,7 @@
 #ifndef _DATASEGMENTMGR_H
 #define	_DATASEGMENTMGR_H
 
-void resetData();
+void initDataSegmentMgr();
 unsigned int getDC();
 void storeData(unsigned short data);
 unsigned getData(unsigned);

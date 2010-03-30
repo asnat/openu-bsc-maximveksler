@@ -43,8 +43,8 @@ void assemble(char* currentFilePath) {
     /* Init holders for each file */
     initErrorHandler();
     initLabelTable();
-    resetCode();
-    resetData();
+    initCodeSegmentMgr();
+    initDataSegmentMgr();
 
 
     /* Set static pointer to the line array which will be holding
@@ -156,13 +156,15 @@ void assemble(char* currentFilePath) {
     }
 
     /* print the object file */
-    if (c == EOF && getErrorCode() == SUCCESS ){
+    if (c == EOF){
             writeToObjFile();
     }
 
-    /* free the current file label table */
-
-    freeLabelTable();
     /* free the output files pointers of the current file */
+    if(getErrorCode() != SUCCESS ) {
+        removeOutputFiles();
+    }
 
+    /* free the current file label table */
+    freeLabelTable();
 }

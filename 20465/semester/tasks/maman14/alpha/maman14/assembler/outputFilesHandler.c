@@ -247,3 +247,9 @@ void initOutputFiles(char* filePath){
  
 }
 
+/* Utility to delete files if error happens */
+void removeOutputFiles() {
+    remove(currentObjFile);
+    remove(currentEntFile);
+    remove(currentExtFile);
+}
