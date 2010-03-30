@@ -155,4 +155,5 @@ void assemble(char* currentFilePath) {
             writeToObjFile();
     }
     freeLabelTable();
+    freeFilesPathPointers();
 }

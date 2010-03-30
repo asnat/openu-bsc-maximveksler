@@ -15,6 +15,9 @@
 #define OBJ_SUFFIX_SIZE 3
 #define OTHER_SUFFIX_SIZE 4
 
+#define ADDRESS_OCT_FIXED_SIZE 3
+#define DATA_OCT_FIXED_SIZE 6
+
 static char* currentObjFile;
 static char* currentExtFile;
 static char* currentEntFile;
@@ -36,7 +39,35 @@ static char* createFilePath(char* filePrefix, const char* suffix){
     return filePathPointer;
 }
 
+static unsigned octal(unsigned number,unsigned* counter){
+        unsigned result;
 
+        if(number==0){
+            (*counter)--;
+            return number;
+        }
+        
+        if(number/8 == 0){
+            (*counter)--;
+            result=number%8;
+            return result;
+        }
+        result=(10*octal(number/8,counter))+number%8;
+        (*counter)--;
+        return result;
+}
+
+static void writeZeroToFile(unsigned zero,FILE* fh){
+    unsigned i;
+
+    if((fprintf(fh," "))<0)
+        handleError(CANT_WRITE_TO_OBJ_FILE, NULL);
+
+    for(i = 0; i<zero;i++){
+        if((fprintf(fh,"0"))<0)
+            handleError(CANT_WRITE_TO_OBJ_FILE, NULL);
+    }
+}
 
 _bool writeToOutputFile(int fileType, char* labelName, unsigned short address){
     FILE* fh;
@@ -44,7 +75,7 @@ _bool writeToOutputFile(int fileType, char* labelName, unsigned short address){
     switch (fileType){
         case EXT_FILE:
             if ((fh = fopen(currentExtFile,"w+")) != NULL){
-                if ((fprintf(fh,"%s\t0%o\n", labelName, address)) < 0){
+                if ((fprintf(fh,"%s %6o\n", labelName, address)) < 0){
                     handleError(CANT_WRITE_TO_EXT_FILE, currentExtFile);
                     fclose(fh);
                     return FALSE;
@@ -57,7 +88,7 @@ _bool writeToOutputFile(int fileType, char* labelName, unsigned short address){
             break;
         case ENT_FILE:
             if ((fh = fopen(currentEntFile,"w+")) != NULL){
-                if((fprintf(fh,"%s\t0%o\n", labelName, address)) < 0 ){
+                if((fprintf(fh,"%s %6o\n", labelName, address)) < 0 ){
                     handleError(CANT_WRITE_TO_ENT_FILE, currentEntFile);
                     fclose(fh);
                     return FALSE;
@@ -76,36 +107,21 @@ _bool writeToOutputFile(int fileType, char* labelName, unsigned short address){
 }
 
 
- _bool writeObjectFileFirstRow(void){
-     FILE* obFile;
-
-     if ((obFile = fopen(currentObjFile,"w")) == NULL){
-         perror(currentObjFile);
-         return FALSE;
-     }
-     fprintf(obFile," %o %2o\n",getIC(),getDC());
-     fclose(obFile);
-     return TRUE;
- }
-
-
-
-_bool writeToObjFile(){
+void writeToObjFile(){
     FILE* obfile;
     char linkerType;
     register unsigned short index;
-    unsigned code,data, dataLineNum;
+    unsigned dataLineNum,octalNum,zeroCounter;
     unsigned short endCode, endData;
 
     if ((obfile = fopen(currentObjFile,"w+")) == NULL){
         handleError(CANT_OPEN_OBJECT_FILE, currentObjFile);
-        return FALSE;
     }
 
     endCode = getIC();
     endData =getDC();
-    fprintf(obfile,"%5o", endCode);
-    fprintf(obfile,"%2o\n", endData);
+    fprintf(obfile,"%7o", endCode);
+    fprintf(obfile,"%4o\n", endData);
 
 
     if (endCode > 0){
@@ -123,30 +139,59 @@ _bool writeToObjFile(){
                 default:
                     handleError(CANT_WRITE_TO_OBJ_FILE,"no such linker address type");
             }
-            code = getCode(index);
-            if((fprintf(obfile,"0%o 0%o %c\n", index, getCode(index), linkerType)) < 0){
+
+            zeroCounter = ADDRESS_OCT_FIXED_SIZE;
+            octalNum = octal(index, &zeroCounter);
+            writeZeroToFile(zeroCounter, obfile);
+            if((fprintf(obfile,"%u",octalNum))<0){
                 handleError(CANT_WRITE_TO_OBJ_FILE, currentObjFile);
                 fclose(obfile);
-                return FALSE;
             }
-            forward();
+
+            zeroCounter = DATA_OCT_FIXED_SIZE;
+            octalNum = octal(getCode(index),&zeroCounter);
+            writeZeroToFile(zeroCounter, obfile);
+            if((fprintf(obfile,"%u",octalNum))<0){
+                handleError(CANT_WRITE_TO_OBJ_FILE, currentObjFile);
+                fclose(obfile);
+            }
+
+            if((fprintf(obfile,"%2c\n",linkerType))<0){
+                handleError(CANT_WRITE_TO_OBJ_FILE, currentObjFile);
+                fclose(obfile);
+            }
         }
-        endCode--;
     }
+
     if(endData > 0){
-        for (index = 0; index <= endData; index++){
+        for (index = 0; index < endData; index++){
             dataLineNum = (index + endCode );
-            data = getData(dataLineNum);
-            if(fprintf(obfile,"0%o 0%o\n", dataLineNum  , getData(dataLineNum)) < 0){
+
+            zeroCounter = ADDRESS_OCT_FIXED_SIZE;
+            octalNum = octal(dataLineNum, &zeroCounter);
+            writeZeroToFile(zeroCounter, obfile);
+            if((fprintf(obfile,"%u",octalNum))<0){
                 handleError(CANT_WRITE_TO_OBJ_FILE, currentObjFile);
                 fclose(obfile);
-                return FALSE;
             }
-            forwardDC();
+
+            zeroCounter = DATA_OCT_FIXED_SIZE;
+            octalNum = octal(getData(index),&zeroCounter);
+            writeZeroToFile(zeroCounter, obfile);
+            if((fprintf(obfile,"%u\n",octalNum))<0){
+                handleError(CANT_WRITE_TO_OBJ_FILE, currentObjFile);
+                fclose(obfile);
+            }
         }
     }
+
     fclose(obfile);
-    return TRUE;
+}
+
+void freeFilesPathPointers(){
+    free(currentEntFile);
+    free(currentExtFile);
+    free(currentObjFile);
 }
 
 
