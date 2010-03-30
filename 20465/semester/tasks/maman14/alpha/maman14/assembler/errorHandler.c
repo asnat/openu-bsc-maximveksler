@@ -106,3 +106,4 @@ void fatalError(const int unsigned errorCode, const char* errorMoreInfo) {
 
     exit(EXIT_FAILURE);
 }
+
