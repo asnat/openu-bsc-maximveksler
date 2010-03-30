@@ -88,6 +88,11 @@ AsmInstruction parseLine(const char* line) {
                 labelFrom = 0;
                 labelTo = index; /* Keep in mind that we store "TO" locations in up to but not including form */
 
+                if(labelTo - labelFrom > 30) {
+                    handleError(LABEL_TOO_LONG, NULL);
+                    return NULL;
+                }
+                
                 index++;
             } else {
                 /* We don't know and don't care what is was, just reset the index... */

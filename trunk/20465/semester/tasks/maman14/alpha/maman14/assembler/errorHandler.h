@@ -39,6 +39,8 @@
 #define CANT_WRITE_TO_ENT_FILE 28
 #define MISSING_EXTERN_REFERENCE 29
 #define TEXT_INPUT_OVERFLOW 30
+#define LABEL_TOO_LONG 31
+#define RESERVED_WORD 32
 
 /* Initialize error handler, should be called for each processed line */
 void initErrorHandler();

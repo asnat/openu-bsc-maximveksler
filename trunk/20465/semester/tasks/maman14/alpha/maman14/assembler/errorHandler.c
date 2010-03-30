@@ -46,6 +46,8 @@ static const char* errorDescriptions[] = {
     "Cant write to entry file: ", /* 28 CANT_WRITE_TO_ENT_FILE */
     "Missing reference for external declaration", /* 29 MISSING_EXTERN_REFERENCE */
     "Too much input chars for text buffer", /* 30 TEXT_INPUT_OVERFLOW */
+    "Label too long", /* 31 LABEL_TOO_LONG */
+    "Reserved work" /* 32 RESERVED_WORD */
 };
 
 void initErrorHandler() {

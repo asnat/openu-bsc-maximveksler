@@ -31,7 +31,6 @@ void assemble(char* currentFilePath) {
     char line[MAXIMUM_LINE_LENGTH];
     int lineIndex = 0;
     int c;
-    
 
     if ((fp = fopen(currentFilePath, "r")) == NULL) {
         perror(currentFilePath);
@@ -155,6 +154,7 @@ void assemble(char* currentFilePath) {
     }
 
     /* free the current file label table */
+
     freeLabelTable();
     /* free the output files pointers of the current file */
     freeFilesPathPointers();
