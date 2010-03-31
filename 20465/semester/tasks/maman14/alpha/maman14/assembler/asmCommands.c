@@ -308,7 +308,7 @@ static _bool processCommand(AsmInstruction asmInstruction,
      * will be written to.
      */
     if(asmInstruction->label != NULL) {
-        if (addLabelToHash(asmInstruction->label, RELOCATBLE, getIC(), CODE_SEG) == FALSE) {
+        if (addLabelToHash(asmInstruction->label, /* Should be relocatable */ RELOCATBLE, getIC(), CODE_SEG) == FALSE) {
             handleError(LABEL_ADDING_FAILURE, asmInstruction->label);
             return FALSE;
         }
@@ -326,12 +326,12 @@ static _bool processCommand(AsmInstruction asmInstruction,
     storeCode(commandBITS, ABSOLUTE);
     
     /* Possibly make some more calls, to reservce space for later label filling logic... */
-    if(__add_dst_operand) {
-        storeCode(dstOperandBITS, dstOperandLinkerAddress);
-    }
-
     if(__add_src_operand) {
         storeCode(srcOperandBITS, srcOperandLinkerAddress);
+    }
+
+    if(__add_dst_operand) {
+        storeCode(dstOperandBITS, dstOperandLinkerAddress);
     }
 
     return TRUE;
