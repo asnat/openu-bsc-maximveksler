@@ -92,7 +92,6 @@ void assemble(char* currentFilePath) {
 
 /* PHASE TWO
  */
-
     assemblyLineCounter = 1;
     
     /* open the file for read */

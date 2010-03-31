@@ -25,7 +25,8 @@ static void addRelocateable(char* operand, AddressingType type){
 
         /* if the label is not external store the address in the code segment */
         else if(labelType != UNKNOWN_TYPE){
-                storeCode(address, UNKNOWN_TYPE);
+            getLabelAddress(operand, &address);
+            storeCode(address, UNKNOWN_TYPE);
         }
         else{
             handleError(NO_SUCH_LABEL, operand);

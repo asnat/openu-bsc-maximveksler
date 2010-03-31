@@ -4,7 +4,7 @@
 
 REVERSE:	mov		STRADD, r1
 		mov		LASTCHAR, r2
-		mov		LOOP, r3
+		mov		LEN, r3
 
 
 ; Exchanging places
