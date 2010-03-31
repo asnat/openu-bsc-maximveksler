@@ -248,6 +248,7 @@ static _bool processCommand(AsmInstruction asmInstruction,
             break;
         case OP_SRC_CBIT(INDIRECT):
             srcAddrTypeCode = ASM_LANG_ADDR_INDIRECT;
+            __add_src_operand = TRUE;
             srcOperandLinkerAddress = RELOCATBLE;
             srcOperandBITS = 0;
 
