@@ -25,7 +25,7 @@ void processAssemblyLine(const char *asmCodeLine) {
     #if PHASE_ONE_DEBUG
         printf("phaseOne.processAssemblyLine - before process\n");
     #endif
-    if(asmInst != NULL) { /* If we get NULL it's a comment hench no processing required */        
+    if(asmInst != NULL) { /* If we get NULL it's a comment hench no processing required */
         process(asmInst);
         freeAsmInstruction(asmInst);
     }
