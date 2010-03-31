@@ -15,7 +15,7 @@
 #define OBJ_SUFFIX_SIZE 3
 #define OTHER_SUFFIX_SIZE 4
 
-#define ADDRESS_OCT_FIXED_SIZE 3
+#define ADDRESS_OCT_FIXED_SIZE 4
 #define DATA_OCT_FIXED_SIZE 6
 
 static char* currentObjFile;
