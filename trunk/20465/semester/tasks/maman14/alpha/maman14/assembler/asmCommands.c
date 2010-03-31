@@ -99,8 +99,49 @@ static asm_cmd_struct cmdTable[] = {
     {NULL, (unsigned short)((unsigned int)NULL), (unsigned int)NULL}
 };
 
-/* Write assembly translated binary to code segment for phase 2 */
-static _bool storeToCodeSegment(
+/* Valid input for short, and if valid write into provided int pointer, returns
+ * FALSE if not valid */
+static _bool processShortNumber(const char* source, int* number) {
+    unsigned int i;
+
+    i = 0;
+
+    if(*source != '+' && *source != '-' && !isdigit(*source)) {
+        /* We have something that is not a number */
+        /* TODO: ERROR NOT_A_VALID_NUMBER */
+        return FALSE;
+    }
+
+    while(isdigit(source[++i])) /* Consume all digits */
+        ;
+
+    if(source[i] != '\0') { /* After we finished consuming digits there should be nothing left */
+        /* We have something that is not a number */
+        /* TODO: ERROR NOT_A_VALID_NUMBER */
+        return FALSE;
+    }
+
+    *number = atoi(source);
+
+    if(*number >= 0) {
+        if(*number > SHRT_MAX) {
+            /* We found a number that is too large to fit into 16bit space */
+            /* TODO: ERROR NUMBER TOO BIG */
+            return FALSE;
+        }
+    } else {
+        if(*number < SHRT_MIN) {
+            /* We found a number that is too small to fit into 16bit space */
+            /* TODO: ERROR NUMBER TOO SMALL */
+            return FALSE;
+        }
+    }
+
+    return TRUE;
+}
+
+/* generate assembly translated binary to code segment for phase 2 */
+static unsigned short generateCode(
         unsigned short dstRgstrCode,
         unsigned short dstAddrTypeCode,
         unsigned short srcRgstrCode,
@@ -119,15 +160,7 @@ static _bool storeToCodeSegment(
         printf("Storing: %X into data segment\n", instruction);
     #endif
 
-    storeCode(instruction, ABSOLUTE);
-
-    return TRUE;
-}
-
-/* Utility method to reserve buffer on code segment for lables */
-static _bool addCodeSegmentLabelBuffer() {
-    storeCode(0, RELOCATBLE);
-    return TRUE;
+    return instruction;
 }
 
 /* Utility method to add lable to hash manager */
@@ -165,8 +198,19 @@ static _bool processCommand(AsmInstruction asmInstruction,
     unsigned short srcRgstrCode = 0;
     unsigned short srcAddrTypeCode = 0;
 
-    _bool __reserve_dst_label_space = FALSE;
-    _bool __reserve_src_label_space = FALSE;
+
+
+
+    unsigned short commandBITS = 0;
+
+    _bool __add_dst_operand = FALSE;
+    int dstOperandBITS = 0;
+    LinkerAddress dstOperandLinkerAddress;
+
+    _bool __add_src_operand = FALSE;
+    int srcOperandBITS = 0;
+    LinkerAddress srcOperandLinkerAddress;
+
     
     if(! (OP_SRC_CBIT_EXTRACT(supportedAddressing) & OP_SRC_CBIT(asmInstruction->instruction->INST.srcOPType))) {
         /* Check that the first operand type supplied is valid */
@@ -188,20 +232,32 @@ static _bool processCommand(AsmInstruction asmInstruction,
     switch (OP_SRC_CBIT(asmInstruction->instruction->INST.srcOPType)) {
         case OP_SRC_CBIT(IMMIDIATE):
             srcAddrTypeCode = ASM_LANG_ADDR_IMMIDIATE;
-            __reserve_src_label_space = TRUE;
+            __add_src_operand = TRUE;
+            srcOperandLinkerAddress = ABSOLUTE;
+            if(!processShortNumber(asmInstruction->instruction->INST.srcOP, &srcOperandBITS)) {
+                handleError(INVALID_DECLARATION_FORMAT, asmInstruction->instruction->INST.srcOP);
+            }
+            
             break;
         case OP_SRC_CBIT(DIRECT):
             srcAddrTypeCode = ASM_LANG_ADDR_DIRECT;
-            __reserve_src_label_space = TRUE;
+            __add_src_operand = TRUE;
+            srcOperandLinkerAddress = RELOCATBLE;
+            srcOperandBITS = 0;
+            
             break;
         case OP_SRC_CBIT(INDIRECT):
             srcAddrTypeCode = ASM_LANG_ADDR_INDIRECT;
-            __reserve_src_label_space = TRUE;
+            srcOperandLinkerAddress = RELOCATBLE;
+            srcOperandBITS = 0;
+
             break;
         case OP_SRC_CBIT(REGISTER):
             srcAddrTypeCode = ASM_LANG_ADDR_REGISTER;
+            __add_src_operand = FALSE;
             /* Calculate src register code if we are in REGISTER addressing */
             srcRgstrCode = (unsigned short) (asmInstruction->instruction->INST.srcOP[1] - 48);
+            
             break;
         case OP_SRC_CBIT(NO_OP):
             srcAddrTypeCode = ASM_LANG_ADDR_NO_OP;
@@ -212,20 +268,34 @@ static _bool processCommand(AsmInstruction asmInstruction,
     switch (OP_DST_CBIT(asmInstruction->instruction->INST.dstOPType)) {
         case OP_DST_CBIT(IMMIDIATE):
             dstAddrTypeCode = ASM_LANG_ADDR_IMMIDIATE;
-            __reserve_dst_label_space = TRUE;
+            __add_dst_operand = TRUE;
+            dstOperandLinkerAddress = ABSOLUTE;
+            if(!processShortNumber(asmInstruction->instruction->INST.dstOP, &dstOperandBITS)) {
+                handleError(INVALID_DECLARATION_FORMAT, asmInstruction->instruction->INST.dstOP);
+            }
+
             break;
         case OP_DST_CBIT(DIRECT):
             dstAddrTypeCode = ASM_LANG_ADDR_DIRECT;
-            __reserve_dst_label_space = TRUE;
+            __add_dst_operand = TRUE;
+            dstOperandLinkerAddress = RELOCATBLE;
+            dstOperandBITS = 0;
+
             break;
         case OP_DST_CBIT(INDIRECT):
             dstAddrTypeCode = ASM_LANG_ADDR_INDIRECT;
-            __reserve_dst_label_space = TRUE;
+            __add_dst_operand = TRUE;
+            dstOperandLinkerAddress = RELOCATBLE;
+            dstOperandBITS = 0;
+
             break;
         case OP_DST_CBIT(REGISTER):
             dstAddrTypeCode = ASM_LANG_ADDR_REGISTER;
+            __add_dst_operand = FALSE;
+
             /* Calculate dst register code if we are in REGISTER addressing */
             dstRgstrCode = (unsigned short) (asmInstruction->instruction->INST.dstOP[1] - 48);
+            
             break;
         case OP_DST_CBIT(NO_OP):
             dstAddrTypeCode = ASM_LANG_ADDR_NO_OP;
@@ -243,31 +313,32 @@ static _bool processCommand(AsmInstruction asmInstruction,
         }
     }
 
-
     /* Finally after passing all check and translations we are ready to store the asm instruction */
-    storeToCodeSegment(
+    commandBITS = generateCode(
         /*unsigned short dstRgstrCode*/     dstRgstrCode,
         /*unsigned short dstAddrTypeCode*/  dstAddrTypeCode,
         /*unsigned short srcRgstrCode*/     srcRgstrCode  ,
         /*unsigned short srcAddrTypeCode*/  srcAddrTypeCode,
         /*unsigned short instCode*/         commandCode);
 
+
+    storeCode(commandBITS, ABSOLUTE);
     
     /* Possibly make some more calls, to reservce space for later label filling logic... */
-    if(__reserve_dst_label_space) {
-        addCodeSegmentLabelBuffer();
+    if(__add_dst_operand) {
+        storeCode(dstOperandBITS, dstOperandLinkerAddress);
     }
 
-    if(__reserve_src_label_space) {
-        addCodeSegmentLabelBuffer();
+    if(__add_src_operand) {
+        storeCode(srcOperandBITS, srcOperandLinkerAddress);
     }
 
     return TRUE;
 }
 
+
 static _bool processDataNumber(AsmInstruction asmInstruction) {
     char * pch;
-    unsigned int i;
     int number;
     _bool labelStored = FALSE;
     
@@ -282,39 +353,10 @@ static _bool processDataNumber(AsmInstruction asmInstruction) {
     }
 
     while(pch != NULL) {
-        i = 0;
 
-        if(pch[i] != '+' && pch[i] != '-' && !isdigit(pch[i])) {
-            /* We have something that is not a number */
-            /* TODO: ERROR NOT_A_VALID_NUMBER */
+        if(!processShortNumber(pch, &number))
             return FALSE;
-        }
-
-        while(isdigit(pch[++i])) /* Consume all digits */
-            ;
-
-        if(pch[i] != '\0') { /* After we finished consuming digits there should be nothing left */
-            /* We have something that is not a number */
-            /* TODO: ERROR NOT_A_VALID_NUMBER */
-            return FALSE;
-        }
-
-        number = atoi(pch);
-
-        if(number >= 0) {
-            if(number > SHRT_MAX) {
-                /* We found a number that is too large to fit into 16bit space */
-                /* TODO: ERROR NUMBER TOO BIG */
-                return FALSE;
-            }
-        } else {
-            if(number < SHRT_MIN) {
-                /* We found a number that is too small to fit into 16bit space */
-                /* TODO: ERROR NUMBER TOO SMALL */
-                return FALSE;
-            }
-        }
-
+        
         if(!labelStored && asmInstruction->label != NULL) {
             /* We want to add label reference to the location where the assembly data
              * will be written to.
@@ -423,9 +465,13 @@ void process(AsmInstruction asmLineInstruction) {
         }
     } else if (asmLineInstruction->instructionType == DATA) {
         if(asmLineInstruction->instruction->DATA.dataType == DataType_DATA) {
-            processDataNumber(asmLineInstruction);
+            if(!processDataNumber(asmLineInstruction)) {
+                handleError(INVALID_DECLARATION_FORMAT, "DataType_DATA");
+            }
         } else if (asmLineInstruction->instruction->DATA.dataType == DataType_STRING) {
-            processDataString(asmLineInstruction);
+            if(!processDataString(asmLineInstruction)) {
+                handleError(INVALID_DECLARATION_FORMAT, "DataType_STRING");
+            }
         }
     } else if(asmLineInstruction->instructionType == EXTERN) {
         processExternal(asmLineInstruction);
