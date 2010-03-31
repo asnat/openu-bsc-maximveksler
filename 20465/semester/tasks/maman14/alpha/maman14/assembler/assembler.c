@@ -88,8 +88,6 @@ void assemble(char* currentFilePath) {
 
     /* Close file descripter after phase 1 processing */
     fclose(fp);
-    
-    printf("********phase2");
 
 
 /* PHASE TWO
