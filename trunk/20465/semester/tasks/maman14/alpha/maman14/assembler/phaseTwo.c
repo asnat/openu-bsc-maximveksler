@@ -33,7 +33,7 @@ static void addRelocateable(char* operand, AddressingType type, unsigned short e
                 storeCode(address , UNKNOWN_TYPE);
             }
             else if (labelSegment == DATA_SEG){
-                storeCode(address + (endCodeSeg -1) , UNKNOWN_TYPE);
+                storeCode(address + endCodeSeg , UNKNOWN_TYPE);
             }
             else
                 handleError(UNKNOWN_SEGMENT_TYPE, NULL);
@@ -70,7 +70,7 @@ _bool phase2processAssemlby(char* asmCodeLine, unsigned short endCodeSeg){
                         }
                     }
                     else if (labelSegment == DATA_SEG){
-                        if (writeToOutputFile(ENT_FILE, asmIns->instruction->ENTRY.referenceName,address + endCodeSeg-1)){
+                        if (writeToOutputFile(ENT_FILE, asmIns->instruction->ENTRY.referenceName,address + endCodeSeg)){
                             return TRUE;
                         }
                     }
