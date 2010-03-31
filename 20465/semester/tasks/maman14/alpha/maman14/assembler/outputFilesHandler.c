@@ -133,8 +133,8 @@ void writeToObjFile(){
     endData =getDC();
 
     /* print the first row of the object file, the sum of code segment rows and the sum of data segment rows */
-    fprintf(obfile,"%10o", endCode);
-    fprintf(obfile,"%2o\n", endData);
+    fprintf(obfile,"%8o", endCode);
+    fprintf(obfile,"%3o\n", endData);
 
     /* write to object file from the code segment only if there is something to write */
     if (endCode > 0){

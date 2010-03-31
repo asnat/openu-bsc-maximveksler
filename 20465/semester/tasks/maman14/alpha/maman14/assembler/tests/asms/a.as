@@ -3,12 +3,9 @@ PTRSTR:		mov		STRADD, r2
 LOOP:		cmp		#0, r2
 		jmp		BYE
 		prn		r2
-		inc		r2
+		inc		r2	
 		bne		LOOP
 
 BYE:		rts
 
 		.extern		STRADD
-
-.data 12,   -56,    989
-ILOVE1: .data 1,1,1,1,1

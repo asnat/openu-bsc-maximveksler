@@ -183,9 +183,10 @@ static _bool addLabelToHash(char* label, LinkerAddress linkerAddress, unsigned i
         return FALSE;
     }
 
-    addLabel(label, linkerAddress, offset, segment);
-
-    return TRUE;
+    if(addLabel(label, linkerAddress, offset, segment))
+        return TRUE;
+    else
+        return FALSE;
 }
 
 /* Get AsmInstruction and translate it to assembly code */
