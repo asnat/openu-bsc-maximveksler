@@ -31,6 +31,7 @@ void assemble(char* currentFilePath) {
     char line[MAXIMUM_LINE_LENGTH];
     int lineIndex = 0;
     int c;
+    unsigned short codeSegAmount;
 
     if ((fp = fopen(currentFilePath, "r")) == NULL) {
         perror(currentFilePath);
@@ -93,6 +94,8 @@ void assemble(char* currentFilePath) {
 /* PHASE TWO
  */
     assemblyLineCounter = 1;
+
+    codeSegAmount = getIC();
     
     /* open the file for read */
     if ((fp = fopen(currentFilePath, "r")) == NULL) {
@@ -136,7 +139,7 @@ void assemble(char* currentFilePath) {
             line[lineIndex] = '\0';
 
             /* phase 2 processing of the line we found*/
-            phase2processAssemlby(line);
+            phase2processAssemlby(line, codeSegAmount);
 
             lineIndex = 0;
             assemblyLineCounter++;
@@ -149,7 +152,7 @@ void assemble(char* currentFilePath) {
     if(lineIndex > 0) {
         line[lineIndex] = '\0';
         /* phase 2 processing of the last line we found*/
-       phase2processAssemlby(line);
+       phase2processAssemlby(line, codeSegAmount);
     }
 
     /* print the object file */

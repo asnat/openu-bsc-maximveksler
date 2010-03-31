@@ -12,7 +12,7 @@
 #include "constants.h"
 #endif
 
-_bool phase2processAssemlby(char*);
+_bool phase2processAssemlby(char*, unsigned short endCodeSeg);
 
 #endif	/* _PHASETWO_H */
 

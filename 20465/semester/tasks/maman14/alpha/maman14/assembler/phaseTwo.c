@@ -7,13 +7,15 @@
 #include "errorHandler.h"
 #include "outputFilesHandler.h"
 #include "label.h"
+#include "hash.h"
 
 #define MAXARG 2
 
 /* process relocateable lines instruction line*/
-static void addRelocateable(char* operand, AddressingType type){
+static void addRelocateable(char* operand, AddressingType type, unsigned short endCodeSeg){
     unsigned short address;
     LinkerAddress labelLinkerAddress;
+    hashSegmentType labelSegment;
 
     /* process INDIRECT and DIRECT argument */
     if ( type == INDIRECT || type == DIRECT) {
@@ -26,7 +28,15 @@ static void addRelocateable(char* operand, AddressingType type){
         /* if the label is not external store the address in the code segment */
         else if(labelLinkerAddress == RELOCATBLE){
             getLabelAddress(operand, &address);
-            storeCode(address, UNKNOWN_TYPE);
+            labelSegment = getLabelSegmentType(operand);
+            if (labelSegment == CODE_SEG){
+                storeCode(address , UNKNOWN_TYPE);
+            }
+            else if (labelSegment == DATA_SEG){
+                storeCode(address + (endCodeSeg -1) , UNKNOWN_TYPE);
+            }
+            else
+                handleError(UNKNOWN_SEGMENT_TYPE, NULL);
         }
         else{
             handleError(NO_SUCH_LABEL, operand);
@@ -40,9 +50,10 @@ static void addRelocateable(char* operand, AddressingType type){
 }
 
 /* phase 2 line processing, and update the code and data segments*/
-_bool phase2processAssemlby(char* asmCodeLine){
+_bool phase2processAssemlby(char* asmCodeLine, unsigned short endCodeSeg){
     AsmInstruction asmIns = parseLine(asmCodeLine);
     unsigned short address;
+    hashSegmentType labelSegment;
 
     /* process the line only if there is something to process */
     if(asmIns != NULL) {
@@ -52,9 +63,19 @@ _bool phase2processAssemlby(char* asmCodeLine){
             case ENTRY:
                 if(getLabelAddress(asmIns->instruction->ENTRY.referenceName, &address)){
                 /* write the entry label name and address to the entry file */
-                    if (writeToOutputFile(ENT_FILE, asmIns->instruction->ENTRY.referenceName,address)){
-                        return TRUE;
+                    labelSegment = getLabelSegmentType(asmIns->instruction->ENTRY.referenceName);
+                    if (labelSegment == CODE_SEG){
+                        if (writeToOutputFile(ENT_FILE, asmIns->instruction->ENTRY.referenceName,address)){
+                            return TRUE;
+                        }
                     }
+                    else if (labelSegment == DATA_SEG){
+                        if (writeToOutputFile(ENT_FILE, asmIns->instruction->ENTRY.referenceName,address + endCodeSeg-1)){
+                            return TRUE;
+                        }
+                    }
+                    else
+                        handleError(UNKNOWN_SEGMENT_TYPE, NULL);
                 }
                 return FALSE;
                 break;
@@ -64,9 +85,9 @@ _bool phase2processAssemlby(char* asmCodeLine){
 
                 forward();
                 /* process first argument */
-                addRelocateable(asmIns->instruction->INST.srcOP, asmIns->instruction->INST.srcOPType);
+                addRelocateable(asmIns->instruction->INST.srcOP, asmIns->instruction->INST.srcOPType, endCodeSeg);
                 /* process second argument */
-                addRelocateable(asmIns->instruction->INST.dstOP, asmIns->instruction->INST.dstOPType);
+                addRelocateable(asmIns->instruction->INST.dstOP, asmIns->instruction->INST.dstOPType, endCodeSeg);
                 
                 return TRUE;
                 break;

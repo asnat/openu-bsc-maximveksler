@@ -43,6 +43,7 @@
 #define RESERVED_WORD 32
 #define CODE_SEGMENT_OUT_OF_BOUND 33
 #define DATA_SEGMENT_OUT_OF_BOUND 34
+#define UNKNOWN_SEGMENT_TYPE 35
 
 /* Initialize error handler, should be called for each processed line */
 void initErrorHandler();
