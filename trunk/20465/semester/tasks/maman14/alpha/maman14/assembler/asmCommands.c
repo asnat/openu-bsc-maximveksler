@@ -99,7 +99,7 @@ static asm_cmd_struct cmdTable[] = {
     {NULL, (unsigned short)((unsigned int)NULL), (unsigned int)NULL}
 };
 
-
+/* Write assembly translated binary to code segment for phase 2 */
 static _bool storeToCodeSegment(
         unsigned short dstRgstrCode,
         unsigned short dstAddrTypeCode,
@@ -124,11 +124,13 @@ static _bool storeToCodeSegment(
     return TRUE;
 }
 
+/* Utility method to reserve buffer on code segment for lables */
 static _bool addCodeSegmentLabelBuffer() {
     storeCode(0, RELOCATBLE);
     return TRUE;
 }
 
+/* Utility method to add lable to hash manager */
 static _bool addLabelToHash(char* label, LinkerAddress linkerAddress, unsigned int offset) {
     asm_cmd_struct *asm_cmd_struct_handler;
     for(asm_cmd_struct_handler = cmdTable;  asm_cmd_struct_handler->function_name && strcmp(label,  asm_cmd_struct_handler->function_name); asm_cmd_struct_handler++)
@@ -153,7 +155,7 @@ static _bool addLabelToHash(char* label, LinkerAddress linkerAddress, unsigned i
     return TRUE;
 }
 
-
+/* Get AsmInstruction and translate it to assembly code */
 static _bool processCommand(AsmInstruction asmInstruction,
         unsigned short commandCode,
         unsigned int supportedAddressing) {

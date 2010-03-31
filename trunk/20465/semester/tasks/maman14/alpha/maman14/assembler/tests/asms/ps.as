@@ -2,9 +2,9 @@
 
 		.entry 		STDADD
 		.entry		MAIN
-		.entry 		REVERSE	
-		.entry 		PTRSTR
 
+		.extern		REVERSE	
+		.extern		PTRSTR
 		.extern		COUNT
 
 STDADD:		.data		0
