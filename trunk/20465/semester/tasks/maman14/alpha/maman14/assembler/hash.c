@@ -149,6 +149,7 @@ LinkerAddress getHashType(hashNode** hashArray, char* nodeName){
 hashSegmentType getHashSegmentType(hashNode** hashArray , char* nodeName){
     hashNode* node = lookup(hashArray, nodeName);
 
+    /* if label exist return the segment flag */
     if (node != NULL)
         return node->segmentFlag;
     else
