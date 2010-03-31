@@ -48,25 +48,25 @@ static AsmInstruction allocAsmInstructionDEF(
  * proper function to create matching structure.
  */
 AsmInstruction parseLine(const char* line) {
-    unsigned int index = 0;
+    int index = 0;
 
-    unsigned int labelFrom = 0;
-    unsigned int labelTo = 0;
+    int labelFrom = 0;
+    int labelTo = 0;
 
-    unsigned int cmdFrom = 0;
-    unsigned int cmdTo = 0;
+    int cmdFrom = 0;
+    int cmdTo = 0;
 
-    unsigned int srcOPFrom = 0;
-    unsigned int srcOPTo = 0;
+    int srcOPFrom = 0;
+    int srcOPTo = 0;
 
-    unsigned int dstOPFrom = 0;
-    unsigned int dstOPTo = 0;
+    int dstOPFrom = 0;
+    int dstOPTo = 0;
 
-    unsigned int declFrom = 0;
-    unsigned int declTo = 0;
+    int declFrom = 0;
+    int declTo = 0;
 
-    unsigned int declDataFrom = 0;
-    unsigned int declDataTo = 0;
+    int declDataFrom = 0;
+    int declDataTo = 0;
 
     
     if(line[index] == ';') {
@@ -144,6 +144,13 @@ AsmInstruction parseLine(const char* line) {
         declDataFrom = index;
 
         while(line[++index] != '\0'); /* Consume all legal data chars */
+
+        /* Go back to avoid space... */
+        index = index-1;
+        if(index > 0 && isspace(line[index])) {
+            while(index > 0 && isspace(line[--index]));
+        }
+        index = index + 1;
 
         declDataTo = index;
 
