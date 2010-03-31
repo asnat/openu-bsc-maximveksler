@@ -1,13 +1,13 @@
 ; file ps.as - includes main routine of reversing string "abcdef"
 
-		.entry 		STDADD
+		.entry 		STRADD
 		.entry		MAIN
+		.extern		REVERSE
+		.extern		PRTSTR
 
-		.extern		REVERSE	
-		.extern		PTRSTR
 		.extern		COUNT
 
-STDADD:		.data		0
+STRADD:		.data		0
 STR:		.string		"abcdef"
 LASTCHAR:	.data		0
 LEN:		.data		0
