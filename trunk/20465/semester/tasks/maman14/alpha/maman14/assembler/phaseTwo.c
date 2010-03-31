@@ -85,9 +85,9 @@ _bool phase2processAssemlby(char* asmCodeLine, unsigned short endCodeSeg){
 
                 forward();
                 /* process first argument */
-                addRelocateable(asmIns->instruction->INST.srcOP, asmIns->instruction->INST.srcOPType, endCodeSeg);
-                /* process second argument */
                 addRelocateable(asmIns->instruction->INST.dstOP, asmIns->instruction->INST.dstOPType, endCodeSeg);
+                /* process second argument */
+                addRelocateable(asmIns->instruction->INST.srcOP, asmIns->instruction->INST.srcOPType, endCodeSeg);
                 
                 return TRUE;
                 break;
