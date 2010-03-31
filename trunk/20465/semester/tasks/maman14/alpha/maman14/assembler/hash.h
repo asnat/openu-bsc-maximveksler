@@ -18,19 +18,23 @@
 
 #define HASHSIZE 100
 
+typedef enum { UNKNOWN_SEG, CODE_SEG , DATA_SEG } hashSegmentType;
+
 typedef struct node{
     char* name;
     LinkerAddress linkerType;
     unsigned short data;
+    hashSegmentType segmentFlag;
     struct node* prev;
     struct node* next;
 } hashNode;
 
 unsigned hashVal(const char*);
-_bool addHashNode(hashNode**, char*,LinkerAddress, unsigned short);
+_bool addHashNode(hashNode**, char*,LinkerAddress, unsigned short, hashSegmentType);
 _bool getHashNodeData(hashNode**,const char*, unsigned short*);
 void freeHashArray(hashNode**);
 LinkerAddress getHashType(hashNode** hashArray, char* nodeName);
+hashSegmentType getHashSegmentType(hashNode** labelHashTable, char* labelName);
 
 #endif	/* _HASH_H */
 

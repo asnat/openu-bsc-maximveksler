@@ -19,6 +19,9 @@ unsigned hashVal(const char*  nodeName){
     return val % HASHSIZE;
 }
 
+
+
+
 /* Find a node in the table, return NULL if not found */
 static hashNode* lookup(hashNode** hashArray, const char* nodeName){
     hashNode* np = *(hashArray + hashVal(nodeName)); /* point to the current node */
@@ -30,6 +33,10 @@ static hashNode* lookup(hashNode** hashArray, const char* nodeName){
     
     return np;
 }
+
+
+
+
 
 /* Return the value on the data variable */
 _bool getHashNodeData(hashNode** hashArray, const char* nodeName, unsigned short* data) {
@@ -47,8 +54,12 @@ _bool getHashNodeData(hashNode** hashArray, const char* nodeName, unsigned short
     return rc;
 }
 
+
+
+
+
 /* Add a new node to the hash table */
-_bool addHashNode(hashNode** hashArray, char* nodeName, LinkerAddress type, unsigned short data){
+_bool addHashNode(hashNode** hashArray, char* nodeName, LinkerAddress type, unsigned short data, hashSegmentType segment){
     hashNode* node;
     unsigned hashValue;
 
@@ -65,6 +76,7 @@ _bool addHashNode(hashNode** hashArray, char* nodeName, LinkerAddress type, unsi
         strcpy(node->name, nodeName);
         node->linkerType = type;
         node->data = data;
+        node->segmentFlag = segment;
         hashValue = hashVal(node->name);
         node->prev = NULL;
   
@@ -81,6 +93,11 @@ _bool addHashNode(hashNode** hashArray, char* nodeName, LinkerAddress type, unsi
         return FALSE;
     }
 }
+
+
+
+
+
 
 /* free the Hash table*/
 void freeHashArray(hashNode** hashArray){
@@ -110,6 +127,12 @@ void freeHashArray(hashNode** hashArray){
     }
 }
 
+
+
+
+
+
+
 /* get the node linker type */
 LinkerAddress getHashType(hashNode** hashArray, char* nodeName){
     hashNode* node = lookup(hashArray, nodeName);
@@ -117,4 +140,17 @@ LinkerAddress getHashType(hashNode** hashArray, char* nodeName){
         return node->linkerType;
     else
         return UNKNOWN_TYPE;
+}
+
+
+
+
+
+hashSegmentType getHashSegmentType(hashNode** hashArray , char* nodeName){
+    hashNode* node = lookup(hashArray, nodeName);
+
+    if (node != NULL)
+        return node->segmentFlag;
+    else
+        return UNKNOWN_SEG;
 }

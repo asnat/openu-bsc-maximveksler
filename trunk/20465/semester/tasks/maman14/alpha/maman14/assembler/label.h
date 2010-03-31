@@ -16,11 +16,16 @@
 #include "asmInstruction.h"
 #endif
 
+#ifndef _HASH_H
+#include "hash.h"
+#endif
+
 void freeLabelTable(void);
 void initLabelTable(void);
 _bool getLabelAddress(char*, unsigned short*);
-_bool addLabel(char* labelName, LinkerAddress type, unsigned short data);
+_bool addLabel(char* labelName, LinkerAddress type, unsigned short data, hashSegmentType segment);
 LinkerAddress getLabelType(char* labelName);
+hashSegmentType getLabelSegmentType (char* labelName);
 
 #endif	/* _LABEL_H */
 
