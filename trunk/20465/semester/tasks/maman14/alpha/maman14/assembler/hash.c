@@ -113,5 +113,8 @@ void freeHashArray(hashNode** hashArray){
 /* get the node linker type */
 LinkerAddress getHashType(hashNode** hashArray, char* nodeName){
     hashNode* node = lookup(hashArray, nodeName);
-    return node->linkerType;
+    if (node != NULL)
+        return node->linkerType;
+    else
+        return UNKNOWN_TYPE;
 }
