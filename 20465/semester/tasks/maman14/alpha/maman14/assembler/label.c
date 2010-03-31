@@ -33,7 +33,10 @@ _bool getLabelAddress(char* labelName, unsigned short* data){
 }
 
 /* add alabel to label table */
-_bool addLabel(char* labelName, LinkerAddress type, unsigned short data) { 
-    return addHashNode(labelHashTable, labelName, type, data);
+_bool addLabel(char* labelName, LinkerAddress type, unsigned short data, hashSegmentType segment) {
+    return addHashNode(labelHashTable, labelName, type, data, segment);
 }
 
+_bool getLabelSegmentType(char* labelName){
+    return getHashSegmentType(labelHashTable, labelName);
+}

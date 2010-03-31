@@ -13,18 +13,18 @@
 /* process relocateable lines instruction line*/
 static void addRelocateable(char* operand, AddressingType type){
     unsigned short address;
-    AddressingType labelType;
+    LinkerAddress labelLinkerAddress;
 
     /* process INDIRECT and DIRECT argument */
     if ( type == INDIRECT || type == DIRECT) {
         /* if the label external, change the linker type of the line to EXTERNAL and add the label to the ext file */
-        if ((labelType = getLabelType(operand)) == EXTERNAL){
+        if ((labelLinkerAddress = getLabelType(operand)) == EXTERNAL){
             storeCode(0,EXTERNAL);
             writeToOutputFile(EXT_FILE, operand, getIC()-(unsigned short) 1);
         }
 
         /* if the label is not external store the address in the code segment */
-        else if(labelType != UNKNOWN_TYPE){
+        else if(labelLinkerAddress == RELOCATBLE){
             getLabelAddress(operand, &address);
             storeCode(address, UNKNOWN_TYPE);
         }
