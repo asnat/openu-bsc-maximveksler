@@ -48,6 +48,7 @@ int main(int argc, char** argv) {
 
             setFileName(currentFilePath); /* set file name  for error handling */
             initOutputFiles(argv[currentArg]); /* set output files path names */
+            removeOutputFiles();
 
             assemble(currentFilePath); /* process the source file */
 
