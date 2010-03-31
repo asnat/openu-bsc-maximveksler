@@ -79,8 +79,8 @@ _bool writeToOutputFile(int fileType, char* labelName, unsigned short address){
     switch (fileType){
         /* if file type EXT, print to the .ext file */
         case EXT_FILE:
-            if ((fh = fopen(currentExtFile,"w+")) != NULL){
-                if ((fprintf(fh,"%s %6o\n", labelName, address)) < 0){
+            if ((fh = fopen(currentExtFile,"a")) != NULL){
+                if ((fprintf(fh,"%-10s %10o\n", labelName, address)) < 0){
                     handleError(CANT_WRITE_TO_EXT_FILE, currentExtFile);
                     fclose(fh);
                     return FALSE;
@@ -94,8 +94,8 @@ _bool writeToOutputFile(int fileType, char* labelName, unsigned short address){
 
         /* if file type ENT, print to .ent file */
         case ENT_FILE:
-            if ((fh = fopen(currentEntFile,"w+")) != NULL){
-                if((fprintf(fh,"%s %6o\n", labelName, address)) < 0 ){
+            if ((fh = fopen(currentEntFile,"a")) != NULL){
+                if((fprintf(fh,"%-10s %-10o\n", labelName, address)) < 0 ){
                     handleError(CANT_WRITE_TO_ENT_FILE, currentEntFile);
                     fclose(fh);
                     return FALSE;

@@ -50,10 +50,11 @@ _bool phase2processAssemlby(char* asmCodeLine){
 
             /* process entry instuction */
             case ENTRY:
-                getLabelAddress(asmIns->instruction->ENTRY.referenceName, &address);
+                if(getLabelAddress(asmIns->instruction->ENTRY.referenceName, &address)){
                 /* write the entry label name and address to the entry file */
-                if (writeToOutputFile(ENT_FILE, asmIns->instruction->ENTRY.referenceName,address)){
-                    return TRUE;
+                    if (writeToOutputFile(ENT_FILE, asmIns->instruction->ENTRY.referenceName,address)){
+                        return TRUE;
+                    }
                 }
                 return FALSE;
                 break;

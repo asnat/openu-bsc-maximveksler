@@ -101,7 +101,7 @@ void assemble(char* currentFilePath) {
     }
 
     /* read the file from the begining*/
-    fseek(fp,0,SEEK_SET);
+    fseek(fp, 0L, SEEK_SET);
 
     /* reset the line index */
     lineIndex = 0;
