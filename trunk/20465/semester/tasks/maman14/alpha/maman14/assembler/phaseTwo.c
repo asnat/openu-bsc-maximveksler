@@ -25,7 +25,6 @@ static void addRelocateable(char* operand, AddressingType type){
 
         /* if the label is not external store the address in the code segment */
         else if(labelType != UNKNOWN_TYPE){
-                getLabelAddress(operand, &address);
                 storeCode(address, UNKNOWN_TYPE);
         }
         else{
@@ -50,9 +49,9 @@ _bool phase2processAssemlby(char* asmCodeLine){
 
             /* process entry instuction */
             case ENTRY:
+                getLabelAddress(asmIns->instruction->ENTRY.referenceName, &address);
                 /* write the entry label name and address to the entry file */
-                if (writeToOutputFile(ENT_FILE, asmIns->instruction->ENTRY.referenceName,
-                        getLabelAddress(asmIns->instruction->ENTRY.referenceName, &address))){
+                if (writeToOutputFile(ENT_FILE, asmIns->instruction->ENTRY.referenceName,address)){
                     return TRUE;
                 }
                 return FALSE;
