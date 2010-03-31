@@ -48,6 +48,7 @@ typedef struct AsmInstruction {
     
 } *AsmInstruction;
 
+typedef enum { UNKNOWN_SEG, CODE_SEG , DATA_SEG, EXTERN_SEG } hashSegmentType;
 
 #endif	/* _INSTRUCTIONSTRUCTURE_H */
 

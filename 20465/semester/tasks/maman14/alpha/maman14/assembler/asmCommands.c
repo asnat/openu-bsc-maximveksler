@@ -164,7 +164,7 @@ static unsigned short generateCode(
 }
 
 /* Utility method to add lable to hash manager */
-static _bool addLabelToHash(char* label, LinkerAddress linkerAddress, unsigned int offset) {
+static _bool addLabelToHash(char* label, LinkerAddress linkerAddress, unsigned int offset, hashSegmentType segment) {
     asm_cmd_struct *asm_cmd_struct_handler;
     for(asm_cmd_struct_handler = cmdTable;  asm_cmd_struct_handler->function_name && strcmp(label,  asm_cmd_struct_handler->function_name); asm_cmd_struct_handler++)
         ;
@@ -183,7 +183,7 @@ static _bool addLabelToHash(char* label, LinkerAddress linkerAddress, unsigned i
         return FALSE;
     }
 
-    addLabel(label, linkerAddress, offset);
+    addLabel(label, linkerAddress, offset, segment);
 
     return TRUE;
 }
@@ -307,7 +307,7 @@ static _bool processCommand(AsmInstruction asmInstruction,
      * will be written to.
      */
     if(asmInstruction->label != NULL) {
-        if (addLabelToHash(asmInstruction->label, RELOCATBLE, getIC()) == FALSE) {
+        if (addLabelToHash(asmInstruction->label, RELOCATBLE, getIC(), CODE_SEG) == FALSE) {
             handleError(LABEL_ADDING_FAILURE, asmInstruction->label);
             return FALSE;
         }
@@ -361,7 +361,7 @@ static _bool processDataNumber(AsmInstruction asmInstruction) {
             /* We want to add label reference to the location where the assembly data
              * will be written to.
              */
-            if (addLabelToHash(asmInstruction->label, RELOCATBLE, getDC()) == FALSE) {
+            if (addLabelToHash(asmInstruction->label, RELOCATBLE, getDC(), DATA_SEG) == FALSE) {
                 handleError(LABEL_ADDING_FAILURE, asmInstruction->label);
                 return FALSE;
             }
@@ -404,7 +404,7 @@ static _bool processDataString(AsmInstruction asmInstruction) {
         /* We want to add label reference to the location where the assembly data
          * will be written to.
          */
-        if (addLabelToHash(asmInstruction->label, RELOCATBLE, getDC()) == FALSE) {
+        if (addLabelToHash(asmInstruction->label, RELOCATBLE, getDC(), DATA_SEG) == FALSE) {
             handleError(LABEL_ADDING_FAILURE, asmInstruction->label);
             return FALSE;
         }
@@ -428,7 +428,8 @@ _bool processExternal(AsmInstruction asmInstruction) {
         return FALSE;
     }
 
-    if (addLabelToHash(asmInstruction->instruction->EXTERN.referenceName, EXTERNAL, /*meaningless because label is external */ 0) == FALSE) {
+    if (addLabelToHash(asmInstruction->instruction->EXTERN.referenceName, EXTERNAL, 
+            /*meaningless because label is external */ 0, EXTERN_SEG) == FALSE) {
         handleError(LABEL_ADDING_FAILURE, asmInstruction->instruction->EXTERN.referenceName);
         return FALSE;
     }

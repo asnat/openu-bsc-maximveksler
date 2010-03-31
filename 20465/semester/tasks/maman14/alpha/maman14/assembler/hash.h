@@ -18,8 +18,6 @@
 
 #define HASHSIZE 100
 
-typedef enum { UNKNOWN_SEG, CODE_SEG , DATA_SEG } hashSegmentType;
-
 typedef struct node{
     char* name;
     LinkerAddress linkerType;
