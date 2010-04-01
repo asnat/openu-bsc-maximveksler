@@ -338,7 +338,7 @@ static _bool processCommand(AsmInstruction asmInstruction,
     return TRUE;
 }
 
-
+/* add numbers from declaration to data segment */
 static _bool processDataNumber(AsmInstruction asmInstruction) {
     char * pch;
     int number;
@@ -381,6 +381,7 @@ static _bool processDataNumber(AsmInstruction asmInstruction) {
     return TRUE;
 }
 
+/* add strings from declaration to data segment */
 static _bool processDataString(AsmInstruction asmInstruction) {
     unsigned int i = 0;
     unsigned int to;
@@ -440,7 +441,7 @@ _bool processExternal(AsmInstruction asmInstruction) {
 }
 
 
-
+/* Process (Assemble) asm instruction into binary output format */
 void process(AsmInstruction asmLineInstruction) {
     asm_cmd_struct *asm_cmd_struct_handler;
     const char *handlerName;
