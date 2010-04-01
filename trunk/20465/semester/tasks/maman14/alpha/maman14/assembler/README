@@ -1,0 +1,79 @@
+=========================================
+== Executable is located at: ============
+=========================================
+
+hq4ever@lukcy:~/sources/20465_maman14/alpha/maman14/assembler$ file dist/Debug/GNU-Linux-x86/assembler
+dist/Debug/GNU-Linux-x86/assembler: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.15, not stripped
+
+
+=========================================
+== Examples of execution ================
+=========================================
+
+hq4ever@lukcy:~/sources/20465_maman14/alpha/maman14/assembler/tests/asms$ ../../dist/Debug/GNU-Linux-x86/assembler a
+hq4ever@lukcy:~/sources/20465_maman14/alpha/maman14/assembler/tests/asms$ ../../dist/Debug/GNU-Linux-x86/assembler cs
+hq4ever@lukcy:~/sources/20465_maman14/alpha/maman14/assembler/tests/asms$ ../../dist/Debug/GNU-Linux-x86/assembler rs
+ERROR #6: No such labal
+        rs.as at 7:             mov             LEN, r3
+        More Info: LEN
+hq4ever@lukcy:~/sources/20465_maman14/alpha/maman14/assembler/tests/asms$ ../../dist/Debug/GNU-Linux-x86/assembler ps
+hq4ever@lukcy:~/sources/20465_maman14/alpha/maman14/assembler/tests/asms$ ../../dist/Debug/GNU-Linux-x86/assembler ps rs cs a
+ERROR #6: No such labal
+        rs.as at 7:             mov             LEN, r3
+        More Info: LEN
+hq4ever@lukcy:~/sources/20465_maman14/alpha/maman14/assembler/tests/asms$ ../../dist/Debug/GNU-Linux-x86/assembler allCommandSets_legal
+
+
+=========================================
+==  Compilation              ============
+=========================================
+
+hq4ever@lukcy:~/sources/20465_maman14/alpha/maman14/assembler$ make
+make -f nbproject/Makefile-Debug.mk SUBPROJECTS= .build-conf       
+make[1]: Entering directory `/home/hq4ever/sources/20465_maman14/alpha/maman14/assembler'
+make  -f nbproject/Makefile-Debug.mk dist/Debug/GNU-Linux-x86/assembler                  
+make[2]: Entering directory `/home/hq4ever/sources/20465_maman14/alpha/maman14/assembler'
+mkdir -p build/Debug/GNU-Linux-x86                                                       
+rm -f build/Debug/GNU-Linux-x86/codeSegmentMgr.o.d                                       
+gcc -Wall -Wextra -Wwrite-strings -ansi   -c -g -Werror -MMD -MP -MF build/Debug/GNU-Linux-x86/codeSegmentMgr.o.d -o build/Debug/GNU-Linux-x86/codeSegmentMgr.o codeSegmentMgr.c
+mkdir -p build/Debug/GNU-Linux-x86                                                                                                                                              
+rm -f build/Debug/GNU-Linux-x86/phaseOne.o.d                                                                                                                                    
+gcc -Wall -Wextra -Wwrite-strings -ansi   -c -g -Werror -MMD -MP -MF build/Debug/GNU-Linux-x86/phaseOne.o.d -o build/Debug/GNU-Linux-x86/phaseOne.o phaseOne.c                  
+mkdir -p build/Debug/GNU-Linux-x86                                                                                                                                              
+rm -f build/Debug/GNU-Linux-x86/phaseTwo.o.d
+gcc -Wall -Wextra -Wwrite-strings -ansi   -c -g -Werror -MMD -MP -MF build/Debug/GNU-Linux-x86/phaseTwo.o.d -o build/Debug/GNU-Linux-x86/phaseTwo.o phaseTwo.c
+mkdir -p build/Debug/GNU-Linux-x86
+rm -f build/Debug/GNU-Linux-x86/main.o.d
+gcc -Wall -Wextra -Wwrite-strings -ansi   -c -g -Werror -MMD -MP -MF build/Debug/GNU-Linux-x86/main.o.d -o build/Debug/GNU-Linux-x86/main.o main.c
+mkdir -p build/Debug/GNU-Linux-x86
+rm -f build/Debug/GNU-Linux-x86/label.o.d
+gcc -Wall -Wextra -Wwrite-strings -ansi   -c -g -Werror -MMD -MP -MF build/Debug/GNU-Linux-x86/label.o.d -o build/Debug/GNU-Linux-x86/label.o label.c
+mkdir -p build/Debug/GNU-Linux-x86
+rm -f build/Debug/GNU-Linux-x86/stringUtil.o.d
+gcc -Wall -Wextra -Wwrite-strings -ansi   -c -g -Werror -MMD -MP -MF build/Debug/GNU-Linux-x86/stringUtil.o.d -o build/Debug/GNU-Linux-x86/stringUtil.o stringUtil.c
+mkdir -p build/Debug/GNU-Linux-x86
+rm -f build/Debug/GNU-Linux-x86/errorHandler.o.d
+gcc -Wall -Wextra -Wwrite-strings -ansi   -c -g -Werror -MMD -MP -MF build/Debug/GNU-Linux-x86/errorHandler.o.d -o build/Debug/GNU-Linux-x86/errorHandler.o errorHandler.c
+mkdir -p build/Debug/GNU-Linux-x86
+rm -f build/Debug/GNU-Linux-x86/assembler.o.d
+gcc -Wall -Wextra -Wwrite-strings -ansi   -c -g -Werror -MMD -MP -MF build/Debug/GNU-Linux-x86/assembler.o.d -o build/Debug/GNU-Linux-x86/assembler.o assembler.c
+mkdir -p build/Debug/GNU-Linux-x86
+rm -f build/Debug/GNU-Linux-x86/outputFilesHandler.o.d
+gcc -Wall -Wextra -Wwrite-strings -ansi   -c -g -Werror -MMD -MP -MF build/Debug/GNU-Linux-x86/outputFilesHandler.o.d -o build/Debug/GNU-Linux-x86/outputFilesHandler.o outputFilesHandler.c
+mkdir -p build/Debug/GNU-Linux-x86
+rm -f build/Debug/GNU-Linux-x86/lineParser.o.d
+gcc -Wall -Wextra -Wwrite-strings -ansi   -c -g -Werror -MMD -MP -MF build/Debug/GNU-Linux-x86/lineParser.o.d -o build/Debug/GNU-Linux-x86/lineParser.o lineParser.c
+mkdir -p build/Debug/GNU-Linux-x86
+rm -f build/Debug/GNU-Linux-x86/dataSegmentMgr.o.d
+gcc -Wall -Wextra -Wwrite-strings -ansi   -c -g -Werror -MMD -MP -MF build/Debug/GNU-Linux-x86/dataSegmentMgr.o.d -o build/Debug/GNU-Linux-x86/dataSegmentMgr.o dataSegmentMgr.c
+mkdir -p build/Debug/GNU-Linux-x86
+rm -f build/Debug/GNU-Linux-x86/hash.o.d
+gcc -Wall -Wextra -Wwrite-strings -ansi   -c -g -Werror -MMD -MP -MF build/Debug/GNU-Linux-x86/hash.o.d -o build/Debug/GNU-Linux-x86/hash.o hash.c
+mkdir -p build/Debug/GNU-Linux-x86
+rm -f build/Debug/GNU-Linux-x86/asmCommands.o.d
+gcc -Wall -Wextra -Wwrite-strings -ansi   -c -g -Werror -MMD -MP -MF build/Debug/GNU-Linux-x86/asmCommands.o.d -o build/Debug/GNU-Linux-x86/asmCommands.o asmCommands.c
+mkdir -p dist/Debug/GNU-Linux-x86
+gcc -Wall -Wextra -Wwrite-strings -ansi    -o dist/Debug/GNU-Linux-x86/assembler build/Debug/GNU-Linux-x86/codeSegmentMgr.o build/Debug/GNU-Linux-x86/phaseOne.o build/Debug/GNU-Linux-x86/phaseTwo.o build/Debug/GNU-Linux-x86/main.o build/Debug/GNU-Linux-x86/label.o build/Debug/GNU-Linux-x86/stringUtil.o build/Debug/GNU-Linux-x86/errorHandler.o build/Debug/GNU-Linux-x86/assembler.o build/Debug/GNU-Linux-x86/outputFilesHandler.o build/Debug/GNU-Linux-x86/lineParser.o build/Debug/GNU-Linux-x86/dataSegmentMgr.o build/Debug/GNU-Linux-x86/hash.o build/Debug/GNU-Linux-x86/asmCommands.o
+make[2]: Leaving directory `/home/hq4ever/sources/20465_maman14/alpha/maman14/assembler'
+make[1]: Leaving directory `/home/hq4ever/sources/20465_maman14/alpha/maman14/assembler'
+
